@@ -1,0 +1,16 @@
+name = "gold-platform-api"
+main = "src/index.js"
+compatibility_date = "2024-12-01"
+compatibility_flags = ["nodejs_compat"]
+
+[triggers]
+crons = ["*/30 * * * *"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "gold-platform-db"
+database_id = "your-database-id"
+
+[vars]
+JWT_SECRET = "your-jwt-secret"
+FRED_API_KEY = "your-fred-api-key"

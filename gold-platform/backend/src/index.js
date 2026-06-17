@@ -27,14 +27,53 @@ const app = new Hono();
 // 全局中间件
 // ============================================
 
-// CORS 跨域
+// CORS 跨域 - 仅允许前端域名访问
+const ALLOWED_ORIGINS = [
+  'https://aumind.cc',
+  'https://www.aumind.cc',
+  'http://localhost:5173',
+  'http://127.0.0.1:5173',
+];
+
 app.use('*', cors({
-  origin: '*',
+  origin: (origin, c) => {
+    if (!origin || ALLOWED_ORIGINS.includes(origin)) {
+      return origin || '';
+    }
+    return '';
+  },
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
   allowHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
   exposeHeaders: ['X-RateLimit-Limit', 'X-RateLimit-Remaining', 'X-RateLimit-Used'],
   maxAge: 86400,
 }));
+
+// API 访问限制 - 仅允许前端域名访问
+app.use('/api/*', async (c, next) => {
+  const origin = c.req.header('Origin');
+  const referer = c.req.header('Referer');
+
+  // 允许无 Origin 的请求（服务端调用、定时任务等）
+  if (!origin && !referer) {
+    return next();
+  }
+
+  // 检查 Origin
+  if (origin && !ALLOWED_ORIGINS.includes(origin)) {
+    return c.json({ success: false, error: '访问被拒绝' }, 403);
+  }
+
+  // 检查 Referer（部分请求可能只有 Referer 没有 Origin）
+  if (!origin && referer) {
+    const refererUrl = new URL(referer);
+    const refererOrigin = `${refererUrl.protocol}//${refererUrl.host}`;
+    if (!ALLOWED_ORIGINS.includes(refererOrigin)) {
+      return c.json({ success: false, error: '访问被拒绝' }, 403);
+    }
+  }
+
+  return next();
+});
 
 // 请求日志（开发环境）
 app.use('*', logger());

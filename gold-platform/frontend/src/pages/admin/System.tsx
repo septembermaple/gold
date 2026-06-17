@@ -76,7 +76,7 @@ export default function AdminSystem() {
         <div className="space-y-2">
           {[
             { key: 'NODE_ENV', value: 'production' },
-            { key: 'API_BASE_URL', value: 'https://api.goldai.com' },
+            { key: 'API_BASE_URL', value: 'https://api.aumind.cc' },
             { key: 'DB_HOST', value: '***.***.***.***' },
             { key: 'REDIS_URL', value: '***.***.***.***:6379' },
             { key: 'AI_MODEL', value: 'gpt-4-turbo' },

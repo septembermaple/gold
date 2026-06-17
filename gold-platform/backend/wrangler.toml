@@ -9,7 +9,7 @@ crons = ["*/30 * * * *"]
 [[d1_databases]]
 binding = "DB"
 database_name = "gold-platform-db"
-database_id = "your-database-id"
+database_id = "aa31a64d-22ef-4ce9-b239-56eb78763cca"
 
 [vars]
 JWT_SECRET = "your-jwt-secret"

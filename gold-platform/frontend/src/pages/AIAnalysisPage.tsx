@@ -164,8 +164,23 @@ export default function AIAnalysisPage() {
       const data = extractApiData(res) as AnalysisResult
       setAnalysisResult(data)
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : '未知错误'
-      toast.error('AI 分析请求失败', { description: message })
+      const errorData = err instanceof Error ? err.message : '未知错误'
+      let errorMessage = 'AI 分析请求失败，请稍后重试'
+      let description = ''
+      
+      try {
+        const parsed = JSON.parse(errorData)
+        if (parsed.error === '会员等级不足') {
+          errorMessage = '会员等级不足'
+          description = `当前等级: ${parsed.data?.currentLevel || 'free'}，需要: ${parsed.data?.requiredLevel || 'basic'}\n升级会员以解锁更多 AI 分析功能`
+        } else {
+          description = parsed.message || parsed.error || ''
+        }
+      } catch {
+        description = errorData
+      }
+      
+      toast.error(errorMessage, { description })
     } finally {
       setLoading(false)
     }

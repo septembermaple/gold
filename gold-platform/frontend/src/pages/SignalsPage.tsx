@@ -160,19 +160,26 @@ export default function SignalsPage() {
               <XAxis type="number" tick={{ fill: '#8888aa', fontSize: 11 }} axisLine={{ stroke: 'rgba(0,240,255,0.1)' }} tickLine={false} />
               <YAxis type="category" dataKey="name" tick={{ fill: '#8888aa', fontSize: 12 }} axisLine={{ stroke: 'rgba(0,240,255,0.1)' }} tickLine={false} width={80} />
               <Tooltip
-                cursor={{ fill: 'rgba(0, 240, 255, 0.1)' }}
+                cursor={{ fill: 'transparent' }}
                 contentStyle={{
-                  background: 'linear-gradient(135deg, rgba(13, 13, 43, 0.95) 0%, rgba(20, 20, 60, 0.95) 100%)',
-                  border: '1px solid rgba(0, 240, 255, 0.25)',
-                  borderRadius: '12px',
-                  color: '#e0e0ff',
-                  fontSize: '13px',
-                  padding: '12px 16px',
-                  boxShadow: '0 8px 32px rgba(0, 240, 255, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.05)',
+                  background: 'linear-gradient(135deg, rgba(10, 10, 35, 0.98) 0%, rgba(15, 15, 50, 0.98) 100%)',
+                  border: '1px solid rgba(0, 240, 255, 0.3)',
+                  borderRadius: '8px',
+                  color: '#ffffff',
+                  fontSize: '12px',
+                  padding: '10px 14px',
+                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 240, 255, 0.1)',
+                  minWidth: '100px',
+                }}
+                labelStyle={{
+                  color: '#00f0ff',
+                  fontWeight: '600',
+                  fontSize: '14px',
+                  marginBottom: '6px',
                 }}
                 formatter={(value: number) => [
-                  <span className="font-semibold text-lg">{value}</span>,
-                  <span className="text-[#8888aa] text-xs">信号强度</span>
+                  <span style={{ color: '#ffffff', fontSize: '16px', fontWeight: 'bold', display: 'block' }}>{value}</span>,
+                  <span style={{ color: '#8888aa', fontSize: '11px', display: 'block' }}>信号强度</span>
                 ]}
               />
               <Bar dataKey="value" radius={[0, 4, 4, 0]} barSize={32}>

@@ -28,11 +28,24 @@ export default function Analysis() {
       const res = await goldApi.analyze({ question: aiQuestion })
       setAiAnswer(res.data?.analysis || res.data?.answer || JSON.stringify(res.data))
     } catch {
-      setAiAnswer('分析请求失败，请稍后重试')
+      setAiAnswer(t.analysis.request_failed)
     } finally {
       setAiLoading(false)
     }
   }
+
+  const defaultBullishFactors = [
+    { id: '1', title: t.ai_analysis_page.market_drivers.fed_rate_cut, description: t.ai_analysis_page.market_drivers.fed_rate_cut_desc, impact: 'high', category: t.ai_analysis_page.market_drivers.category_monetary_policy },
+    { id: '2', title: t.ai_analysis_page.market_drivers.geopolitical, description: t.ai_analysis_page.market_drivers.geopolitical_desc, impact: 'high', category: t.ai_analysis_page.market_drivers.category_geopolitics },
+    { id: '3', title: t.ai_analysis_page.market_drivers.cb_buying, description: t.ai_analysis_page.market_drivers.cb_buying_desc, impact: 'medium', category: t.ai_analysis_page.market_drivers.category_supply_demand },
+    { id: '4', title: t.ai_analysis_page.market_drivers.dollar_weak, description: t.ai_analysis_page.market_drivers.dollar_weak_desc, impact: 'medium', category: t.ai_analysis_page.market_drivers.category_fx },
+  ]
+
+  const defaultBearishFactors = [
+    { id: '1', title: t.ai_analysis_page.market_drivers.strong_economy, description: t.ai_analysis_page.market_drivers.strong_economy_desc, impact: 'high', category: t.ai_analysis_page.market_drivers.category_economic_data },
+    { id: '2', title: t.ai_analysis_page.market_drivers.tech_overbought, description: t.ai_analysis_page.market_drivers.tech_overbought_desc, impact: 'medium', category: t.ai_analysis_page.market_drivers.category_technical },
+    { id: '3', title: t.ai_analysis_page.market_drivers.profit_taking, description: t.ai_analysis_page.market_drivers.profit_taking_desc, impact: 'low', category: t.ai_analysis_page.market_drivers.category_sentiment },
+  ]
 
   if (loading && !analysis) {
     return <Loading text={t.common.loading} />
@@ -192,15 +205,3 @@ export default function Analysis() {
   )
 }
 
-const defaultBullishFactors = [
-  { id: '1', title: '美联储降息预期', description: '市场普遍预期美联储将在未来数月内启动降息周期，实际利率下行将直接利好黄金', impact: 'high', category: '货币政策' },
-  { id: '2', title: '地缘政治风险上升', description: '中东局势持续紧张，俄乌冲突未见缓和，避险需求推升金价', impact: 'high', category: '地缘政治' },
-  { id: '3', title: '全球央行持续购金', description: '中国、印度等新兴市场央行持续增持黄金储备，为金价提供长期支撑', impact: 'medium', category: '供需面' },
-  { id: '4', title: '美元指数走弱', description: '美元指数从高位回落，以美元计价的黄金获得支撑', impact: 'medium', category: '汇率' },
-]
-
-const defaultBearishFactors = [
-  { id: '1', title: '美国经济数据强劲', description: '近期非农就业等数据好于预期，可能推迟美联储降息时间表', impact: 'high', category: '经济数据' },
-  { id: '2', title: '技术面超买风险', description: 'RSI指标接近超买区域，短期存在技术性回调可能', impact: 'medium', category: '技术面' },
-  { id: '3', title: '获利了结压力', description: '金价连续上涨后，部分投资者选择获利了结', impact: 'low', category: '市场情绪' },
-]

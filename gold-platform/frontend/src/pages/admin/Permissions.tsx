@@ -7,6 +7,7 @@ import Badge from '../../components/ui/Badge'
 import { toast } from 'sonner'
 import { adminApi } from '../../lib/api'
 import { extractApiData, ensureArray } from '../../lib/utils'
+import { useTranslation } from '../../contexts/LanguageContext'
 
 interface Permission {
   id: number
@@ -21,6 +22,7 @@ interface RolePermissions {
 }
 
 export default function AdminPermissions() {
+  const { t } = useTranslation()
   const [permissions, setPermissions] = useState<Permission[]>([])
   const [rolePermissions, setRolePermissions] = useState<RolePermissions>({})
   const [loading, setLoading] = useState(true)
@@ -38,7 +40,7 @@ export default function AdminPermissions() {
       const data = extractApiData(res)
       setPermissions(ensureArray(data) as Permission[])
     } catch {
-      toast.error('获取权限列表失败')
+      toast.error(t.admin.get_permissions_failed)
       setPermissions([])
     } finally {
       setLoading(false)
@@ -60,7 +62,7 @@ export default function AdminPermissions() {
       }
       setRolePermissions(rp)
     } catch {
-      toast.error('获取角色权限失败')
+      toast.error(t.admin.get_role_permissions_failed)
     }
   }, [])
 
@@ -84,9 +86,9 @@ export default function AdminPermissions() {
       for (const role of roles) {
         await adminApi.updateRolePermissions(role, rolePermissions[role] || [])
       }
-      toast.success('权限配置保存成功')
+      toast.success(t.admin.permission_save_success)
     } catch {
-      toast.error('保存失败')
+      toast.error(t.admin.permission_save_failed)
     } finally {
       setSaving(false)
     }
@@ -105,12 +107,12 @@ export default function AdminPermissions() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-[#e0e0ff]">
-            权限<HolographicText color="blue">管理</HolographicText>
+            {t.admin.permission}<HolographicText color="blue">{t.admin.management}</HolographicText>
           </h1>
-          <p className="text-sm text-[#8888aa] mt-1">配置各角色的功能权限</p>
+          <p className="text-sm text-[#8888aa] mt-1">{t.admin.configure_permissions}</p>
         </div>
         <Button variant="primary" size="sm" onClick={handleSave} disabled={saving}>
-          <Save size={14} /> {saving ? '保存中...' : '保存配置'}
+          <Save size={14} /> {saving ? t.admin.saving : t.admin.save_config}
         </Button>
       </div>
 
@@ -121,7 +123,7 @@ export default function AdminPermissions() {
             <table className="w-full">
               <thead>
                 <tr className="border-b border-[rgba(0,240,255,0.1)]">
-                  <th className="text-left text-xs font-medium text-[#8888aa] px-5 py-3 min-w-[200px]">权限</th>
+                  <th className="text-left text-xs font-medium text-[#8888aa] px-5 py-3 min-w-[200px]">{t.admin.permission}</th>
                   {roles.map(role => (
                     <th key={role} className="text-center text-xs font-medium px-3 py-3 min-w-[90px]">
                       <Badge variant={roleColors[role]} size="sm">{role.toUpperCase()}</Badge>
@@ -165,7 +167,7 @@ export default function AdminPermissions() {
         <GlowCard color="blue">
           <div className="text-center py-8">
             <Shield size={32} className="mx-auto text-[#8888aa] mb-2" />
-            <p className="text-[#8888aa]">暂无权限数据</p>
+            <p className="text-[#8888aa]">{t.admin.no_permission_data}</p>
           </div>
         </GlowCard>
       )}

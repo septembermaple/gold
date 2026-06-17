@@ -14,24 +14,39 @@ const analysis = new Hono();
 /**
  * 使用AI生成看多/看空因素
  */
-async function generateFactorsWithAI(env, type) {
+async function generateFactorsWithAI(env, type, lang = 'en-US') {
   const priceData = await fetchAllPrices();
   const intl = priceData.international || {};
   const domestic = priceData.domestic || {};
+  const isZh = lang === 'zh-CN';
 
   const prompt = type === 'bullish'
-    ? `基于当前黄金市场数据，分析3-5个看涨因素。
-当前国际金价: $${intl.price || 'N/A'}/盎司, 涨跌幅: ${intl.changePercent || 'N/A'}%
-国内金价: ¥${domestic.au99_99?.price || 'N/A'}/克
+    ? (isZh
+      ? `基于当前黄金市场数据，分析 3-5 个看涨因素。
+当前国际金价: $${intl.price || 'N/A'}/盎司，变动: ${intl.changePercent || 'N/A'}%
+国内黄金价格: ¥${domestic.au99_99?.price || 'N/A'}/克
 
-请以JSON数组格式返回，每个因素包含: title(标题), subtitle(副标题), description(描述), details(详情数组), impact(high/medium/low), confidence(0-1)
-只返回JSON数组，不要其他文字。`
-    : `基于当前黄金市场数据，分析3-5个看跌因素。
-当前国际金价: $${intl.price || 'N/A'}/盎司, 涨跌幅: ${intl.changePercent || 'N/A'}%
-国内金价: ¥${domestic.au99_99?.price || 'N/A'}/克
+请以 JSON 数组格式返回，每个因素包含: title, subtitle, description, details(数组), impact(high/medium/low), confidence(0-1)
+只返回 JSON 数组，不包含其他文本。`
+      : `Based on current gold market data, analyze 3-5 bullish factors.
+Current international gold price: $${intl.price || 'N/A'}/oz, change: ${intl.changePercent || 'N/A'}%
+Domestic gold price: ¥${domestic.au99_99?.price || 'N/A'}/g
 
-请以JSON数组格式返回，每个因素包含: title(标题), subtitle(副标题), description(描述), details(详情数组), impact(high/medium/low), confidence(0-1)
-只返回JSON数组，不要其他文字。`;
+Please return in JSON array format, each factor containing: title, subtitle, description, details(array), impact(high/medium/low), confidence(0-1)
+Only return the JSON array, no other text.`)
+    : (isZh
+      ? `基于当前黄金市场数据，分析 3-5 个看空因素。
+当前国际金价: $${intl.price || 'N/A'}/盎司，变动: ${intl.changePercent || 'N/A'}%
+国内黄金价格: ¥${domestic.au99_99?.price || 'N/A'}/克
+
+请以 JSON 数组格式返回，每个因素包含: title, subtitle, description, details(数组), impact(high/medium/low), confidence(0-1)
+只返回 JSON 数组，不包含其他文本。`
+      : `Based on current gold market data, analyze 3-5 bearish factors.
+Current international gold price: $${intl.price || 'N/A'}/oz, change: ${intl.changePercent || 'N/A'}%
+Domestic gold price: ¥${domestic.au99_99?.price || 'N/A'}/g
+
+Please return in JSON array format, each factor containing: title, subtitle, description, details(array), impact(high/medium/low), confidence(0-1)
+Only return the JSON array, no other text.`);
 
   const apiKey = env.DEEPSEEK_API_KEY || env.MODELSCOPE_API_KEY;
   if (!apiKey) return null;
@@ -63,7 +78,7 @@ async function generateFactorsWithAI(env, type) {
       return factors.map((f, i) => ({
         id: i + 1,
         type,
-        title: f.title || `${type === 'bullish' ? '看多' : '看空'}因素 ${i + 1}`,
+        title: f.title || `${type === 'bullish' ? 'Bullish' : 'Bearish'} Factor ${i + 1}`,
         subtitle: f.subtitle || '',
         description: f.description || '',
         details: Array.isArray(f.details) ? JSON.stringify(f.details) : JSON.stringify([f.details || '']),
@@ -81,15 +96,22 @@ async function generateFactorsWithAI(env, type) {
 /**
  * 使用AI生成机构观点
  */
-async function generateInstitutionViewsWithAI(env) {
+async function generateInstitutionViewsWithAI(env, lang = 'en-US') {
   const priceData = await fetchAllPrices();
   const intl = priceData.international || {};
+  const isZh = lang === 'zh-CN';
 
-  const prompt = `基于当前黄金市场数据，模拟4-5家主流投行对黄金的观点预测。
+  const prompt = isZh
+    ? `基于当前黄金市场数据，模拟 4-5 家主要投行对黄金的预测。
 当前国际金价: $${intl.price || 'N/A'}/盎司
 
-请以JSON数组格式返回，每个机构包含: institution_name(机构名), rating(buy/hold/sell), target_price(目标价), timeframe(时间框架), reasoning(理由), key_points(关键点数组)
-只返回JSON数组，不要其他文字。`;
+请以 JSON 数组格式返回，每家机构包含: institution_name, rating(buy/hold/sell), target_price, timeframe, reasoning, key_points(数组)
+只返回 JSON 数组，不包含其他文本。`
+    : `Based on current gold market data, simulate predictions from 4-5 major investment banks on gold.
+Current international gold price: $${intl.price || 'N/A'}/oz
+
+Please return in JSON array format, each institution containing: institution_name, rating(buy/hold/sell), target_price, timeframe, reasoning, key_points(array)
+Only return the JSON array, no other text.`;
 
   const apiKey = env.DEEPSEEK_API_KEY || env.MODELSCOPE_API_KEY;
   if (!apiKey) return null;
@@ -119,11 +141,11 @@ async function generateInstitutionViewsWithAI(env) {
       const views = JSON.parse(jsonMatch[0]);
       return views.map((v, i) => ({
         id: i + 1,
-        institution_name: v.institution_name || `机构 ${i + 1}`,
+        institution_name: v.institution_name || `Institution ${i + 1}`,
         logo: '',
         rating: v.rating || 'hold',
         target_price: v.target_price || null,
-        timeframe: v.timeframe || '6个月',
+        timeframe: v.timeframe || '6 months',
         reasoning: v.reasoning || '',
         key_points: Array.isArray(v.key_points) ? JSON.stringify(v.key_points) : JSON.stringify([v.key_points || '']),
         created_at: new Date().toISOString(),
@@ -140,6 +162,8 @@ async function generateInstitutionViewsWithAI(env) {
  */
 analysis.get('/bullish-factors', authMiddleware, requireMembership('free'), async (c) => {
   try {
+    const lang = c.req.query('lang') || c.req.query('language') || 'en-US';
+
     // 从数据库获取看多因素
     const result = await c.env.DB.prepare(
       "SELECT * FROM market_factors WHERE type = 'bullish' ORDER BY created_at DESC LIMIT 20"
@@ -147,7 +171,7 @@ analysis.get('/bullish-factors', authMiddleware, requireMembership('free'), asyn
 
     // 如果数据库没有数据，使用AI动态生成
     if (!result.results || result.results.length === 0) {
-      const aiFactors = await generateFactorsWithAI(c.env, 'bullish');
+      const aiFactors = await generateFactorsWithAI(c.env, 'bullish', lang);
       if (aiFactors && aiFactors.length > 0) {
         return c.json({ success: true, data: aiFactors });
       }
@@ -156,33 +180,54 @@ analysis.get('/bullish-factors', authMiddleware, requireMembership('free'), asyn
       const priceData = await fetchAllPrices();
       const intl = priceData.international || {};
       const changePercent = intl.changePercent || 0;
+      const isZh = lang === 'zh-CN';
       const fallbackFactors = [
         {
           id: 1, type: 'bullish',
-          title: '全球央行持续增持黄金',
-          subtitle: '去美元化趋势加速',
-          description: `当前金价$${intl.price?.toFixed(2) || 'N/A'}/盎司，多国央行持续增加黄金储备，为金价提供长期支撑。`,
-          details: JSON.stringify(['中国央行连续多月增持黄金', '印度、土耳其等国央行积极购金', '全球央行购金量创历史新高']),
+          title: isZh ? '全球央行持续增持黄金储备' : 'Global Central Banks Continue Increasing Gold Reserves',
+          subtitle: isZh ? '去美元化趋势加速' : 'De-dollarization Trend Accelerating',
+          description: isZh
+            ? `当前金价 $${intl.price?.toFixed(2) || 'N/A'}/盎司，多国央行持续增持黄金储备，为金价提供长期支撑。`
+            : `Current gold price $${intl.price?.toFixed(2) || 'N/A'}/oz, multiple central banks continue increasing gold reserves, providing long-term support for gold prices.`,
+          details: JSON.stringify(isZh
+            ? ['中国央行连续多月增持黄金储备', '印度、土耳其等国央行积极购金', '全球央行购金规模创历史新高']
+            : ['PBOC has increased gold reserves for consecutive months', 'Central banks of India, Turkey and others actively purchasing gold', 'Global central bank gold purchases hit record highs']),
           impact: 'high', confidence: 0.85, created_at: new Date().toISOString(),
         },
         {
           id: 2, type: 'bullish',
-          title: '地缘政治风险上升',
-          subtitle: '避险需求增加',
-          description: '地缘政治不确定性推动避险需求，黄金作为传统避险资产受到追捧。',
-          details: JSON.stringify(['中东局势持续紧张', '俄乌冲突前景不明', '全球安全形势趋于复杂']),
+          title: isZh ? '地缘政治风险上升' : 'Rising Geopolitical Risks',
+          subtitle: isZh ? '避险需求增加' : 'Increased Safe-haven Demand',
+          description: isZh
+            ? '地缘政治不确定性驱动避险需求，黄金作为传统避险资产备受青睐。'
+            : 'Geopolitical uncertainty drives safe-haven demand, gold is sought after as a traditional safe-haven asset.',
+          details: JSON.stringify(isZh
+            ? ['中东地区局势持续紧张', '俄乌冲突前景不明朗', '全球安全形势日趋复杂']
+            : ['Continued tensions in the Middle East', 'Uncertain outlook for Russia-Ukraine conflict', 'Global security situation becoming more complex']),
           impact: 'high', confidence: 0.75, created_at: new Date().toISOString(),
         },
         {
           id: 3, type: 'bullish',
-          title: changePercent > 0 ? '金价短期动能偏多' : '美联储降息预期',
-          subtitle: changePercent > 0 ? '技术面支撑' : '实际利率下行利好黄金',
-          description: changePercent > 0
-            ? `当前金价日涨幅${changePercent.toFixed(2)}%，短期动能偏多。`
-            : '市场预期美联储将降息，实际利率下行将降低持有黄金的机会成本。',
-          details: JSON.stringify(changePercent > 0
-            ? ['短期均线多头排列', '成交量有所放大', '技术指标偏多']
-            : ['通胀数据持续回落', '就业市场出现降温迹象', '市场预计年内降息2-3次']),
+          title: isZh
+            ? (changePercent > 0 ? '金价短期动能看涨' : '美联储降息预期')
+            : (changePercent > 0 ? 'Gold Price Short-term Momentum Bullish' : 'Fed Rate Cut Expectations'),
+          subtitle: isZh
+            ? (changePercent > 0 ? '技术面支撑' : '实际利率下降利好黄金')
+            : (changePercent > 0 ? 'Technical Support' : 'Declining Real Rates Favor Gold'),
+          description: isZh
+            ? (changePercent > 0
+              ? `当前金价日涨幅 ${changePercent.toFixed(2)}%，短期动能看涨。`
+              : '市场预期美联储降息，实际利率下降将降低持有黄金的机会成本。')
+            : (changePercent > 0
+              ? `Current gold price daily gain ${changePercent.toFixed(2)}%, short-term momentum is bullish.`
+              : 'Market expects Fed rate cuts, declining real rates will reduce the opportunity cost of holding gold.'),
+          details: JSON.stringify(isZh
+            ? (changePercent > 0
+              ? ['短期均线多头排列', '成交量温和放大', '技术指标偏多']
+              : ['通胀数据持续回落', '就业市场出现降温迹象', '市场预期年内降息 2-3 次'])
+            : (changePercent > 0
+              ? ['Short-term moving averages in bullish alignment', 'Trading volume increasing', 'Technical indicators leaning bullish']
+              : ['Inflation data continues to decline', 'Employment market showing signs of cooling', 'Market expects 2-3 rate cuts this year'])),
           impact: 'medium', confidence: 0.65, created_at: new Date().toISOString(),
         },
       ];
@@ -202,7 +247,7 @@ analysis.get('/bullish-factors', authMiddleware, requireMembership('free'), asyn
   } catch (error) {
     console.error('获取看多因素失败:', error);
     return c.json(
-      { success: false, error: '获取看多因素失败', message: error.message },
+      { success: false, error: 'Failed to fetch bullish factors', message: error.message },
       500
     );
   }
@@ -213,12 +258,14 @@ analysis.get('/bullish-factors', authMiddleware, requireMembership('free'), asyn
  */
 analysis.get('/bearish-factors', authMiddleware, requireMembership('free'), async (c) => {
   try {
+    const lang = c.req.query('lang') || c.req.query('language') || 'en-US';
+
     const result = await c.env.DB.prepare(
       "SELECT * FROM market_factors WHERE type = 'bearish' ORDER BY created_at DESC LIMIT 20"
     ).all();
 
     if (!result.results || result.results.length === 0) {
-      const aiFactors = await generateFactorsWithAI(c.env, 'bearish');
+      const aiFactors = await generateFactorsWithAI(c.env, 'bearish', lang);
       if (aiFactors && aiFactors.length > 0) {
         return c.json({ success: true, data: aiFactors });
       }
@@ -227,33 +274,54 @@ analysis.get('/bearish-factors', authMiddleware, requireMembership('free'), asyn
       const priceData = await fetchAllPrices();
       const intl = priceData.international || {};
       const changePercent = intl.changePercent || 0;
+      const isZh = lang === 'zh-CN';
       const fallbackFactors = [
         {
           id: 1, type: 'bearish',
-          title: '美元指数走强',
-          subtitle: '强美元压制金价',
-          description: '美国经济数据好于预期，美元指数走强，对黄金价格形成压制。',
-          details: JSON.stringify(['美国GDP增速超预期', '非农就业数据强劲', '美元指数突破关键阻力位']),
+          title: isZh ? '美元指数走强' : 'US Dollar Index Strengthening',
+          subtitle: isZh ? '强美元施压黄金' : 'Strong Dollar Pressuring Gold',
+          description: isZh
+            ? '美国经济数据好于预期，美元指数走强，对金价形成压制。'
+            : 'US economic data better than expected, dollar index strengthening, putting pressure on gold prices.',
+          details: JSON.stringify(isZh
+            ? ['美国 GDP 增长超预期', '非农就业数据强劲', '美元指数突破关键阻力位']
+            : ['US GDP growth exceeds expectations', 'Strong non-farm payroll data', 'Dollar index breaks through key resistance levels']),
           impact: 'high', confidence: 0.70, created_at: new Date().toISOString(),
         },
         {
           id: 2, type: 'bearish',
-          title: changePercent > 1 ? '技术面出现超买信号' : '风险偏好回升',
-          subtitle: changePercent > 1 ? '短期回调风险增加' : '资金流向股市',
-          description: changePercent > 1
-            ? `当前金价日涨幅${changePercent.toFixed(2)}%，RSI指标进入超买区间，短期存在技术性回调可能。`
-            : '全球股市回暖，风险偏好回升，部分资金从黄金市场流出。',
-          details: JSON.stringify(changePercent > 1
-            ? ['日线RSI超过70', '金价偏离均线较远', '成交量有所萎缩']
-            : ['美股创历史新高', 'VIX指数处于低位', '黄金ETF出现资金流出']),
+          title: isZh
+            ? (changePercent > 1 ? '技术面超买信号' : '风险偏好恢复')
+            : (changePercent > 1 ? 'Technical Overbought Signals' : 'Risk Appetite Recovery'),
+          subtitle: isZh
+            ? (changePercent > 1 ? '短期回调风险增加' : '资金流向风险资产')
+            : (changePercent > 1 ? 'Increased Short-term Pullback Risk' : 'Capital Flowing to Equities'),
+          description: isZh
+            ? (changePercent > 1
+              ? `当前金价日涨幅 ${changePercent.toFixed(2)}%，RSI 指标进入超买区域，短期存在技术回调风险。`
+              : '全球股市回暖，风险偏好回归，部分资金流出黄金市场。')
+            : (changePercent > 1
+              ? `Current gold price daily gain ${changePercent.toFixed(2)}%, RSI indicator entering overbought zone, risk of technical pullback in the short term.`
+              : 'Global stock markets recovering, risk appetite returning, some capital flowing out of the gold market.'),
+          details: JSON.stringify(isZh
+            ? (changePercent > 1
+              ? ['日线 RSI 高于 70', '金价远离均线', '成交量萎缩']
+              : ['美股创历史新高', 'VIX 指数处于低位', '黄金 ETF 遭遇资金流出'])
+            : (changePercent > 1
+              ? ['Daily RSI above 70', 'Gold price far from moving averages', 'Trading volume declining']
+              : ['US stocks hitting all-time highs', 'VIX index at low levels', 'Gold ETF experiencing capital outflows'])),
           impact: 'medium', confidence: 0.60, created_at: new Date().toISOString(),
         },
         {
           id: 3, type: 'bearish',
-          title: '美联储鹰派立场',
-          subtitle: '利率维持高位',
-          description: '美联储维持鹰派立场，利率保持高位，增加了持有黄金的机会成本。',
-          details: JSON.stringify(['通胀仍高于目标水平', '美联储官员释放鹰派信号', '降息时间表可能推迟']),
+          title: isZh ? '美联储鹰派立场' : 'Fed Hawkish Stance',
+          subtitle: isZh ? '利率维持高位' : 'Rates Remain High',
+          description: isZh
+            ? '美联储维持鹰派立场，利率维持高位，增加持有黄金的机会成本。'
+            : 'Fed maintains hawkish stance, rates remain high, increasing the opportunity cost of holding gold.',
+          details: JSON.stringify(isZh
+            ? ['通胀仍高于目标水平', '美联储官员释放鹰派信号', '降息时间或延后']
+            : ['Inflation still above target levels', 'Fed officials sending hawkish signals', 'Rate cut timeline may be delayed']),
           impact: 'low', confidence: 0.55, created_at: new Date().toISOString(),
         },
       ];
@@ -272,7 +340,7 @@ analysis.get('/bearish-factors', authMiddleware, requireMembership('free'), asyn
   } catch (error) {
     console.error('获取看空因素失败:', error);
     return c.json(
-      { success: false, error: '获取看空因素失败', message: error.message },
+      { success: false, error: 'Failed to fetch bearish factors', message: error.message },
       500
     );
   }
@@ -283,12 +351,14 @@ analysis.get('/bearish-factors', authMiddleware, requireMembership('free'), asyn
  */
 analysis.get('/institution-views', authMiddleware, requireMembership('free'), async (c) => {
   try {
+    const lang = c.req.query('lang') || c.req.query('language') || 'en-US';
+
     const result = await c.env.DB.prepare(
       'SELECT * FROM institution_views ORDER BY created_at DESC LIMIT 20'
     ).all();
 
     if (!result.results || result.results.length === 0) {
-      const aiViews = await generateInstitutionViewsWithAI(c.env);
+      const aiViews = await generateInstitutionViewsWithAI(c.env, lang);
       if (aiViews && aiViews.length > 0) {
         return c.json({ success: true, data: aiViews });
       }
@@ -297,37 +367,54 @@ analysis.get('/institution-views', authMiddleware, requireMembership('free'), as
       const priceData = await fetchAllPrices();
       const intl = priceData.international || {};
       const currentPrice = intl.price || 2400;
+      const isZh = lang === 'zh-CN';
       const fallbackViews = [
         {
-          id: 1, institution_name: '高盛', logo: '', rating: 'buy',
+          id: 1, institution_name: isZh ? '高盛' : 'Goldman Sachs', logo: '', rating: 'buy',
           target_price: Math.round(currentPrice * 1.08),
-          timeframe: '12个月',
-          reasoning: '美联储降息周期将推动金价进一步上涨，央行购金需求持续强劲。',
-          key_points: JSON.stringify(['预计美联储年内降息3次', '央行购金需求创纪录', '地缘政治风险提供支撑']),
+          timeframe: isZh ? '12个月' : '12 months',
+          reasoning: isZh
+            ? '美联储降息周期将推动金价走高，央行购金需求保持强劲。'
+            : 'Fed rate cut cycle will drive gold prices higher, central bank gold purchasing demand remains strong.',
+          key_points: JSON.stringify(isZh
+            ? ['预计年内美联储降息 3 次', '央行购金规模处于历史高位', '地缘政治风险提供支撑']
+            : ['Expecting 3 Fed rate cuts this year', 'Central bank gold purchases at record levels', 'Geopolitical risks providing support']),
           created_at: new Date().toISOString(),
         },
         {
-          id: 2, institution_name: '摩根大通', logo: '', rating: 'buy',
+          id: 2, institution_name: isZh ? '摩根大通' : 'JPMorgan Chase', logo: '', rating: 'buy',
           target_price: Math.round(currentPrice * 1.05),
-          timeframe: '6个月',
-          reasoning: '实际利率下行和美元走弱将推动金价上涨。',
-          key_points: JSON.stringify(['实际利率预计持续下行', '美元中期走弱趋势', '避险需求维持高位']),
+          timeframe: isZh ? '6个月' : '6 months',
+          reasoning: isZh
+            ? '实际利率下降与美元走弱将推动金价走高。'
+            : 'Declining real rates and a weaker dollar will drive gold prices higher.',
+          key_points: JSON.stringify(isZh
+            ? ['实际利率预期继续下行', '美元中期走弱趋势', '避险需求保持高位']
+            : ['Real rates expected to continue declining', 'Medium-term dollar weakening trend', 'Safe-haven demand remains elevated']),
           created_at: new Date().toISOString(),
         },
         {
-          id: 3, institution_name: '花旗银行', logo: '', rating: 'hold',
+          id: 3, institution_name: isZh ? '花旗银行' : 'Citibank', logo: '', rating: 'hold',
           target_price: Math.round(currentPrice * 1.02),
-          timeframe: '3个月',
-          reasoning: '金价已处于高位，短期可能面临回调压力，但中长期仍看好。',
-          key_points: JSON.stringify(['短期技术面可能超买', '中期基本面仍然向好', `关注$${Math.round(currentPrice * 0.985)}支撑位`]),
+          timeframe: isZh ? '3个月' : '3 months',
+          reasoning: isZh
+            ? '金价已处高位，短期或面临回调压力，但中长期前景仍积极。'
+            : 'Gold prices are already at high levels, may face short-term pullback pressure, but medium-to-long-term outlook remains positive.',
+          key_points: JSON.stringify(isZh
+            ? ['短期技术面或超买', '中期基本面仍积极', `关注 $${Math.round(currentPrice * 0.985)} 支撑位`]
+            : ['Short-term technicals may be overbought', 'Medium-term fundamentals remain positive', `Watch $${Math.round(currentPrice * 0.985)} support level`]),
           created_at: new Date().toISOString(),
         },
         {
-          id: 4, institution_name: '瑞银', logo: '', rating: 'buy',
+          id: 4, institution_name: isZh ? '瑞银' : 'UBS', logo: '', rating: 'buy',
           target_price: Math.round(currentPrice * 1.06),
-          timeframe: '6个月',
-          reasoning: '全球去美元化趋势和央行购金将为金价提供长期支撑。',
-          key_points: JSON.stringify(['去美元化趋势加速', '新兴市场央行购金', '黄金在资产配置中占比提升']),
+          timeframe: isZh ? '6个月' : '6 months',
+          reasoning: isZh
+            ? '全球去美元化趋势与央行购金将为金价提供长期支撑。'
+            : 'Global de-dollarization trend and central bank gold purchases will provide long-term support for gold prices.',
+          key_points: JSON.stringify(isZh
+            ? ['去美元化趋势加速', '新兴市场央行购金', '资产配置中黄金占比提升']
+            : ['De-dollarization trend accelerating', 'Emerging market central banks buying gold', "Gold's share in asset allocation increasing"]),
           created_at: new Date().toISOString(),
         },
       ];
@@ -346,7 +433,7 @@ analysis.get('/institution-views', authMiddleware, requireMembership('free'), as
   } catch (error) {
     console.error('获取机构观点失败:', error);
     return c.json(
-      { success: false, error: '获取机构观点失败', message: error.message },
+      { success: false, error: 'Failed to fetch institution views', message: error.message },
       500
     );
   }
@@ -357,6 +444,8 @@ analysis.get('/institution-views', authMiddleware, requireMembership('free'), as
  */
 analysis.get('/investment-advice', authMiddleware, requireMembership('premium'), async (c) => {
   try {
+    const lang = c.req.query('lang') || c.req.query('language') || 'en-US';
+
     // 检查缓存
     const cacheKey = 'investment_advice';
     const cached = await c.env.DB.prepare(
@@ -379,61 +468,85 @@ analysis.get('/investment-advice', authMiddleware, requireMembership('premium'),
     const intl = priceData.international || {};
     const currentPrice = intl.price || 2400;
     const changePercent = intl.changePercent || 0;
+    const isZh = lang === 'zh-CN';
 
     const advice = {
-      title: '黄金投资建议',
+      title: isZh ? '黄金投资建议' : 'Gold Investment Advice',
       generatedAt: new Date().toISOString(),
-      summary: `当前国际金价$${currentPrice.toFixed(2)}/盎司，${changePercent > 0 ? '日涨幅' + changePercent.toFixed(2) + '%' : changePercent < 0 ? '日跌幅' + Math.abs(changePercent).toFixed(2) + '%' : '基本持平'}。`,
+      summary: isZh
+        ? `当前国际金价 $${currentPrice.toFixed(2)}/盎司，${changePercent > 0 ? '日涨幅 ' + changePercent.toFixed(2) + '%' : changePercent < 0 ? '日跌幅 ' + Math.abs(changePercent).toFixed(2) + '%' : '基本持平'}。`
+        : `Current international gold price $${currentPrice.toFixed(2)}/oz, ${changePercent > 0 ? 'daily gain ' + changePercent.toFixed(2) + '%' : changePercent < 0 ? 'daily loss ' + Math.abs(changePercent).toFixed(2) + '%' : 'essentially flat'}.`,
       recommendations: [
         {
           id: '1', level: 'free',
-          title: '关注美联储政策动向',
-          description: `当前金价$${currentPrice.toFixed(0)}附近，美联储利率决议是影响金价的最重要因素，建议密切关注每次FOMC会议声明。`,
-          action: '建议关注',
+          title: isZh ? '关注美联储政策动向' : 'Monitor Fed Policy Developments',
+          description: isZh
+            ? `以当前金价约 $${currentPrice.toFixed(0)} 来看，美联储利率决策是影响金价最重要的因素，建议密切关注每次 FOMC 会议声明。`
+            : `With current gold price around $${currentPrice.toFixed(0)}, Fed rate decisions are the most important factor affecting gold prices. It is recommended to closely monitor each FOMC meeting statement.`,
+          action: isZh ? '关注' : 'Monitor',
         },
         {
           id: '2', level: 'free',
-          title: '分散投资降低风险',
-          description: '黄金在投资组合中建议占比5-15%，可有效分散风险，降低整体组合波动性。',
-          action: '适度配置',
+          title: isZh ? '分散投资以降低风险' : 'Diversify Investments to Reduce Risk',
+          description: isZh
+            ? '建议黄金占投资组合的 5-15%，可有效分散风险，降低整体组合波动率。'
+            : 'Gold is recommended to comprise 5-15% of an investment portfolio, which can effectively diversify risk and reduce overall portfolio volatility.',
+          action: isZh ? '适度配置' : 'Moderate Allocation',
         },
         {
           id: '3', level: 'basic',
-          title: `技术面关键支撑位$${Math.round(currentPrice * 0.985)}`,
-          description: `当前金价$${currentPrice.toFixed(0)}附近，关键支撑位在$${Math.round(currentPrice * 0.985)}，若有效跌破需警惕进一步下行。阻力位在$${Math.round(currentPrice * 1.02)}。`,
-          action: '设置止损',
+          title: isZh ? `关键技术支撑在 $${Math.round(currentPrice * 0.985)}` : `Key Technical Support at $${Math.round(currentPrice * 0.985)}`,
+          description: isZh
+            ? `以当前金价约 $${currentPrice.toFixed(0)} 来看，关键支撑位于 $${Math.round(currentPrice * 0.985)}，若有效跌破需警惕进一步下行；阻力位于 $${Math.round(currentPrice * 1.02)}。`
+            : `With current gold price around $${currentPrice.toFixed(0)}, key support is at $${Math.round(currentPrice * 0.985)}. If decisively broken, beware of further downside. Resistance is at $${Math.round(currentPrice * 1.02)}.`,
+          action: isZh ? '设置止损' : 'Set Stop Loss',
         },
         {
           id: '4', level: 'basic',
-          title: '季节性规律参考',
-          description: '历史数据显示黄金在年初和年末通常表现较好，可据此调整仓位和入场时机。',
-          action: '择时配置',
+          title: isZh ? '季节性规律参考' : 'Seasonal Pattern Reference',
+          description: isZh
+            ? '历史数据显示，黄金在年初和年末通常表现较好，可据此调整仓位与入场时机。'
+            : 'Historical data shows gold typically performs better at the beginning and end of the year, which can be used to adjust positions and entry timing.',
+          action: isZh ? '战术配置' : 'Tactical Allocation',
         },
         {
           id: '5', level: 'pro',
-          title: '量化对冲策略',
-          description: '利用黄金与美元指数的负相关性，构建对冲组合降低系统性风险，当前美元指数趋势提供对冲机会。',
-          action: '执行对冲',
+          title: isZh ? '量化对冲策略' : 'Quantitative Hedging Strategy',
+          description: isZh
+            ? '利用黄金与美元指数的负相关关系构建对冲组合，降低系统性风险。当前美元指数走势提供对冲机会。'
+            : 'Utilize the negative correlation between gold and the US dollar index to build a hedging portfolio that reduces systematic risk. Current dollar index trends provide hedging opportunities.',
+          action: isZh ? '执行对冲' : 'Execute Hedge',
         },
         {
           id: '6', level: 'pro',
-          title: '期权策略建议',
-          description: '当前波动率环境下，建议采用看涨期权价差策略，控制成本的同时保留上行空间。',
-          action: '期权组合',
+          title: isZh ? '期权策略建议' : 'Options Strategy Recommendation',
+          description: isZh
+            ? '在当前波动环境下，建议采用看涨期权价差策略，控制成本同时保留上行空间。'
+            : 'In the current volatility environment, a bull call spread strategy is recommended to control costs while retaining upside potential.',
+          action: isZh ? '期权价差' : 'Options Spread',
         },
         {
           id: '7', level: 'enterprise',
-          title: '定制化资产配置',
-          description: '根据企业风险偏好和现金流需求，提供定制化黄金资产配置方案，包含实物黄金、ETF、期货等多元工具组合。',
-          action: '专属方案',
+          title: isZh ? '定制化资产配置' : 'Customized Asset Allocation',
+          description: isZh
+            ? '基于企业风险偏好与现金流需求，提供定制化黄金资产配置方案，包括实物黄金、ETF、期货等多元化工具组合。'
+            : 'Based on enterprise risk preferences and cash flow needs, provide customized gold asset allocation plans, including a diversified mix of physical gold, ETFs, futures, and other instruments.',
+          action: isZh ? '定制方案' : 'Custom Plan',
         },
       ],
-      riskWarnings: [
-        '以上建议仅供参考，不构成投资建议',
-        '市场存在不确定性，请根据自身风险承受能力决策',
-        '建议分散投资，控制单一资产比例',
-        '关注美联储政策变化和地缘政治风险',
-      ],
+      riskWarnings: isZh
+        ? [
+            '以上建议仅供参考，不构成投资建议',
+            '市场存在不确定性，请根据自身风险承受能力做决策',
+            '建议分散投资，控制单一资产配置比例',
+            '关注美联储政策变化与地缘政治风险',
+          ]
+        : [
+            'The above suggestions are for reference only and do not constitute investment advice',
+            'Markets carry uncertainty, please make decisions based on your own risk tolerance',
+            'Diversification is recommended; control the proportion of any single asset',
+            'Monitor Fed policy changes and geopolitical risks',
+          ],
     };
 
     // 缓存结果
@@ -452,7 +565,7 @@ analysis.get('/investment-advice', authMiddleware, requireMembership('premium'),
   } catch (error) {
     console.error('获取投资建议失败:', error);
     return c.json(
-      { success: false, error: '获取投资建议失败', message: error.message },
+      { success: false, error: 'Failed to fetch investment advice', message: error.message },
       500
     );
   }
@@ -537,7 +650,7 @@ analysis.get('/market-summary', async (c) => {
   } catch (error) {
     console.error('获取市场摘要失败:', error);
     return c.json(
-      { success: false, error: '获取市场摘要失败', message: error.message },
+      { success: false, error: 'Failed to fetch market summary', message: error.message },
       500
     );
   }
@@ -552,7 +665,7 @@ analysis.post('/refresh/:type', authMiddleware, async (c) => {
     const user = c.get('user');
     if (user.role !== 'admin') {
       return c.json(
-        { success: false, error: '权限不足', message: '需要管理员权限' },
+        { success: false, error: 'Insufficient permissions', message: 'Admin privileges required' },
         403
       );
     }
@@ -562,7 +675,7 @@ analysis.post('/refresh/:type', authMiddleware, async (c) => {
 
     if (!validTypes.includes(type)) {
       return c.json(
-        { success: false, error: '无效的缓存类型', message: `支持的类型: ${validTypes.join(', ')}` },
+        { success: false, error: 'Invalid cache type', message: `Supported types: ${validTypes.join(', ')}` },
         400
       );
     }
@@ -581,12 +694,12 @@ analysis.post('/refresh/:type', authMiddleware, async (c) => {
 
     return c.json({
       success: true,
-      message: `缓存 ${type} 已清除`,
+      message: `Cache ${type} cleared`,
     });
   } catch (error) {
     console.error('刷新缓存失败:', error);
     return c.json(
-      { success: false, error: '刷新缓存失败', message: error.message },
+      { success: false, error: 'Failed to refresh cache', message: error.message },
       500
     );
   }
@@ -597,19 +710,25 @@ analysis.post('/refresh/:type', authMiddleware, async (c) => {
  */
 analysis.post('/ai/bullish', authMiddleware, async (c) => {
   try {
+    const body = await c.req.json().catch(() => ({}));
+    const lang = body?.lang || c.req.query('lang') || c.req.query('language') || 'en-US';
+    const isZh = lang === 'zh-CN';
+
     const priceData = await fetchAllPrices();
     const intl = priceData.international || {};
-    const result = await analyzeWithDeepSeek(c.env, priceData, [], 'bullish');
+    const result = await analyzeWithDeepSeek(c.env, priceData, [], 'bullish', lang);
     return c.json({
       success: true,
       data: {
-        title: 'AI 看涨分析报告',
-        content: result.analysis?.content || result.analysis?.summary || '当前市场环境下，央行购金、地缘政治风险和降息预期等因素支撑金价。',
+        title: isZh ? 'AI 看涨分析报告' : 'AI Bullish Analysis Report',
+        content: result.analysis?.content || result.analysis?.summary || (isZh
+          ? `当前金价 $${intl.price || 'N/A'}/盎司。看涨因素包括央行持续购金、地缘政治风险升温及降息预期。`
+          : 'In the current market environment, central bank gold purchases, geopolitical risks, and rate cut expectations are supporting gold prices.'),
       },
     });
   } catch (error) {
     console.error('AI看涨分析失败:', error);
-    return c.json({ success: false, error: 'AI分析失败', message: error.message }, 500);
+    return c.json({ success: false, error: 'AI analysis failed', message: error.message }, 500);
   }
 });
 
@@ -618,18 +737,25 @@ analysis.post('/ai/bullish', authMiddleware, async (c) => {
  */
 analysis.post('/ai/bearish', authMiddleware, async (c) => {
   try {
+    const body = await c.req.json().catch(() => ({}));
+    const lang = body?.lang || c.req.query('lang') || c.req.query('language') || 'en-US';
+    const isZh = lang === 'zh-CN';
+
     const priceData = await fetchAllPrices();
-    const result = await analyzeWithDeepSeek(c.env, priceData, [], 'bearish');
+    const intl = priceData.international || {};
+    const result = await analyzeWithDeepSeek(c.env, priceData, [], 'bearish', lang);
     return c.json({
       success: true,
       data: {
-        title: 'AI 看空分析报告',
-        content: result.analysis?.content || result.analysis?.summary || '当前市场环境下，美元走强、风险偏好回升和美联储鹰派立场对金价构成压力。',
+        title: isZh ? 'AI 看空分析报告' : 'AI Bearish Analysis Report',
+        content: result.analysis?.content || result.analysis?.summary || (isZh
+          ? `当前金价 $${intl.price || 'N/A'}/盎司。看空因素包括美元走强、风险偏好恢复及美联储鹰派立场。`
+          : 'In the current market environment, a stronger dollar, recovering risk appetite, and the Fed\'s hawkish stance are pressuring gold prices.'),
       },
     });
   } catch (error) {
     console.error('AI看空分析失败:', error);
-    return c.json({ success: false, error: 'AI分析失败', message: error.message }, 500);
+    return c.json({ success: false, error: 'AI analysis failed', message: error.message }, 500);
   }
 });
 
@@ -638,18 +764,24 @@ analysis.post('/ai/bearish', authMiddleware, async (c) => {
  */
 analysis.post('/ai/summary', authMiddleware, async (c) => {
   try {
+    const body = await c.req.json().catch(() => ({}));
+    const lang = body?.lang || c.req.query('lang') || c.req.query('language') || 'en-US';
+    const isZh = lang === 'zh-CN';
+
     const priceData = await fetchAllPrices();
-    const result = await analyzeWithDeepSeek(c.env, priceData, [], 'summary');
+    const result = await analyzeWithDeepSeek(c.env, priceData, [], 'summary', lang);
     return c.json({
       success: true,
       data: {
-        title: 'AI 综合分析报告',
-        content: result.analysis?.content || result.analysis?.summary || '综合多空因素分析，当前黄金市场呈现震荡偏多格局。',
+        title: isZh ? 'AI 综合分析报告' : 'AI Comprehensive Analysis Report',
+        content: result.analysis?.content || result.analysis?.summary || (isZh
+          ? '基于多空因素综合分析，当前黄金市场呈现震荡但偏多格局。'
+          : 'Based on comprehensive analysis of bullish and bearish factors, the current gold market shows a volatile but bullish-leaning pattern.'),
       },
     });
   } catch (error) {
     console.error('AI综合分析失败:', error);
-    return c.json({ success: false, error: 'AI分析失败', message: error.message }, 500);
+    return c.json({ success: false, error: 'AI analysis failed', message: error.message }, 500);
   }
 });
 
@@ -658,18 +790,24 @@ analysis.post('/ai/summary', authMiddleware, async (c) => {
  */
 analysis.post('/ai/advice', authMiddleware, async (c) => {
   try {
+    const body = await c.req.json().catch(() => ({}));
+    const lang = body?.lang || c.req.query('lang') || c.req.query('language') || 'en-US';
+    const isZh = lang === 'zh-CN';
+
     const priceData = await fetchAllPrices();
-    const result = await analyzeWithDeepSeek(c.env, priceData, [], 'advice');
+    const result = await analyzeWithDeepSeek(c.env, priceData, [], 'advice', lang);
     return c.json({
       success: true,
       data: {
-        title: 'AI 投资建议报告',
-        content: result.analysis?.content || result.analysis?.summary || '建议保持适度仓位，关注关键支撑和阻力位，根据自身风险承受能力决策。',
+        title: isZh ? 'AI 投资建议报告' : 'AI Investment Advice Report',
+        content: result.analysis?.content || result.analysis?.summary || (isZh
+          ? '建议保持适度仓位，关注关键支撑阻力位，并根据自身风险承受能力做决策。'
+          : 'It is recommended to maintain moderate positions, monitor key support and resistance levels, and make decisions based on your own risk tolerance.'),
       },
     });
   } catch (error) {
     console.error('AI投资建议失败:', error);
-    return c.json({ success: false, error: 'AI分析失败', message: error.message }, 500);
+    return c.json({ success: false, error: 'AI analysis failed', message: error.message }, 500);
   }
 });
 

@@ -9,19 +9,20 @@ export interface Locale {
   sentiment: Record<string, string>
   risk: Record<string, string>
   ai_analysis: Record<string, string>
-  ai_analysis_page: Record<string, string>
+  ai_analysis_page: Record<string, any>
   institution: Record<string, string>
   institution_views: Record<string, string>
-  investment: Record<string, string>
+  investment: Record<string, any>
   investment_advice_page: Record<string, string>
   macro: Record<string, string>
   macro_page: Record<string, string>
   profile: Record<string, string>
   profile_page: Record<string, string>
   dashboard: Record<string, string>
+  admin: Record<string, any>
   analysis: Record<string, string>
-  scoring: Record<string, string>
-  sentiment_page: Record<string, string>
+  scoring: Record<string, any>
+  sentiment_page: Record<string, any>
   [key: string]: any
 }
 

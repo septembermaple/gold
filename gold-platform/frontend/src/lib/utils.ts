@@ -5,6 +5,82 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
+// Translation helper for backend data
+// Handles both exact string matches and pattern-based dynamic strings
+export function translateText(text: string | undefined | null, locale: Record<string, any>): string {
+  if (!text) return ''
+
+  // Try exact match first
+  const findExact = (obj: any, key: string): string | undefined => {
+    if (!obj) return undefined
+    if (obj[key] !== undefined && typeof obj[key] === 'string') return obj[key]
+    for (const k in obj) {
+      if (typeof obj[k] === 'object' && !Array.isArray(obj[k])) {
+        const found = findExact(obj[k], key)
+        if (found !== undefined) return found
+      }
+    }
+    return undefined
+  }
+
+  if (locale) {
+    const exact = findExact(locale, text)
+    if (exact !== undefined) return exact
+  }
+
+  // Pattern: "RSI(14): X.X" -> translate prefix, keep number
+  const rsiMatch = text.match(/^RSI\((\d+)\):\s*(.+)$/)
+  if (rsiMatch) {
+    const prefix = locale?.risk?.['RSI'] || 'RSI'
+    return `${prefix}(${rsiMatch[1]}): ${rsiMatch[2]}`
+  }
+
+  // Pattern: "Dollar 20-day Momentum: X.X%" -> translate prefix, keep number
+  const dollarMomentumMatch = text.match(/^Dollar 20-day Momentum:\s*(.+)$/)
+  if (dollarMomentumMatch) {
+    const prefix = locale?.risk?.['Dollar 20-day Momentum'] || locale?.macro?.momentum_20d || 'Dollar 20-day Momentum'
+    return `${prefix}: ${dollarMomentumMatch[1]}`
+  }
+
+  // Pattern: "Yield Curve: X.X%" or "Yield Curve: X.X% (Inverted)"
+  const yieldCurveMatch = text.match(/^Yield Curve:\s*(.+?)(?:\s*\((Inverted)\))?$/)
+  if (yieldCurveMatch) {
+    const prefix = locale?.risk?.['Yield Curve'] || locale?.macro?.yield_curve || 'Yield Curve'
+    const suffix = yieldCurveMatch[2] ? ` (${locale?.risk?.['Inverted'] || yieldCurveMatch[2]})` : ''
+    return `${prefix}: ${yieldCurveMatch[1]}${suffix}`
+  }
+
+  // Pattern: "Core PCE YoY: X.X%"
+  const pceMatch = text.match(/^Core PCE YoY:\s*(.+)$/)
+  if (pceMatch) {
+    const prefix = locale?.risk?.['Core PCE YoY'] || 'Core PCE YoY'
+    return `${prefix}: ${pceMatch[1]}`
+  }
+
+  // Pattern: "5Y5Y Forward Inflation: X.X%"
+  const fwdInfMatch = text.match(/^5Y5Y Forward Inflation:\s*(.+)$/)
+  if (fwdInfMatch) {
+    const prefix = locale?.risk?.['5Y5Y Forward Inflation'] || '5Y5Y Forward Inflation'
+    return `${prefix}: ${fwdInfMatch[1]}`
+  }
+
+  // Pattern: "Central bank annual buying: XXX tonnes (stable/increasing/decreasing/unknown)"
+  const cbMatch = text.match(/^Central bank annual buying:\s*(.+?)\s*tonnes\s*\(([^)]+)\)$/)
+  if (cbMatch) {
+    const prefix = locale?.risk?.['Central bank annual buying'] || 'Central bank annual buying'
+    const trend = locale?.risk?.[cbMatch[2]] || cbMatch[2]
+    return `${prefix}: ${cbMatch[1]} ${locale?.risk?.['tonnes'] || 'tonnes'} (${trend})`
+  }
+
+  return text
+}
+
+// Translate array of strings
+export function translateArray(arr: string[] | undefined, locale: Record<string, any>): string[] {
+  if (!Array.isArray(arr)) return []
+  return arr.map((item) => translateText(item, locale))
+}
+
 export function formatPrice(price: number | string): string {
   const num = typeof price === 'string' ? parseFloat(price) : price
   if (isNaN(num)) return '--'

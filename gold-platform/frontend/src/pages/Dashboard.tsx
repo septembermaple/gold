@@ -9,32 +9,7 @@ import Button from '../components/ui/Button'
 import Loading from '../components/ui/Loading'
 import { useGoldData } from '../contexts/GoldDataContext'
 import { formatPrice, formatPercent, getPriceColor } from '../lib/utils'
-import { useTranslation } from '../contexts/LanguageContext'
-
-const PERIOD_OPTIONS = [
-  { key: '1h', label: '1hour' },
-  { key: '4h', label: '4hour' },
-  { key: '1d', label: 'dayK' },
-  { key: '1w', label: 'weekK' },
-]
-
-const CustomTooltip = ({ active, payload, label }: { active?: boolean; payload?: Array<{ value: number; name: string; payload?: { time?: string } }>; label?: string | number }) => {
-  if (active && payload && payload.length) {
-    // Use the formatted time string from the data point
-    const timeLabel = payload[0]?.payload?.time || (typeof label === 'number' ? new Date(label).toLocaleString('zh-CN') : label)
-    return (
-      <div className="glass-dark p-3 text-xs">
-        <p className="text-[#8888aa] mb-1">{timeLabel}</p>
-        {payload.map((entry, i) => (
-          <p key={i} className="font-mono font-bold" style={{ color: entry.name === 'volume' ? '#fbbf24' : '#00f0ff' }}>
-            {entry.name === 'volume' ? `${'volume'}: ${entry.value?.toLocaleString()}` : `$${formatPrice(entry.value)}`}
-          </p>
-        ))}
-      </div>
-    )
-  }
-  return null
-}
+import { useTranslation, useLanguage } from '../contexts/LanguageContext'
 
 export default function Dashboard() {
   const navigate = useNavigate()
@@ -42,6 +17,31 @@ export default function Dashboard() {
   const [activePeriod, setActivePeriod] = useState('1d')
   const [klineLoading, setKlineLoading] = useState(false)
   const t = useTranslation()
+  const { language } = useLanguage()
+
+  const PERIOD_OPTIONS = [
+    { key: '1h', label: t.dashboard.hour_1 },
+    { key: '4h', label: t.dashboard.hour_4 },
+    { key: '1d', label: t.dashboard.day_k },
+    { key: '1w', label: t.dashboard.week_k },
+  ]
+
+  const CustomTooltip = ({ active, payload, label }: { active?: boolean; payload?: Array<{ value: number; name: string; payload?: { time?: string } }>; label?: string | number }) => {
+    if (active && payload && payload.length) {
+      const timeLabel = payload[0]?.payload?.time || (typeof label === 'number' ? new Date(label).toLocaleString(language === 'zh-CN' ? 'zh-CN' : 'en-US') : label)
+      return (
+        <div className="glass-dark p-3 text-xs">
+          <p className="text-[#8888aa] mb-1">{timeLabel}</p>
+          {payload.map((entry, i) => (
+            <p key={i} className="font-mono font-bold" style={{ color: entry.name === 'volume' ? '#fbbf24' : '#00f0ff' }}>
+              {entry.name === 'volume' ? `${t.dashboard.volume}: ${entry.value?.toLocaleString()}` : `${t.dashboard.price}: $${formatPrice(entry.value)}`}
+            </p>
+          ))}
+        </div>
+      )
+    }
+    return null
+  }
 
   const handlePeriodChange = async (period: string) => {
     setActivePeriod(period)
@@ -169,7 +169,7 @@ export default function Dashboard() {
       {/* Price Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {statCards.map((card) => (
-          <GlowCard key={card.label} color={card.color} className="relative overflow-hidden">
+          <GlowCard key={card.label} color={card.color} className="relative overflow-hidden min-w-0 min-h-[110px]">
             <div className="flex items-start justify-between">
               <div>
                 <p className="text-xs text-[#8888aa] mb-1">{card.label}</p>
@@ -206,10 +206,10 @@ export default function Dashboard() {
         {[
           { label: t.dashboard.open_price, value: stats?.openPrice ? `$${formatPrice(stats.openPrice)}` : '--' },
           { label: t.dashboard.volume24h, value: stats?.volume ? stats.volume.toLocaleString() : '--' },
-          { label: t.dashboard.data_update, value: stats?.updatedAt ? new Date(stats.updatedAt).toLocaleTimeString('zh-CN') : '--' },
+          { label: t.dashboard.data_update, value: stats?.updatedAt ? new Date(stats.updatedAt).toLocaleTimeString(language === 'zh-CN' ? 'zh-CN' : 'en-US') : '--' },
           { label: t.dashboard.market_status, value: t.dashboard.trading },
         ].map((item) => (
-          <div key={item.label} className="glass-dark p-4 text-center">
+          <div key={item.label} className="glass-dark p-4 text-center min-w-0 min-h-[88px]">
             <p className="text-xs text-[#8888aa] mb-1">{item.label}</p>
             <p className="text-sm font-mono text-[#e0e0ff]">{item.value}</p>
           </div>
@@ -233,9 +233,9 @@ export default function Dashboard() {
       </GlowCard>
 
       {/* Charts Row */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
         {/* Price Chart */}
-        <div className="lg:col-span-2 glass p-5">
+        <div className="xl:col-span-2 glass p-5">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-sm font-medium text-[#e0e0ff]">
               <Activity size={16} className="inline mr-1.5 text-cyan-glow" />
@@ -261,7 +261,7 @@ export default function Dashboard() {
               <Badge variant="cyan">XAU/USD</Badge>
             </div>
           </div>
-          <div className="h-72 relative">
+          <div className="h-80 relative">
             {klineLoading && (
               <div className="absolute inset-0 flex items-center justify-center bg-dark-900/50 z-10 rounded-lg">
                 <div className="text-cyan-glow text-sm animate-pulse">{t.common.loading}</div>
@@ -300,7 +300,7 @@ export default function Dashboard() {
                     stroke="#00f0ff"
                     strokeWidth={2}
                     fill="url(#priceGradient)"
-                    name="price"
+                    name={t.dashboard.price}
                   />
                 </AreaChart>
               </ResponsiveContainer>
@@ -321,7 +321,7 @@ export default function Dashboard() {
             </h3>
             <Badge variant="gold">Volume</Badge>
           </div>
-          <div className="h-72">
+          <div className="h-80">
             {chartData.length > 0 ? (
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={chartData}>
@@ -342,7 +342,7 @@ export default function Dashboard() {
                     tickLine={false}
                   />
                   <Tooltip content={<CustomTooltip />} />
-                  <Bar dataKey="volume" fill="#fbbf24" opacity={0.7} radius={[2, 2, 0, 0]} name="volume" />
+                  <Bar dataKey="volume" fill="#fbbf24" opacity={0.7} radius={[2, 2, 0, 0]} name={t.dashboard.volume} />
                 </BarChart>
               </ResponsiveContainer>
             ) : (

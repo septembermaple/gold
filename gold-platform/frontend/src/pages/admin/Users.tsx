@@ -9,6 +9,7 @@ import HolographicText from '../../components/ui/HolographicText'
 import { adminApi } from '../../lib/api'
 import { formatDate, ensureArray, extractApiData } from '../../lib/utils'
 import { toast } from 'sonner'
+import { useTranslation } from '../../contexts/LanguageContext'
 
 interface UserItem {
   id: string
@@ -21,6 +22,7 @@ interface UserItem {
 }
 
 export default function AdminUsers() {
+  const { t } = useTranslation()
   const [users, setUsers] = useState<UserItem[]>([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
@@ -51,7 +53,7 @@ export default function AdminUsers() {
       }))
       setUsers(mapped)
     } catch {
-      toast.error('获取用户列表失败')
+      toast.error(t.admin.get_users_failed)
       setUsers([])
     } finally {
       setLoading(false)
@@ -81,29 +83,29 @@ export default function AdminUsers() {
         membershipLevel: editForm.membershipLevel,
         status: editForm.status,
       })
-      toast.success('用户信息更新成功')
+      toast.success(t.admin.user_update_success)
       setEditModal(false)
       loadUsers()
     } catch {
-      toast.error('更新失败')
+      toast.error(t.admin.update_failed)
     }
   }
 
   const handleDelete = async (id: string) => {
-    if (!confirm('确定要删除此用户吗？')) return
+    if (!confirm(t.admin.delete_confirm)) return
     try {
       await adminApi.deleteUser(id)
-      toast.success('用户已删除')
+      toast.success(t.admin.delete_success)
       loadUsers()
     } catch {
-      toast.error('删除失败')
+      toast.error(t.admin.delete_failed)
     }
   }
 
   const getStatusBadge = (status: string) => {
-    if (status === 'active') return <Badge variant="green">活跃</Badge>
-    if (status === 'inactive') return <Badge variant="gray">未激活</Badge>
-    if (status === 'banned') return <Badge variant="red">封禁</Badge>
+    if (status === 'active') return <Badge variant="green">{t.admin.active}</Badge>
+    if (status === 'inactive') return <Badge variant="gray">{t.admin.inactive}</Badge>
+    if (status === 'banned') return <Badge variant="red">{t.admin.banned}</Badge>
     return <Badge variant="gray">{status}</Badge>
   }
 
@@ -119,9 +121,9 @@ export default function AdminUsers() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-[#e0e0ff]">
-            用户<HolographicText color="cyan">管理</HolographicText>
+            {t.admin.user_role}<HolographicText color="cyan">{t.admin.management}</HolographicText>
           </h1>
-          <p className="text-sm text-[#8888aa] mt-1">管理系统用户、角色与会员等级</p>
+          <p className="text-sm text-[#8888aa] mt-1">{t.admin.manage_users}</p>
         </div>
         <div className="flex items-center gap-2">
           <div className="relative">
@@ -131,7 +133,7 @@ export default function AdminUsers() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && loadUsers()}
-              placeholder="搜索用户..."
+              placeholder={t.admin.search_users}
               className="bg-dark-800/50 border border-[rgba(0,240,255,0.15)] rounded-lg pl-9 pr-4 py-2 text-sm text-[#e0e0ff] placeholder-[#8888aa]/50 focus:outline-none focus:border-cyan-glow/50 w-64"
             />
           </div>
@@ -147,13 +149,13 @@ export default function AdminUsers() {
           <table className="w-full">
             <thead>
               <tr className="border-b border-[rgba(0,240,255,0.1)]">
-                <th className="text-left text-xs font-medium text-[#8888aa] px-5 py-3">用户名</th>
-                <th className="text-left text-xs font-medium text-[#8888aa] px-5 py-3">邮箱</th>
-                <th className="text-left text-xs font-medium text-[#8888aa] px-5 py-3">角色</th>
-                <th className="text-left text-xs font-medium text-[#8888aa] px-5 py-3">会员等级</th>
-                <th className="text-left text-xs font-medium text-[#8888aa] px-5 py-3">状态</th>
-                <th className="text-left text-xs font-medium text-[#8888aa] px-5 py-3">注册时间</th>
-                <th className="text-right text-xs font-medium text-[#8888aa] px-5 py-3">操作</th>
+                <th className="text-left text-xs font-medium text-[#8888aa] px-5 py-3">{t.admin.username}</th>
+                <th className="text-left text-xs font-medium text-[#8888aa] px-5 py-3">{t.admin.email}</th>
+                <th className="text-left text-xs font-medium text-[#8888aa] px-5 py-3">{t.admin.role}</th>
+                <th className="text-left text-xs font-medium text-[#8888aa] px-5 py-3">{t.admin.membership_level}</th>
+                <th className="text-left text-xs font-medium text-[#8888aa] px-5 py-3">{t.admin.status}</th>
+                <th className="text-left text-xs font-medium text-[#8888aa] px-5 py-3">{t.admin.register_time}</th>
+                <th className="text-right text-xs font-medium text-[#8888aa] px-5 py-3">{t.admin.action}</th>
               </tr>
             </thead>
             <tbody>
@@ -161,12 +163,12 @@ export default function AdminUsers() {
                 <tr>
                   <td colSpan={7} className="text-center py-12 text-[#8888aa]">
                     <div className="animate-spin rounded-full h-8 w-8 border-2 border-cyan-glow/20 border-t-cyan-glow mx-auto mb-3" />
-                    加载中...
+                    {t.common.loading}
                   </td>
                 </tr>
               ) : users.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="text-center py-12 text-[#8888aa]">暂无用户数据</td>
+                  <td colSpan={7} className="text-center py-12 text-[#8888aa]">{t.admin.no_user_data}</td>
                 </tr>
               ) : (
                 users.map((user) => (
@@ -175,7 +177,7 @@ export default function AdminUsers() {
                   <td className="px-5 py-3 text-sm text-[#8888aa]">{user.email}</td>
                   <td className="px-5 py-3">
                     <Badge variant={user.role === 'admin' ? 'gold' : 'gray'} size="sm">
-                      {user.role === 'admin' ? '管理员' : '用户'}
+                      {user.role === 'admin' ? t.admin.admin_role : t.admin.user_role}
                     </Badge>
                   </td>
                   <td className="px-5 py-3">{getMembershipBadge(user.membershipLevel)}</td>
@@ -206,23 +208,23 @@ export default function AdminUsers() {
       </GlowCard>
 
       {/* Edit Modal */}
-      <Modal open={editModal} onOpenChange={setEditModal} title="编辑用户">
+      <Modal open={editModal} onOpenChange={setEditModal} title={t.admin.edit_user}>
         <div className="space-y-4">
-          <Input label="用户名" value={editForm.username} onChange={(e) => setEditForm({ ...editForm, username: e.target.value })} />
-          <Input label="邮箱" value={editForm.email} onChange={(e) => setEditForm({ ...editForm, email: e.target.value })} />
+          <Input label={t.admin.username} value={editForm.username} onChange={(e) => setEditForm({ ...editForm, username: e.target.value })} />
+          <Input label={t.admin.email} value={editForm.email} onChange={(e) => setEditForm({ ...editForm, email: e.target.value })} />
           <div className="space-y-1.5">
-            <label className="block text-sm font-medium text-[#8888aa]">角色</label>
+            <label className="block text-sm font-medium text-[#8888aa]">{t.admin.role}</label>
             <select
               value={editForm.role}
               onChange={(e) => setEditForm({ ...editForm, role: e.target.value })}
               className="w-full bg-dark-800/50 border border-[rgba(0,240,255,0.15)] rounded-lg px-4 py-2.5 text-sm text-[#e0e0ff] focus:outline-none focus:border-cyan-glow/50"
             >
-              <option value="user">用户</option>
-              <option value="admin">管理员</option>
+              <option value="user">{t.admin.user_role}</option>
+              <option value="admin">{t.admin.admin_role}</option>
             </select>
           </div>
           <div className="space-y-1.5">
-            <label className="block text-sm font-medium text-[#8888aa]">会员等级</label>
+            <label className="block text-sm font-medium text-[#8888aa]">{t.admin.membership_level}</label>
             <select
               value={editForm.membershipLevel}
               onChange={(e) => setEditForm({ ...editForm, membershipLevel: e.target.value })}
@@ -235,20 +237,20 @@ export default function AdminUsers() {
             </select>
           </div>
           <div className="space-y-1.5">
-            <label className="block text-sm font-medium text-[#8888aa]">状态</label>
+            <label className="block text-sm font-medium text-[#8888aa]">{t.admin.status}</label>
             <select
               value={editForm.status}
               onChange={(e) => setEditForm({ ...editForm, status: e.target.value })}
               className="w-full bg-dark-800/50 border border-[rgba(0,240,255,0.15)] rounded-lg px-4 py-2.5 text-sm text-[#e0e0ff] focus:outline-none focus:border-cyan-glow/50"
             >
-              <option value="active">活跃</option>
-              <option value="inactive">未激活</option>
-              <option value="banned">封禁</option>
+              <option value="active">{t.admin.active}</option>
+              <option value="inactive">{t.admin.inactive}</option>
+              <option value="banned">{t.admin.banned}</option>
             </select>
           </div>
           <div className="flex justify-end gap-2 pt-2">
-            <Button variant="ghost" size="sm" onClick={() => setEditModal(false)}>取消</Button>
-            <Button variant="primary" size="sm" onClick={handleSave}>保存</Button>
+            <Button variant="ghost" size="sm" onClick={() => setEditModal(false)}>{t.common.cancel}</Button>
+            <Button variant="primary" size="sm" onClick={handleSave}>{t.admin.save}</Button>
           </div>
         </div>
       </Modal>

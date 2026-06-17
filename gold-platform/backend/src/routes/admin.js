@@ -91,7 +91,7 @@ admin.get('/users', async (c) => {
   } catch (error) {
     console.error('获取用户列表失败:', error);
     return c.json(
-      { success: false, error: '获取用户列表失败', message: error.message },
+      { success: false, error: 'Failed to get user list', message: error.message },
       500
     );
   }
@@ -113,7 +113,7 @@ admin.get('/users/:id', async (c) => {
 
     if (!user) {
       return c.json(
-        { success: false, error: '用户不存在', message: '未找到该用户' },
+        { success: false, error: 'User not found', message: 'User not found' },
         404
       );
     }
@@ -136,7 +136,7 @@ admin.get('/users/:id', async (c) => {
   } catch (error) {
     console.error('获取用户详情失败:', error);
     return c.json(
-      { success: false, error: '获取用户详情失败', message: error.message },
+      { success: false, error: 'Failed to get user details', message: error.message },
       500
     );
   }
@@ -159,7 +159,7 @@ admin.put('/users/:id', async (c) => {
 
     if (!existing) {
       return c.json(
-        { success: false, error: '用户不存在', message: '未找到该用户' },
+        { success: false, error: 'User not found', message: 'User not found' },
         404
       );
     }
@@ -202,7 +202,7 @@ admin.put('/users/:id', async (c) => {
 
       if (duplicate) {
         return c.json(
-          { success: false, error: '用户名已存在', message: '该用户名已被其他用户使用' },
+          { success: false, error: 'Username already exists', message: 'This username is already taken by another user' },
           409
         );
       }
@@ -212,7 +212,7 @@ admin.put('/users/:id', async (c) => {
 
     if (updates.length === 0) {
       return c.json(
-        { success: false, error: '没有更新内容', message: '请提供要更新的字段' },
+        { success: false, error: 'No updates provided', message: 'Please provide fields to update' },
         400
       );
     }
@@ -237,12 +237,12 @@ admin.put('/users/:id', async (c) => {
     return c.json({
       success: true,
       data: updatedUser,
-      message: '用户信息已更新',
+      message: 'User information updated',
     });
   } catch (error) {
     console.error('更新用户信息失败:', error);
     return c.json(
-      { success: false, error: '更新用户信息失败', message: error.message },
+      { success: false, error: 'Failed to update user information', message: error.message },
       500
     );
   }
@@ -259,7 +259,7 @@ admin.delete('/users/:id', async (c) => {
     const currentUser = c.get('user');
     if (currentUser.id === id) {
       return c.json(
-        { success: false, error: '不能删除自己', message: '无法删除当前登录的管理员账号' },
+        { success: false, error: 'Cannot delete yourself', message: 'Cannot delete the currently logged in admin account' },
         400
       );
     }
@@ -272,7 +272,7 @@ admin.delete('/users/:id', async (c) => {
 
     if (!existing) {
       return c.json(
-        { success: false, error: '用户不存在', message: '未找到该用户' },
+        { success: false, error: 'User not found', message: 'User not found' },
         404
       );
     }
@@ -293,12 +293,12 @@ admin.delete('/users/:id', async (c) => {
 
     return c.json({
       success: true,
-      message: `用户 ${existing.username} 已删除`,
+      message: `User ${existing.username} deleted`,
     });
   } catch (error) {
     console.error('删除用户失败:', error);
     return c.json(
-      { success: false, error: '删除用户失败', message: error.message },
+      { success: false, error: 'Failed to delete user', message: error.message },
       500
     );
   }
@@ -329,7 +329,7 @@ admin.get('/memberships', async (c) => {
   } catch (error) {
     console.error('获取会员等级失败:', error);
     return c.json(
-      { success: false, error: '获取会员等级失败', message: error.message },
+      { success: false, error: 'Failed to get membership levels', message: error.message },
       500
     );
   }
@@ -351,7 +351,7 @@ admin.post('/memberships', async (c) => {
 
     if (!name || !code) {
       return c.json(
-        { success: false, error: '参数不完整', message: '请提供 name 和 code' },
+        { success: false, error: 'Incomplete parameters', message: 'Please provide name and code' },
         400
       );
     }
@@ -365,7 +365,7 @@ admin.post('/memberships', async (c) => {
 
     if (existing) {
       return c.json(
-        { success: false, error: '等级代码已存在', message: '该 code 已被使用' },
+        { success: false, error: 'Level code already exists', message: 'This code is already in use' },
         409
       );
     }
@@ -393,12 +393,12 @@ admin.post('/memberships', async (c) => {
     return c.json({
       success: true,
       data: { id: result.meta.last_row_id, name, code },
-      message: '会员等级创建成功',
+      message: 'Membership level created successfully',
     }, 201);
   } catch (error) {
     console.error('创建会员等级失败:', error);
     return c.json(
-      { success: false, error: '创建会员等级失败', message: error.message },
+      { success: false, error: 'Failed to create membership level', message: error.message },
       500
     );
   }
@@ -420,7 +420,7 @@ admin.put('/memberships/:id', async (c) => {
 
     if (!existing) {
       return c.json(
-        { success: false, error: '会员等级不存在', message: '未找到该会员等级' },
+        { success: false, error: 'Membership level not found', message: 'Membership level not found' },
         404
       );
     }
@@ -455,7 +455,7 @@ admin.put('/memberships/:id', async (c) => {
 
     if (updates.length === 0) {
       return c.json(
-        { success: false, error: '没有更新内容', message: '请提供要更新的字段' },
+        { success: false, error: 'No updates provided', message: 'Please provide fields to update' },
         400
       );
     }
@@ -480,12 +480,12 @@ admin.put('/memberships/:id', async (c) => {
         ...updated,
         features: typeof updated.features === 'string' ? JSON.parse(updated.features) : updated.features,
       },
-      message: '会员等级更新成功',
+      message: 'Membership level updated successfully',
     });
   } catch (error) {
     console.error('更新会员等级失败:', error);
     return c.json(
-      { success: false, error: '更新会员等级失败', message: error.message },
+      { success: false, error: 'Failed to update membership level', message: error.message },
       500
     );
   }
@@ -506,7 +506,7 @@ admin.delete('/memberships/:id', async (c) => {
 
     if (!existing) {
       return c.json(
-        { success: false, error: '会员等级不存在', message: '未找到该会员等级' },
+        { success: false, error: 'Membership level not found', message: 'Membership level not found' },
         404
       );
     }
@@ -514,7 +514,7 @@ admin.delete('/memberships/:id', async (c) => {
     // 不允许删除 free 等级
     if (existing.code === 'free') {
       return c.json(
-        { success: false, error: '不能删除免费等级', message: '免费等级为系统默认等级' },
+        { success: false, error: 'Cannot delete free level', message: 'Free level is the system default level' },
         400
       );
     }
@@ -527,12 +527,12 @@ admin.delete('/memberships/:id', async (c) => {
 
     return c.json({
       success: true,
-      message: '会员等级已删除',
+      message: 'Membership level deleted',
     });
   } catch (error) {
     console.error('删除会员等级失败:', error);
     return c.json(
-      { success: false, error: '删除会员等级失败', message: error.message },
+      { success: false, error: 'Failed to delete membership level', message: error.message },
       500
     );
   }
@@ -570,7 +570,7 @@ admin.get('/permissions', async (c) => {
   } catch (error) {
     console.error('获取权限列表失败:', error);
     return c.json(
-      { success: false, error: '获取权限列表失败', message: error.message },
+      { success: false, error: 'Failed to get permission list', message: error.message },
       500
     );
   }
@@ -586,7 +586,7 @@ admin.post('/permissions', async (c) => {
 
     if (!name || !code || !module) {
       return c.json(
-        { success: false, error: '参数不完整', message: '请提供 name、code 和 module' },
+        { success: false, error: 'Incomplete parameters', message: 'Please provide name, code and module' },
         400
       );
     }
@@ -599,7 +599,7 @@ admin.post('/permissions', async (c) => {
 
     if (existing) {
       return c.json(
-        { success: false, error: '权限代码已存在', message: '该 code 已被使用' },
+        { success: false, error: 'Permission code already exists', message: 'This code is already in use' },
         409
       );
     }
@@ -614,12 +614,12 @@ admin.post('/permissions', async (c) => {
     return c.json({
       success: true,
       data: { id: result.meta.last_row_id, name, code, module },
-      message: '权限创建成功',
+      message: 'Permission created successfully',
     }, 201);
   } catch (error) {
     console.error('创建权限失败:', error);
     return c.json(
-      { success: false, error: '创建权限失败', message: error.message },
+      { success: false, error: 'Failed to create permission', message: error.message },
       500
     );
   }
@@ -641,7 +641,7 @@ admin.put('/permissions/:id', async (c) => {
 
     if (!existing) {
       return c.json(
-        { success: false, error: '权限不存在', message: '未找到该权限' },
+        { success: false, error: 'Permission not found', message: 'Permission not found' },
         404
       );
     }
@@ -666,7 +666,7 @@ admin.put('/permissions/:id', async (c) => {
 
     if (updates.length === 0) {
       return c.json(
-        { success: false, error: '没有更新内容', message: '请提供要更新的字段' },
+        { success: false, error: 'No updates provided', message: 'Please provide fields to update' },
         400
       );
     }
@@ -688,12 +688,12 @@ admin.put('/permissions/:id', async (c) => {
     return c.json({
       success: true,
       data: updated,
-      message: '权限更新成功',
+      message: 'Permission updated successfully',
     });
   } catch (error) {
     console.error('更新权限失败:', error);
     return c.json(
-      { success: false, error: '更新权限失败', message: error.message },
+      { success: false, error: 'Failed to update permission', message: error.message },
       500
     );
   }
@@ -710,7 +710,7 @@ admin.put('/role-permissions', async (c) => {
 
     if (!role || !Array.isArray(permission_ids)) {
       return c.json(
-        { success: false, error: '参数不完整', message: '请提供 role 和 permission_ids' },
+        { success: false, error: 'Incomplete parameters', message: 'Please provide role and permission_ids' },
         400
       );
     }
@@ -736,12 +736,12 @@ admin.put('/role-permissions', async (c) => {
     return c.json({
       success: true,
       data: { role, permission_ids },
-      message: '角色权限更新成功',
+      message: 'Role permissions updated successfully',
     });
   } catch (error) {
     console.error('更新角色权限失败:', error);
     return c.json(
-      { success: false, error: '更新角色权限失败', message: error.message },
+      { success: false, error: 'Failed to update role permissions', message: error.message },
       500
     );
   }
@@ -770,7 +770,7 @@ admin.get('/role-permissions/:role', async (c) => {
   } catch (error) {
     console.error('获取角色权限失败:', error);
     return c.json(
-      { success: false, error: '获取角色权限失败', message: error.message },
+      { success: false, error: 'Failed to get role permissions', message: error.message },
       500
     );
   }
@@ -846,7 +846,7 @@ admin.get('/api-usage', async (c) => {
   } catch (error) {
     console.error('获取API使用统计失败:', error);
     return c.json(
-      { success: false, error: '获取API使用统计失败', message: error.message },
+      { success: false, error: 'Failed to get API usage statistics', message: error.message },
       500
     );
   }
@@ -912,7 +912,7 @@ admin.get('/dashboard', async (c) => {
   } catch (error) {
     console.error('获取仪表盘数据失败:', error);
     return c.json(
-      { success: false, error: '获取仪表盘数据失败', message: error.message },
+      { success: false, error: 'Failed to get dashboard data', message: error.message },
       500
     );
   }

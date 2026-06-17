@@ -2,24 +2,35 @@ import { Server, Database, Cpu, HardDrive, Clock, Globe } from 'lucide-react'
 import GlowCard from '../../components/ui/GlowCard'
 import HolographicText from '../../components/ui/HolographicText'
 import Badge from '../../components/ui/Badge'
+import { useTranslation } from '../../contexts/LanguageContext'
 
 export default function AdminSystem() {
+  const t = useTranslation()
+
   const systemInfo = [
-    { label: '系统版本', value: 'v1.0.0', icon: Server },
-    { label: '运行时间', value: '15天 8小时', icon: Clock },
-    { label: '数据库状态', value: '正常运行', icon: Database },
-    { label: 'CPU使用率', value: '23%', icon: Cpu },
-    { label: '内存使用', value: '4.2 GB / 16 GB', icon: HardDrive },
-    { label: 'API端点', value: 'https://api.goldai.com', icon: Globe },
+    { label: t.admin.system_version, value: 'v1.0.0', icon: Server },
+    { label: t.admin.uptime, value: '15d 8h', icon: Clock },
+    { label: t.admin.database_status, value: t.admin.running_normal, icon: Database },
+    { label: t.admin.cpu_usage, value: '23%', icon: Cpu },
+    { label: t.admin.memory_usage, value: '4.2 GB / 16 GB', icon: HardDrive },
+    { label: t.admin.api_endpoint, value: 'https://api.goldai.com', icon: Globe },
+  ]
+
+  const services = [
+    { name: t.admin.api_service, status: 'running', uptime: '99.9%' },
+    { name: t.admin.database_service, status: 'running', uptime: '99.8%' },
+    { name: t.admin.ai_engine, status: 'running', uptime: '99.5%' },
+    { name: t.admin.push_service, status: 'running', uptime: '99.7%' },
+    { name: t.admin.scheduled_tasks, status: 'running', uptime: '99.6%' },
   ]
 
   return (
     <div className="space-y-6 animate-fade-in">
       <div>
         <h1 className="text-2xl font-bold text-[#e0e0ff]">
-          系统<HolographicText color="green">设置</HolographicText>
+          {t.admin.system_settings_part1}<HolographicText color="green">{t.admin.system_settings_part2}</HolographicText>
         </h1>
-        <p className="text-sm text-[#8888aa] mt-1">查看系统运行状态与配置信息</p>
+        <p className="text-sm text-[#8888aa] mt-1">{t.admin.system_settings_desc}</p>
       </div>
 
       {/* System Status */}
@@ -43,24 +54,18 @@ export default function AdminSystem() {
       <GlowCard color="cyan">
         <div className="flex items-center gap-2 mb-4">
           <Server size={18} className="text-cyan-glow" />
-          <h3 className="text-base font-semibold text-[#e0e0ff]">服务状态</h3>
+          <h3 className="text-base font-semibold text-[#e0e0ff]">{t.admin.service_status}</h3>
         </div>
         <div className="space-y-3">
-          {[
-            { name: 'API 服务', status: 'running', uptime: '99.9%' },
-            { name: '数据库服务', status: 'running', uptime: '99.8%' },
-            { name: 'AI 分析引擎', status: 'running', uptime: '99.5%' },
-            { name: '推送服务', status: 'running', uptime: '99.7%' },
-            { name: '定时任务', status: 'running', uptime: '99.6%' },
-          ].map((service) => (
+          {services.map((service) => (
             <div key={service.name} className="flex items-center justify-between py-2 border-b border-[rgba(0,240,255,0.05)] last:border-0">
               <div className="flex items-center gap-3">
                 <div className="w-2 h-2 rounded-full bg-neon-green animate-pulse" />
                 <span className="text-sm text-[#e0e0ff]">{service.name}</span>
               </div>
               <div className="flex items-center gap-3">
-                <Badge variant="green" size="sm">运行中</Badge>
-                <span className="text-xs text-[#8888aa] font-mono">可用率 {service.uptime}</span>
+                <Badge variant="green" size="sm">{t.admin.running}</Badge>
+                <span className="text-xs text-[#8888aa] font-mono">{t.admin.availability} {service.uptime}</span>
               </div>
             </div>
           ))}
@@ -71,7 +76,7 @@ export default function AdminSystem() {
       <GlowCard color="gold">
         <div className="flex items-center gap-2 mb-4">
           <Database size={18} className="text-gold" />
-          <h3 className="text-base font-semibold text-[#e0e0ff]">环境配置</h3>
+          <h3 className="text-base font-semibold text-[#e0e0ff]">{t.admin.env_config}</h3>
         </div>
         <div className="space-y-2">
           {[

@@ -8,6 +8,7 @@ import Modal from '../../components/ui/Modal'
 import { adminApi } from '../../lib/api'
 import { extractApiData } from '../../lib/utils'
 import { toast } from 'sonner'
+import { useTranslation } from '../../contexts/LanguageContext'
 
 interface KlinePeriodStatus {
   period: string
@@ -17,6 +18,7 @@ interface KlinePeriodStatus {
 }
 
 export default function AdminKline() {
+  const { t } = useTranslation()
   const [statuses, setStatuses] = useState<KlinePeriodStatus[]>([])
   const [loading, setLoading] = useState(true)
   const [startDate, setStartDate] = useState('')
@@ -35,10 +37,10 @@ export default function AdminKline() {
   }>({ open: false, startDate: '', endDate: '', period: '', existingRange: '' })
 
   const periods = [
-    { value: '1h', label: '1小时' },
-    { value: '4h', label: '4小时' },
-    { value: '1d', label: '1天' },
-    { value: '1w', label: '1周' },
+    { value: '1h', labelKey: 'period_1h' },
+    { value: '4h', labelKey: 'period_4h' },
+    { value: '1d', labelKey: 'period_1d' },
+    { value: '1w', labelKey: 'period_1w' },
   ]
 
   const loadStatus = useCallback(async () => {
@@ -49,7 +51,7 @@ export default function AdminKline() {
       const statusList = data.statuses || data.periods || data || []
       setStatuses(Array.isArray(statusList) ? statusList : [])
     } catch {
-      toast.error('获取K线数据状态失败')
+      toast.error(t.admin.get_status_failed)
     } finally {
       setLoading(false)
     }
@@ -61,12 +63,12 @@ export default function AdminKline() {
 
   const handleLoad = async () => {
     if (!startDate) {
-      toast.error('请输入起始日期')
+      toast.error(t.admin.start_date_required)
       return
     }
 
     setLoadResult(null)
-    setLoadProgress('正在检查数据...')
+    setLoadProgress(t.admin.checking_data)
 
     try {
       // 先尝试普通加载
@@ -83,7 +85,7 @@ export default function AdminKline() {
           startDate,
           endDate,
           period,
-          existingRange: `${existingFrom} 到 ${existingTo}`,
+          existingRange: `${existingFrom} ${t.admin.range_connector} ${existingTo}`,
         })
         return
       }
@@ -92,7 +94,7 @@ export default function AdminKline() {
       setLoadProgress(null)
       const loadedCount = data.loaded || data.count || data.inserted || 0
       setLoadResult({ count: loadedCount, period })
-      toast.success(`成功加载 ${loadedCount} 条K线数据`)
+      toast.success(`${t.admin.successfully_loaded} ${loadedCount} ${t.admin.records}`)
       loadStatus()
     } catch (err: any) {
       setLoadProgress(null)
@@ -106,17 +108,17 @@ export default function AdminKline() {
           startDate,
           endDate,
           period,
-          existingRange: `${existingFrom} 到 ${existingTo}`,
+          existingRange: `${existingFrom} ${t.admin.range_connector} ${existingTo}`,
         })
       } else {
-        toast.error(err.response?.data?.message || err.response?.data?.error || '加载数据失败')
+        toast.error(err.response?.data?.message || err.response?.data?.error || t.admin.load_failed)
       }
     }
   }
 
   const handleForceLoad = async () => {
     setConfirmModal((prev) => ({ ...prev, open: false }))
-    setLoadProgress('正在强制加载数据，请稍候...')
+    setLoadProgress(t.admin.force_loading)
     setLoadResult(null)
 
     try {
@@ -129,39 +131,40 @@ export default function AdminKline() {
       setLoadProgress(null)
       const loadedCount = data.loaded || data.count || data.inserted || 0
       setLoadResult({ count: loadedCount, period: confirmModal.period })
-      toast.success(`成功加载 ${loadedCount} 条K线数据`)
+      toast.success(`${t.admin.successfully_loaded} ${loadedCount} ${t.admin.records}`)
       loadStatus()
     } catch (err: any) {
       setLoadProgress(null)
-      toast.error(err.response?.data?.message || err.response?.data?.error || '强制加载数据失败')
+      toast.error(err.response?.data?.message || err.response?.data?.error || t.admin.force_load_failed)
     }
   }
 
   const getPeriodLabel = (value: string) => {
-    return periods.find((p) => p.value === value)?.label || value
+    const key = periods.find((p) => p.value === value)?.labelKey
+    return key ? t.admin[key] : value
   }
 
   return (
     <div className="space-y-6 animate-fade-in">
       <div>
         <h1 className="text-2xl font-bold text-[#e0e0ff]">
-          K线数据<HolographicText color="gold">管理</HolographicText>
+          {t.admin.kline_data}<HolographicText color="gold">{t.admin.management}</HolographicText>
         </h1>
-        <p className="text-sm text-[#8888aa] mt-1">加载和管理历史K线数据</p>
+        <p className="text-sm text-[#8888aa] mt-1">{t.admin.load_and_manage}</p>
       </div>
 
       {/* 数据加载控制 */}
       <GlowCard color="gold">
         <div className="flex items-center gap-2 mb-4">
           <CandlestickChart size={18} className="text-gold" />
-          <h3 className="text-base font-semibold text-[#e0e0ff]">加载K线数据</h3>
+          <h3 className="text-base font-semibold text-[#e0e0ff]">{t.admin.load_kline_data}</h3>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
           <div className="space-y-1.5">
             <label className="block text-sm font-medium text-[#8888aa]">
               <Calendar size={14} className="inline mr-1" />
-              起始日期
+              {t.admin.start_date}
             </label>
             <input
               type="date"
@@ -174,7 +177,7 @@ export default function AdminKline() {
           <div className="space-y-1.5">
             <label className="block text-sm font-medium text-[#8888aa]">
               <Calendar size={14} className="inline mr-1" />
-              结束日期（可选）
+              {t.admin.end_date}
             </label>
             <input
               type="date"
@@ -187,7 +190,7 @@ export default function AdminKline() {
           <div className="space-y-1.5">
             <label className="block text-sm font-medium text-[#8888aa]">
               <Clock size={14} className="inline mr-1" />
-              K线周期
+              {t.admin.kline_period}
             </label>
             <select
               value={period}
@@ -196,7 +199,7 @@ export default function AdminKline() {
             >
               {periods.map((p) => (
                 <option key={p.value} value={p.value} className="bg-dark-800 text-[#e0e0ff]">
-                  {p.label}
+                  {t.admin[p.labelKey]}
                 </option>
               ))}
             </select>
@@ -214,12 +217,12 @@ export default function AdminKline() {
               {loadProgress ? (
                 <>
                   <div className="w-4 h-4 border-2 border-gold border-t-transparent rounded-full animate-spin" />
-                  加载中...
+                  {t.admin.saving}
                 </>
               ) : (
                 <>
                   <Play size={16} />
-                  加载数据
+                  {t.admin.load_data}
                 </>
               )}
             </Button>
@@ -239,7 +242,7 @@ export default function AdminKline() {
           <div className="flex items-center gap-3 p-3 rounded-lg bg-neon-green/5 border border-neon-green/20">
             <CheckCircle size={18} className="text-neon-green" />
             <span className="text-sm text-neon-green">
-              成功加载 <span className="font-mono font-bold">{loadResult.count}</span> 条 {getPeriodLabel(loadResult.period)} K线数据
+              {t.admin.successfully_loaded} <span className="font-mono font-bold">{loadResult.count}</span> {t.admin.records_data} {getPeriodLabel(loadResult.period)}
             </span>
           </div>
         )}
@@ -250,11 +253,11 @@ export default function AdminKline() {
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
             <Database size={18} className="text-cyan-glow" />
-            <h3 className="text-base font-semibold text-[#e0e0ff]">数据状态</h3>
+            <h3 className="text-base font-semibold text-[#e0e0ff]">{t.admin.data_status}</h3>
           </div>
           <Button variant="ghost" size="sm" onClick={loadStatus} disabled={loading}>
             <RefreshCw size={14} className={loading ? 'animate-spin' : ''} />
-            刷新
+            {t.admin.refresh}
           </Button>
         </div>
 
@@ -277,24 +280,24 @@ export default function AdminKline() {
                     <p className="text-sm text-[#e0e0ff]">
                       {s.count > 0 ? (
                         <>
-                          <span className="font-mono font-bold">{s.count.toLocaleString()}</span> 条数据
+                          <span className="font-mono font-bold">{s.count.toLocaleString()}</span> {t.admin.records_data}
                         </>
                       ) : (
-                        <span className="text-[#8888aa]">暂无数据</span>
+                        <span className="text-[#8888aa]">{t.admin.no_kline_data}</span>
                       )}
                     </p>
                     {s.from && s.to && (
                       <p className="text-xs text-[#8888aa] mt-0.5">
-                        范围：{s.from} ~ {s.to}
+                        {t.admin.range}：{s.from} ~ {s.to}
                       </p>
                     )}
                   </div>
                 </div>
                 <div>
                   {s.count > 0 ? (
-                    <Badge variant="green" size="sm">已加载</Badge>
+                    <Badge variant="green" size="sm">{t.admin.loaded}</Badge>
                   ) : (
-                    <Badge variant="gray" size="sm">未加载</Badge>
+                    <Badge variant="gray" size="sm">{t.admin.not_loaded}</Badge>
                   )}
                 </div>
               </div>
@@ -303,7 +306,7 @@ export default function AdminKline() {
         ) : (
           <div className="text-center py-8">
             <Database size={32} className="mx-auto text-[#8888aa]/50 mb-2" />
-            <p className="text-sm text-[#8888aa]">暂无K线数据状态</p>
+            <p className="text-sm text-[#8888aa]">{t.admin.no_data}</p>
           </div>
         )}
       </GlowCard>
@@ -312,24 +315,24 @@ export default function AdminKline() {
       <Modal
         open={confirmModal.open}
         onOpenChange={(open) => setConfirmModal((prev) => ({ ...prev, open }))}
-        title="数据覆盖确认"
+        title={t.admin.data_overwrite_confirm}
       >
         <div className="space-y-4">
           <div className="flex items-start gap-3 p-4 rounded-lg bg-neon-red/5 border border-neon-red/20">
             <AlertTriangle size={20} className="text-neon-red flex-shrink-0 mt-0.5" />
             <div>
               <p className="text-sm text-[#e0e0ff]">
-                该日期后已有数据（从 <span className="font-mono text-gold">{confirmModal.existingRange}</span>），是否覆盖？
+                {t.admin.data_exists_after_date}（<span className="font-mono text-gold">{confirmModal.existingRange}</span>），{t.admin.confirm_overwrite}？
               </p>
-              <p className="text-xs text-[#8888aa] mt-1">覆盖后原有数据将被删除并重新加载</p>
+              <p className="text-xs text-[#8888aa] mt-1">{t.admin.overwrite_warning}</p>
             </div>
           </div>
           <div className="flex justify-end gap-3">
             <Button variant="ghost" size="sm" onClick={() => setConfirmModal((prev) => ({ ...prev, open: false }))}>
-              取消
+              {t.common.cancel}
             </Button>
             <Button variant="danger" size="sm" onClick={handleForceLoad}>
-              确认覆盖
+              {t.admin.confirm_overwrite}
             </Button>
           </div>
         </div>

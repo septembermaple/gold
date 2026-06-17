@@ -17,6 +17,16 @@ export default function InvestmentAdvice() {
     return <Loading text={t.common.loading} />
   }
 
+  const defaultAdvice = [
+    { id: '1', level: 'free', title: t.investment.advice_items.fed_policy, description: t.investment.advice_items.fed_policy_desc, action: t.investment.advice_items.fed_policy_action },
+    { id: '2', level: 'free', title: t.investment.advice_items.diversify, description: t.investment.advice_items.diversify_desc, action: t.investment.advice_items.diversify_action },
+    { id: '3', level: 'basic', title: t.investment.advice_items.tech_support, description: t.investment.advice_items.tech_support_desc, action: t.investment.advice_items.tech_support_action },
+    { id: '4', level: 'basic', title: t.investment.advice_items.seasonal, description: t.investment.advice_items.seasonal_desc, action: t.investment.advice_items.seasonal_action },
+    { id: '5', level: 'pro', title: t.investment.advice_items.quant_hedge, description: t.investment.advice_items.quant_hedge_desc, action: t.investment.advice_items.quant_hedge_action },
+    { id: '6', level: 'pro', title: t.investment.advice_items.options, description: t.investment.advice_items.options_desc, action: t.investment.advice_items.options_action },
+    { id: '7', level: 'enterprise', title: t.investment.advice_items.custom_allocation, description: t.investment.advice_items.custom_allocation_desc, action: t.investment.advice_items.custom_allocation_action },
+  ]
+
   const advice = (analysis?.investmentAdvice?.length ?? 0) > 0
     ? analysis!.investmentAdvice
     : defaultAdvice
@@ -90,7 +100,7 @@ export default function InvestmentAdvice() {
               {isLocked ? (
                 <GlowCard color={levelColors[level]} className="text-center py-8 opacity-60">
                   <Lock size={32} className="mx-auto text-[#8888aa] mb-3" />
-                  <p className="text-sm text-[#8888aa]">{t.investment?.upgrade_to_unlock?.replace('{level}', levelNames[level]) || `升级到${levelNames[level]}解锁此级别投资建议`}</p>
+                  <p className="text-sm text-[#8888aa]">{t.investment?.upgrade_to_unlock?.replace('{level}', levelNames[level]) || `${t.investment.upgrade_to} ${levelNames[level]} ${t.investment.unlock_advice}`}</p>
                 </GlowCard>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -136,12 +146,3 @@ export default function InvestmentAdvice() {
   )
 }
 
-const defaultAdvice = [
-  { id: '1', level: 'free', title: '关注美联储政策动向', description: '美联储利率决议是影响金价的最重要因素，建议密切关注每次FOMC会议声明', action: '建议关注' },
-  { id: '2', level: 'free', title: '分散投资降低风险', description: '黄金在投资组合中建议占比5-15%，可有效分散风险', action: '适度配置' },
-  { id: '3', level: 'basic', title: '技术面关键支撑位', description: '当前金价在$2,450附近形成强支撑，若有效跌破需警惕进一步下行', action: '设置止损' },
-  { id: '4', level: 'basic', title: '季节性规律参考', description: '历史数据显示黄金在年初和年末通常表现较好，可据此调整仓位', action: '择时配置' },
-  { id: '5', level: 'pro', title: '量化对冲策略', description: '利用黄金与美元指数的负相关性，构建对冲组合降低系统性风险', action: '执行对冲' },
-  { id: '6', level: 'pro', title: '期权策略建议', description: '当前波动率环境下，建议采用看涨期权价差策略，控制成本的同时保留上行空间', action: '期权组合' },
-  { id: '7', level: 'enterprise', title: '定制化资产配置', description: '根据企业风险偏好和现金流需求，提供定制化黄金资产配置方案', action: '专属方案' },
-]

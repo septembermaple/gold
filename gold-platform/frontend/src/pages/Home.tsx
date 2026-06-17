@@ -4,6 +4,7 @@ import Button from '../components/ui/Button'
 import GlowCard from '../components/ui/GlowCard'
 import HolographicText from '../components/ui/HolographicText'
 import Badge from '../components/ui/Badge'
+import LanguageSwitcher from '../components/ui/LanguageSwitcher'
 import { useGoldData } from '../contexts/GoldDataContext'
 import { formatPrice, formatPercent, getPriceColor } from '../lib/utils'
 import { useTranslation } from '../contexts/LanguageContext'
@@ -55,6 +56,19 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-dark-900 grid-bg relative overflow-hidden">
+      {/* Top bar with logo and language switcher */}
+      <div className="fixed top-0 left-0 right-0 z-[90] bg-dark-900/80 backdrop-blur-md border-b border-[rgba(0,240,255,0.08)]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-14">
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-cyan-glow to-electric-blue flex items-center justify-center">
+              <span className="text-dark-900 font-bold text-xs">Au</span>
+            </div>
+            <span className="text-lg font-bold glow-text">GoldAI</span>
+          </div>
+          <LanguageSwitcher />
+        </div>
+      </div>
+
       {/* Animated background particles */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-glow/5 rounded-full blur-[120px] animate-float" />
@@ -142,7 +156,7 @@ export default function Home() {
             <GlowCard
               key={feature.title}
               color={feature.color}
-              className="animate-slide-up"
+              className="animate-slide-up min-h-[180px]"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
               <div className={`w-12 h-12 rounded-lg bg-${feature.color === 'cyan' ? 'cyan-glow' : feature.color === 'gold' ? 'gold' : feature.color === 'blue' ? 'electric-blue' : 'neon-green'}/10 flex items-center justify-center mb-4`}>

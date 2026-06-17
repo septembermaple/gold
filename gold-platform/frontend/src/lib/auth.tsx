@@ -63,7 +63,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const payload = res.data.data || res.data
     const newToken = payload.token
     const newUser = payload.user
-    if (!newToken) throw new Error('登录响应缺少 token')
+    if (!newToken) throw new Error('Login response missing token')
     localStorage.setItem('token', newToken)
     setToken(newToken)
     setUser(newUser)
@@ -76,7 +76,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const payload = res.data.data || res.data
     const newToken = payload.token
     const newUser = payload.user
-    if (!newToken) throw new Error('注册响应缺少 token')
+    if (!newToken) throw new Error('Register response missing token')
     localStorage.setItem('token', newToken)
     setToken(newToken)
     setUser(newUser)

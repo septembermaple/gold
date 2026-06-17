@@ -20,7 +20,7 @@ auth.post('/register', async (c) => {
     // 参数验证
     if (!email || !username || !password) {
       return c.json(
-        { success: false, error: '参数不完整', message: '请提供 email、username 和 password' },
+        { success: false, error: 'Incomplete parameters', message: 'Please provide email, username and password' },
         400
       );
     }
@@ -29,7 +29,7 @@ auth.post('/register', async (c) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return c.json(
-        { success: false, error: '邮箱格式不正确', message: '请提供有效的邮箱地址' },
+        { success: false, error: 'Invalid email format', message: 'Please provide a valid email address' },
         400
       );
     }
@@ -37,7 +37,7 @@ auth.post('/register', async (c) => {
     // 用户名验证
     if (username.length < 2 || username.length > 20) {
       return c.json(
-        { success: false, error: '用户名长度不正确', message: '用户名长度应为2-20个字符' },
+        { success: false, error: 'Invalid username length', message: 'Username must be 2-20 characters long' },
         400
       );
     }
@@ -45,7 +45,7 @@ auth.post('/register', async (c) => {
     // 密码强度验证
     if (password.length < 6) {
       return c.json(
-        { success: false, error: '密码太短', message: '密码长度至少6个字符' },
+        { success: false, error: 'Password too short', message: 'Password must be at least 6 characters long' },
         400
       );
     }
@@ -57,7 +57,7 @@ auth.post('/register', async (c) => {
 
     if (existingEmail) {
       return c.json(
-        { success: false, error: '邮箱已注册', message: '该邮箱已被使用' },
+        { success: false, error: 'Email already registered', message: 'This email is already in use' },
         409
       );
     }
@@ -69,7 +69,7 @@ auth.post('/register', async (c) => {
 
     if (existingUsername) {
       return c.json(
-        { success: false, error: '用户名已存在', message: '该用户名已被使用' },
+        { success: false, error: 'Username already exists', message: 'This username is already in use' },
         409
       );
     }
@@ -107,12 +107,12 @@ auth.post('/register', async (c) => {
         },
         token,
       },
-      message: '注册成功',
+      message: 'Registration successful',
     }, 201);
   } catch (error) {
     console.error('注册失败:', error);
     return c.json(
-      { success: false, error: '注册失败', message: error.message },
+      { success: false, error: 'Registration failed', message: error.message },
       500
     );
   }
@@ -130,7 +130,7 @@ auth.post('/login', async (c) => {
 
     if (!account || !password) {
       return c.json(
-        { success: false, error: '参数不完整', message: '请提供 email/username 和 password' },
+        { success: false, error: 'Incomplete parameters', message: 'Please provide email/username and password' },
         400
       );
     }
@@ -144,7 +144,7 @@ auth.post('/login', async (c) => {
 
     if (!user) {
       return c.json(
-        { success: false, error: '账号不存在', message: '请检查邮箱/用户名是否正确' },
+        { success: false, error: 'Account not found', message: 'Please check your email/username' },
         401
       );
     }
@@ -152,7 +152,7 @@ auth.post('/login', async (c) => {
     // 检查账号状态
     if (user.status === 'disabled') {
       return c.json(
-        { success: false, error: '账号已被禁用', message: '请联系管理员' },
+        { success: false, error: 'Account disabled', message: 'Please contact the administrator' },
         403
       );
     }
@@ -161,7 +161,7 @@ auth.post('/login', async (c) => {
     const isValid = await verifyPassword(password, user.password_hash);
     if (!isValid) {
       return c.json(
-        { success: false, error: '密码错误', message: '请检查密码是否正确' },
+        { success: false, error: 'Incorrect password', message: 'Please check your password' },
         401
       );
     }
@@ -211,12 +211,12 @@ auth.post('/login', async (c) => {
         },
         token,
       },
-      message: '登录成功',
+      message: 'Login successful',
     });
   } catch (error) {
     console.error('登录失败:', error);
     return c.json(
-      { success: false, error: '登录失败', message: error.message },
+      { success: false, error: 'Login failed', message: error.message },
       500
     );
   }
@@ -245,7 +245,7 @@ auth.get('/me', authMiddleware, async (c) => {
   } catch (error) {
     console.error('获取用户信息失败:', error);
     return c.json(
-      { success: false, error: '获取用户信息失败', message: error.message },
+      { success: false, error: 'Failed to get user information', message: error.message },
       500
     );
   }
@@ -274,7 +274,7 @@ auth.put('/profile', authMiddleware, async (c) => {
 
         if (existing) {
           return c.json(
-            { success: false, error: '用户名已存在', message: '该用户名已被其他用户使用' },
+            { success: false, error: 'Username already exists', message: 'This username is already taken by another user' },
             409
           );
         }
@@ -282,7 +282,7 @@ auth.put('/profile', authMiddleware, async (c) => {
 
       if (username.length < 2 || username.length > 20) {
         return c.json(
-          { success: false, error: '用户名长度不正确', message: '用户名长度应为2-20个字符' },
+          { success: false, error: 'Invalid username length', message: 'Username must be 2-20 characters long' },
           400
         );
       }
@@ -298,7 +298,7 @@ auth.put('/profile', authMiddleware, async (c) => {
 
     if (updates.length === 0) {
       return c.json(
-        { success: false, error: '没有更新内容', message: '请提供要更新的字段' },
+        { success: false, error: 'No updates provided', message: 'Please provide fields to update' },
         400
       );
     }
@@ -322,12 +322,12 @@ auth.put('/profile', authMiddleware, async (c) => {
     return c.json({
       success: true,
       data: updatedUser,
-      message: '资料更新成功',
+      message: 'Profile updated successfully',
     });
   } catch (error) {
     console.error('更新资料失败:', error);
     return c.json(
-      { success: false, error: '更新资料失败', message: error.message },
+      { success: false, error: 'Failed to update profile', message: error.message },
       500
     );
   }
@@ -344,14 +344,14 @@ auth.put('/password', authMiddleware, async (c) => {
 
     if (!oldPassword || !newPassword) {
       return c.json(
-        { success: false, error: '参数不完整', message: '请提供旧密码和新密码' },
+        { success: false, error: 'Incomplete parameters', message: 'Please provide old password and new password' },
         400
       );
     }
 
     if (newPassword.length < 6) {
       return c.json(
-        { success: false, error: '新密码太短', message: '密码长度至少6个字符' },
+        { success: false, error: 'New password too short', message: 'Password must be at least 6 characters long' },
         400
       );
     }
@@ -367,7 +367,7 @@ auth.put('/password', authMiddleware, async (c) => {
     const isValid = await verifyPassword(oldPassword, userRecord.password_hash);
     if (!isValid) {
       return c.json(
-        { success: false, error: '旧密码错误', message: '请检查旧密码是否正确' },
+        { success: false, error: 'Incorrect old password', message: 'Please check your old password' },
         401
       );
     }
@@ -384,12 +384,12 @@ auth.put('/password', authMiddleware, async (c) => {
 
     return c.json({
       success: true,
-      message: '密码修改成功',
+      message: 'Password changed successfully',
     });
   } catch (error) {
     console.error('修改密码失败:', error);
     return c.json(
-      { success: false, error: '修改密码失败', message: error.message },
+      { success: false, error: 'Failed to change password', message: error.message },
       500
     );
   }

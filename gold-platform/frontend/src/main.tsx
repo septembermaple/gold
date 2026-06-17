@@ -16,13 +16,13 @@ class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boole
       return (
         <div className="min-h-screen bg-dark-900 flex items-center justify-center p-8">
           <div className="glass p-8 max-w-lg text-center">
-            <h2 className="text-xl font-bold text-neon-red mb-4">页面渲染出错</h2>
+            <h2 className="text-xl font-bold text-neon-red mb-4">Render Error</h2>
             <p className="text-[#8888aa] text-sm mb-4">{this.state.error}</p>
             <button
               onClick={() => { this.setState({ hasError: false, error: '' }); window.location.reload() }}
               className="px-4 py-2 bg-cyan-glow/20 text-cyan-glow rounded-lg hover:bg-cyan-glow/30 transition-colors"
             >
-              刷新页面
+              Refresh Page
             </button>
           </div>
         </div>

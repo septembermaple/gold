@@ -12,47 +12,12 @@ import Input from '../components/ui/Input'
 import { aiApi, pushApi } from '../lib/api'
 import { extractApiData } from '../lib/utils'
 import { toast } from 'sonner'
-import { useTranslation } from '../contexts/LanguageContext'
+import { useTranslation, useLanguage } from '../contexts/LanguageContext'
 
 interface AnalysisResult {
   content?: string
   title?: string
 }
-
-const analysisModules = [
-  {
-    key: 'bullish',
-    title: '看涨分析',
-    icon: <TrendingUp size={20} />,
-    color: 'green' as const,
-    variant: 'primary' as const,
-    description: 'AI 分析当前市场的看涨因素与上涨驱动',
-  },
-  {
-    key: 'bearish',
-    title: '看空分析',
-    icon: <TrendingDown size={20} />,
-    color: 'red' as const,
-    variant: 'danger' as const,
-    description: 'AI 分析当前市场的看空因素与下行风险',
-  },
-  {
-    key: 'summary',
-    title: '综合分析',
-    icon: <Sparkles size={20} />,
-    color: 'cyan' as const,
-    variant: 'secondary' as const,
-    description: 'AI 综合多空因素，给出全面市场分析',
-  },
-  {
-    key: 'advice',
-    title: '投资建议',
-    icon: <Brain size={20} />,
-    color: 'gold' as const,
-    variant: 'gold' as const,
-    description: 'AI 基于分析结果给出具体投资操作建议',
-  },
-]
 
 function MarkdownRenderer({ content }: { content: string }) {
   const lines = content.split('\n')
@@ -129,10 +94,46 @@ function renderInlineMarkdown(text: string): React.ReactNode {
 }
 
 export default function AIAnalysisPage() {
+  const { language } = useLanguage()
   const [activeModule, setActiveModule] = useState<string | null>(null)
   const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null)
   const [loading, setLoading] = useState(false)
   const tr = useTranslation()
+
+  const analysisModules = [
+    {
+      key: 'bullish',
+      title: tr.ai_analysis_page.bullish_analysis,
+      icon: <TrendingUp size={20} />,
+      color: 'green' as const,
+      variant: 'primary' as const,
+      description: tr.ai_analysis_page.bullish_analysis_desc,
+    },
+    {
+      key: 'bearish',
+      title: tr.ai_analysis_page.bearish_analysis,
+      icon: <TrendingDown size={20} />,
+      color: 'red' as const,
+      variant: 'danger' as const,
+      description: tr.ai_analysis_page.bearish_analysis_desc,
+    },
+    {
+      key: 'summary',
+      title: tr.ai_analysis_page.summary_analysis,
+      icon: <Sparkles size={20} />,
+      color: 'cyan' as const,
+      variant: 'secondary' as const,
+      description: tr.ai_analysis_page.summary_analysis_desc,
+    },
+    {
+      key: 'advice',
+      title: tr.ai_analysis_page.investment_advice,
+      icon: <Brain size={20} />,
+      color: 'gold' as const,
+      variant: 'gold' as const,
+      description: tr.ai_analysis_page.investment_advice_desc,
+    },
+  ]
 
   // Push config
   const [pushToken, setPushToken] = useState('')
@@ -149,32 +150,36 @@ export default function AIAnalysisPage() {
       let res
       switch (key) {
         case 'bullish':
-          res = await aiApi.bullishAnalysis()
+          res = await aiApi.bullishAnalysis(language)
           break
         case 'bearish':
-          res = await aiApi.bearishAnalysis()
+          res = await aiApi.bearishAnalysis(language)
           break
         case 'summary':
-          res = await aiApi.summaryAnalysis()
+          res = await aiApi.summaryAnalysis(language)
           break
         case 'advice':
-          res = await aiApi.adviceAnalysis()
+          res = await aiApi.adviceAnalysis(language)
           break
         default:
           throw new Error('Unknown analysis module')
       }
       const data = extractApiData(res) as AnalysisResult
-      setAnalysisResult(data)
+      if (data && (data.title || data.content)) {
+        setAnalysisResult(data)
+      } else {
+        setAnalysisResult({ content: tr.common.no_data })
+      }
     } catch (err: unknown) {
       const errorData = err instanceof Error ? err.message : 'Unknown error'
-      let errorMessage = tr.ai_analysis.request_failed
+      let errorMessage = tr.ai_analysis_page.request_failed
       let description = ''
       
       try {
         const parsed = JSON.parse(errorData)
-        if (parsed.error === '会员等级不足') {
-          errorMessage = tr.ai_analysis.insufficient_level
-          description = `${tr.ai_analysis.current_level}: ${parsed.data?.currentLevel || 'free'}，${tr.ai_analysis.required_level}: ${parsed.data?.requiredLevel || 'basic'}\n${tr.ai_analysis.upgrade_hint}`
+        if (parsed.error === tr.ai_analysis_page.insufficient_level_key) {
+          errorMessage = tr.ai_analysis_page.insufficient_level
+          description = `${tr.ai_analysis_page.current_level}: ${parsed.data?.currentLevel || 'free'}，${tr.ai_analysis_page.required_level}: ${parsed.data?.requiredLevel || 'basic'}\n${tr.ai_analysis_page.upgrade_hint}`
         } else {
           description = parsed.message || parsed.error || ''
         }
@@ -190,17 +195,17 @@ export default function AIAnalysisPage() {
 
   const handleSubscribe = async () => {
     if (!pushToken.trim()) {
-      toast.error(tr.ai_analysis.push_token_required)
+      toast.error(tr.ai_analysis_page.push_token_required)
       return
     }
     setPushLoading(true)
     try {
       await pushApi.subscribe(pushToken, pushType)
       setSubscribed(true)
-      toast.success(tr.ai_analysis.subscribe_success)
+      toast.success(tr.ai_analysis_page.subscribe_success)
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Unknown error'
-      toast.error(tr.ai_analysis.subscribe_failed, { description: message })
+      toast.error(tr.ai_analysis_page.subscribe_failed, { description: message })
     } finally {
       setPushLoading(false)
     }
@@ -211,10 +216,10 @@ export default function AIAnalysisPage() {
     try {
       await pushApi.unsubscribe()
       setSubscribed(false)
-      toast.success(tr.ai_analysis.unsubscribe_success)
+      toast.success(tr.ai_analysis_page.unsubscribe_success)
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Unknown error'
-      toast.error(tr.ai_analysis.unsubscribe_failed, { description: message })
+      toast.error(tr.ai_analysis_page.unsubscribe_failed, { description: message })
     } finally {
       setPushLoading(false)
     }
@@ -222,16 +227,16 @@ export default function AIAnalysisPage() {
 
   const handleTestPush = async () => {
     if (!pushToken.trim()) {
-      toast.error(tr.ai_analysis.push_token_required)
+      toast.error(tr.ai_analysis_page.push_token_required)
       return
     }
     setPushLoading(true)
     try {
-      await pushApi.testPush({ message: tr.ai_analysis.test_message })
-      toast.success(tr.ai_analysis.test_push_sent)
+      await pushApi.testPush({ message: tr.ai_analysis_page.test_message })
+      toast.success(tr.ai_analysis_page.test_push_sent)
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Unknown error'
-      toast.error(tr.ai_analysis.test_push_failed, { description: message })
+      toast.error(tr.ai_analysis_page.test_push_failed, { description: message })
     } finally {
       setPushLoading(false)
     }
@@ -242,9 +247,9 @@ export default function AIAnalysisPage() {
       {/* Header */}
       <div>
         <h1 className="text-2xl font-bold text-[#e0e0ff]">
-          <HolographicText as="span" color="mixed">{tr.ai_analysis.title}</HolographicText>{tr.ai_analysis.title_suffix}
+          <HolographicText as="span" color="mixed">{tr.ai_analysis_page.title}</HolographicText>{tr.ai_analysis_page.title_suffix}
         </h1>
-        <p className="text-sm text-[#8888aa] mt-1">{tr.ai_analysis.subtitle}</p>
+        <p className="text-sm text-[#8888aa] mt-1">{tr.ai_analysis_page.subtitle}</p>
       </div>
 
       {/* Analysis Module Buttons */}
@@ -280,11 +285,11 @@ export default function AIAnalysisPage() {
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-sm font-medium text-[#e0e0ff] flex items-center gap-2">
               <FileText size={16} className="text-cyan-glow" />
-              {analysisModules.find(m => m.key === activeModule)?.title ?? tr.ai_analysis.analysis_result}
+              {analysisModules.find(m => m.key === activeModule)?.title ?? tr.ai_analysis_page.analysis_result}
             </h3>
             {activeModule && (
               <Badge variant={analysisModules.find(m => m.key === activeModule)?.color ?? 'cyan'}>
-                AI Generated
+                {tr.ai_analysis_page.ai_generated}
               </Badge>
             )}
           </div>
@@ -296,8 +301,8 @@ export default function AIAnalysisPage() {
                 <Brain size={24} className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-cyan-glow animate-pulse" />
               </div>
               <div className="text-center">
-                <p className="text-sm text-[#e0e0ff] animate-pulse">{tr.ai_analysis.analyzing}</p>
-                <p className="text-xs text-[#8888aa] mt-1">{tr.ai_analysis.analyzing_hint}</p>
+                <p className="text-sm text-[#e0e0ff] animate-pulse">{tr.ai_analysis_page.analyzing}</p>
+                <p className="text-xs text-[#8888aa] mt-1">{tr.ai_analysis_page.analyzing_hint}</p>
               </div>
             </div>
           ) : analysisResult ? (
@@ -309,7 +314,7 @@ export default function AIAnalysisPage() {
             </div>
           ) : (
             <div className="text-center py-8">
-              <p className="text-sm text-[#8888aa]">{tr.ai_analysis.click_to_analyze}</p>
+              <p className="text-sm text-[#8888aa]">{tr.ai_analysis_page.click_to_analyze}</p>
             </div>
           )}
         </GlowCard>
@@ -320,18 +325,18 @@ export default function AIAnalysisPage() {
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-sm font-medium text-[#e0e0ff] flex items-center gap-2">
             <Bell size={16} className="text-gold" />
-            {tr.ai_analysis.push_config}
+            {tr.ai_analysis_page.push_config}
           </h3>
           {subscribed && (
-            <Badge variant="green" size="md">{tr.ai_analysis.subscribed}</Badge>
+            <Badge variant="green" size="md">{tr.ai_analysis_page.subscribed}</Badge>
           )}
         </div>
 
         <div className="space-y-4">
           {/* Token Input */}
           <Input
-            label={tr.ai_analysis.pushplus_token}
-            placeholder={tr.ai_analysis.pushplus_token_placeholder}
+            label={tr.ai_analysis_page.pushplus_token}
+            placeholder={tr.ai_analysis_page.pushplus_token_placeholder}
             value={pushToken}
             onChange={(e) => setPushToken(e.target.value)}
             icon={<Send size={14} />}
@@ -340,12 +345,12 @@ export default function AIAnalysisPage() {
 
           {/* Push Type Selection */}
           <div>
-            <label className="block text-sm font-medium text-[#8888aa] mb-2">{tr.ai_analysis.push_type}</label>
+            <label className="block text-sm font-medium text-[#8888aa] mb-2">{tr.ai_analysis_page.push_type}</label>
             <div className="flex gap-2">
               {[
-                { key: 'daily' as const, label: tr.ai_analysis.daily_summary, icon: <FileText size={14} /> },
-                { key: 'alert' as const, label: tr.ai_analysis.alert_notification, icon: <Zap size={14} /> },
-                { key: 'all' as const, label: tr.ai_analysis.all, icon: <Bell size={14} /> },
+                { key: 'daily' as const, label: tr.ai_analysis_page.daily_summary, icon: <FileText size={14} /> },
+                { key: 'alert' as const, label: tr.ai_analysis_page.alert_notification, icon: <Zap size={14} /> },
+                { key: 'all' as const, label: tr.ai_analysis_page.all, icon: <Bell size={14} /> },
               ].map((type) => (
                 <button
                   key={type.key}
@@ -373,7 +378,7 @@ export default function AIAnalysisPage() {
                 glow
               >
                 {pushLoading ? <Loader2 size={14} className="animate-spin" /> : <Bell size={14} />}
-                {tr.ai_analysis.subscribe}
+                {tr.ai_analysis_page.subscribe}
               </Button>
             ) : (
               <Button
@@ -383,7 +388,7 @@ export default function AIAnalysisPage() {
                 disabled={pushLoading}
               >
                 {pushLoading ? <Loader2 size={14} className="animate-spin" /> : <BellOff size={14} />}
-                {tr.ai_analysis.unsubscribe}
+                {tr.ai_analysis_page.unsubscribe}
               </Button>
             )}
             <Button
@@ -393,7 +398,7 @@ export default function AIAnalysisPage() {
               disabled={pushLoading || !pushToken.trim()}
             >
               {pushLoading ? <Loader2 size={14} className="animate-spin" /> : <Send size={14} />}
-              {tr.ai_analysis.test_push}
+              {tr.ai_analysis_page.test_push}
             </Button>
           </div>
 
@@ -402,10 +407,10 @@ export default function AIAnalysisPage() {
             <div className="flex items-start gap-2">
               <MessageSquare size={14} className="text-[#8888aa] shrink-0 mt-0.5" />
               <div className="text-xs text-[#8888aa] leading-relaxed">
-                <p>{tr.ai_analysis.push_service_desc}</p>
-                <p className="mt-1">• {tr.ai_analysis.daily_summary_desc}</p>
-                <p>• {tr.ai_analysis.alert_notification_desc}</p>
-                <p>• {tr.ai_analysis.all_desc}</p>
+                <p>{tr.ai_analysis_page.push_service_desc}</p>
+                <p className="mt-1">• {tr.ai_analysis_page.daily_summary_desc}</p>
+                <p>• {tr.ai_analysis_page.alert_notification_desc}</p>
+                <p>• {tr.ai_analysis_page.all_desc}</p>
               </div>
             </div>
           </div>

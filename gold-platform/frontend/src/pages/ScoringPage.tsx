@@ -6,9 +6,9 @@ import Badge from '../components/ui/Badge'
 import Button from '../components/ui/Button'
 import Loading from '../components/ui/Loading'
 import { macroApi } from '../lib/api'
-import { ensureArray, extractApiData } from '../lib/utils'
+import { ensureArray, extractApiData, translateText } from '../lib/utils'
 import { toast } from 'sonner'
-import { useTranslation } from '../contexts/LanguageContext'
+import { useTranslation, useLanguage } from '../contexts/LanguageContext'
 
 interface SignalItem {
   title?: string
@@ -59,19 +59,14 @@ interface DashboardData {
   }
 }
 
-const signalConfig: Record<string, { color: string; bgColor: string; icon: React.ReactNode; label: string }> = {
-  'strong_buy': { color: '#00ff88', bgColor: 'bg-neon-green/10 border-neon-green/30', icon: <TrendingUp size={32} />, label: '强烈买入' },
-  'buy': { color: '#00ff88', bgColor: 'bg-neon-green/10 border-neon-green/30', icon: <TrendingUp size={32} />, label: '买入' },
-  'hold': { color: '#fbbf24', bgColor: 'bg-gold/10 border-gold/30', icon: <Minus size={32} />, label: '持有' },
-  'reduce': { color: '#ff8800', bgColor: 'bg-gold/10 border-gold/30', icon: <TrendingDown size={32} />, label: '减持' },
-  'sell': { color: '#ff3366', bgColor: 'bg-neon-red/10 border-neon-red/30', icon: <TrendingDown size={32} />, label: '卖出' },
-  'strong_sell': { color: '#ff3366', bgColor: 'bg-neon-red/10 border-neon-red/30', icon: <TrendingDown size={32} />, label: '强烈卖出' },
-}
+type SignalConfig = { color: string; bgColor: string; icon: React.ReactNode; label: string }
 
-const getSignalConfig = (signal?: string) => {
-  if (!signal) return signalConfig['hold']
+const getSignalConfig = (signal?: string, config?: Record<string, SignalConfig>, defaultLabel?: string): SignalConfig => {
+  const defaultConfig: SignalConfig = { color: '#fbbf24', bgColor: 'bg-gold/10 border-gold/30', icon: <Minus size={32} />, label: defaultLabel ?? 'Hold' }
+  if (!config) return defaultConfig
+  if (!signal) return config['hold'] ?? defaultConfig
   const key = signal.toLowerCase().replace(/\s+/g, '_')
-  return signalConfig[key] || signalConfig['hold']
+  return config[key] || config['hold'] || defaultConfig
 }
 
 const scoreColor = (score?: number) => {
@@ -91,15 +86,25 @@ const scoreBarColor = (score?: number) => {
 }
 
 export default function ScoringPage() {
+  const { language } = useLanguage()
   const [data, setData] = useState<DashboardData | null>(null)
   const [loading, setLoading] = useState(true)
   const [activeModel, setActiveModel] = useState<'dashboard' | 'analyzer'>('dashboard')
   const tr = useTranslation()
 
+  const signalConfig: Record<string, SignalConfig> = {
+    'strong_buy': { color: '#00ff88', bgColor: 'bg-neon-green/10 border-neon-green/30', icon: <TrendingUp size={32} />, label: tr.scoring.strong_buy },
+    'buy': { color: '#00ff88', bgColor: 'bg-neon-green/10 border-neon-green/30', icon: <TrendingUp size={32} />, label: tr.scoring.buy },
+    'hold': { color: '#fbbf24', bgColor: 'bg-gold/10 border-gold/30', icon: <Minus size={32} />, label: tr.scoring.hold },
+    'reduce': { color: '#ff8800', bgColor: 'bg-gold/10 border-gold/30', icon: <TrendingDown size={32} />, label: tr.scoring.reduce },
+    'sell': { color: '#ff3366', bgColor: 'bg-neon-red/10 border-neon-red/30', icon: <TrendingDown size={32} />, label: tr.scoring.sell },
+    'strong_sell': { color: '#ff3366', bgColor: 'bg-neon-red/10 border-neon-red/30', icon: <TrendingDown size={32} />, label: tr.scoring.strong_sell },
+  }
+
   const fetchData = useCallback(async () => {
     try {
       setLoading(true)
-      const res = await macroApi.getDashboard()
+      const res = await macroApi.getDashboard(language)
       const d = extractApiData(res) as DashboardData
       setData(d)
     } catch (err: unknown) {
@@ -119,7 +124,7 @@ export default function ScoringPage() {
 
   const overall = data?.overallSignal
   const tenDim = data?.tenDimensionScore
-  const signal = getSignalConfig(overall?.direction || tenDim?.investmentSignal)
+  const signal = getSignalConfig(overall?.direction || tenDim?.investmentSignal, signalConfig, tr.scoring.hold)
 
   return (
     <div className="space-y-6 animate-fade-in">
@@ -166,11 +171,11 @@ export default function ScoringPage() {
             {signal.icon}
           </div>
           <h2 className="text-4xl font-bold" style={{ color: signal.color, textShadow: `0 0 20px ${signal.color}40` }}>
-            {tenDim?.investmentSignal ? getSignalConfig(tenDim.investmentSignal).label : signal.label}
+            {tenDim?.investmentSignal ? getSignalConfig(tenDim.investmentSignal, signalConfig).label : signal.label}
           </h2>
           {tenDim?.totalScore !== undefined && (
             <p className="text-sm text-[#8888aa]">
-              加权总分: <span className="font-mono text-[#e0e0ff]">{(tenDim.totalScore * 100).toFixed(1)}</span>
+              {tr.scoring.weighted_total_score}: <span className="font-mono text-[#e0e0ff]">{(tenDim.totalScore * 100).toFixed(1)}</span>
             </p>
           )}
           {tenDim?.actionAdvice && (
@@ -188,17 +193,17 @@ export default function ScoringPage() {
               {tr.scoring.signal_engine_score}
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div className="text-center p-4 glass-dark rounded-lg">
+              <div className="text-center p-4 glass-dark rounded-lg min-w-0">
                 <p className="text-xs text-[#8888aa] mb-1">{tr.scoring.overall_direction}</p>
                 <p className={`text-lg font-bold ${overall?.direction === 'bullish' ? 'text-neon-green' : overall?.direction === 'bearish' ? 'text-neon-red' : 'text-gold'}`}>
                   {overall?.direction === 'bullish' ? tr.scoring.bullish : overall?.direction === 'bearish' ? tr.scoring.bearish : tr.scoring.neutral}
                 </p>
               </div>
-              <div className="text-center p-4 glass-dark rounded-lg">
+              <div className="text-center p-4 glass-dark rounded-lg min-w-0">
                 <p className="text-xs text-[#8888aa] mb-1">{tr.scoring.bullish_score}</p>
                 <p className="text-lg font-mono font-bold text-neon-green">{overall?.bullishScore?.toFixed(1) ?? '--'}</p>
               </div>
-              <div className="text-center p-4 glass-dark rounded-lg">
+              <div className="text-center p-4 glass-dark rounded-lg min-w-0">
                 <p className="text-xs text-[#8888aa] mb-1">{tr.scoring.bearish_score}</p>
                 <p className="text-lg font-mono font-bold text-neon-red">{overall?.bearishScore?.toFixed(1) ?? '--'}</p>
               </div>
@@ -261,7 +266,7 @@ export default function ScoringPage() {
                         <div key={i} className="glass-dark rounded-lg p-3">
                           <div className="flex items-center justify-between mb-2">
                             <div className="flex items-center gap-2">
-                              <span className="text-sm text-[#e0e0ff]">{dim.name || `${tr.scoring.dimension} ${i + 1}`}</span>
+                              <span className="text-sm text-[#e0e0ff]">{dim.name ? translateText(dim.name, tr) : `${tr.scoring.dimension} ${i + 1}`}</span>
                               {dim.weight !== undefined && (
                                 <Badge variant="gray" size="sm">{tr.scoring.weight} {(dim.weight * 100).toFixed(0)}%</Badge>
                               )}
@@ -301,7 +306,7 @@ export default function ScoringPage() {
               <div>
                 <p className="text-xs text-[#8888aa] mb-1">{tr.scoring.investment_signal}</p>
                 <p className="text-lg font-bold" style={{ color: signal.color }}>
-                  {tenDim?.investmentSignal ? getSignalConfig(tenDim.investmentSignal).label : '--'}
+                  {tenDim?.investmentSignal ? getSignalConfig(tenDim.investmentSignal, signalConfig).label : '--'}
                 </p>
               </div>
               <div>

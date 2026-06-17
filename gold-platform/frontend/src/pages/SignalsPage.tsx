@@ -12,9 +12,9 @@ import HolographicText from '../components/ui/HolographicText'
 import Badge from '../components/ui/Badge'
 import Button from '../components/ui/Button'
 import Loading from '../components/ui/Loading'
-import { useTranslation } from '../contexts/LanguageContext'
+import { useTranslation, useLanguage } from '../contexts/LanguageContext'
 import { macroApi } from '../lib/api'
-import { ensureArray, extractApiData } from '../lib/utils'
+import { ensureArray, extractApiData, translateText } from '../lib/utils'
 import { toast } from 'sonner'
 
 interface SignalItem {
@@ -45,9 +45,10 @@ const SignalIcon = ({ direction }: { direction?: string }) => {
 }
 
 const SignalLabel = ({ direction, label }: { direction?: string; label?: string }) => {
-  if (direction === 'bullish') return <span className="text-neon-green glow-text">{label || '看多'}</span>
-  if (direction === 'bearish') return <span className="text-neon-red glow-text">{label || '看空'}</span>
-  return <span className="text-[#8888aa]">{label || '中性'}</span>
+  const t = useTranslation()
+  if (direction === 'bullish') return <span className="text-neon-green glow-text">{label || t.signals.bullish}</span>
+  if (direction === 'bearish') return <span className="text-neon-red glow-text">{label || t.signals.bearish}</span>
+  return <span className="text-[#8888aa]">{label || t.signals.neutral}</span>
 }
 
 const StrengthStars = ({ strength }: { strength?: number }) => {
@@ -66,6 +67,7 @@ const StrengthStars = ({ strength }: { strength?: number }) => {
 }
 
 export default function SignalsPage() {
+  const { language } = useLanguage()
   const t = useTranslation()
   const [data, setData] = useState<DashboardData | null>(null)
   const [loading, setLoading] = useState(true)
@@ -73,12 +75,12 @@ export default function SignalsPage() {
   const fetchData = useCallback(async () => {
     try {
       setLoading(true)
-      const res = await macroApi.getDashboard()
+      const res = await macroApi.getDashboard(language)
       const d = extractApiData(res) as DashboardData
       setData(d)
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : '未知错误'
-      toast.error('加载信号数据失败', { description: message })
+      const message = err instanceof Error ? err.message : t.common.unknown_error
+      toast.error(t.signals.load_error, { description: message })
     } finally {
       setLoading(false)
     }
@@ -89,15 +91,15 @@ export default function SignalsPage() {
     init()
   }, [fetchData])
 
-  if (loading && !data) return <Loading text="加载多空信号..." />
+  if (loading && !data) return <Loading text={t.signals.loading_signals} />
 
   const bullishSignals = ensureArray<SignalItem>(data?.signals?.bullish)
   const bearishSignals = ensureArray<SignalItem>(data?.signals?.bearish)
   const overall = data?.overallSignal
 
   const barData = [
-    { name: '看多信号', value: overall?.bullishScore ?? bullishSignals.length, fill: '#00ff88' },
-    { name: '看空信号', value: overall?.bearishScore ?? bearishSignals.length, fill: '#ff3366' },
+    { name: t.signals.bullish_signals, value: overall?.bullishScore ?? bullishSignals.length, fill: '#00ff88' },
+    { name: t.signals.bearish_signals, value: overall?.bearishScore ?? bearishSignals.length, fill: '#ff3366' },
   ]
 
   return (
@@ -129,17 +131,17 @@ export default function SignalsPage() {
               <SignalLabel direction={overall?.direction} label={overall?.label} />
             </h2>
             <p className="text-sm text-[#8888aa]">
-              综合信号评分: <span className="font-mono text-[#e0e0ff]">{overall?.score?.toFixed(1) ?? '--'}</span>
+              {t.signals.composite_score}: <span className="font-mono text-[#e0e0ff]">{overall?.score?.toFixed(1) ?? '--'}</span>
             </p>
           </div>
           <div className="flex gap-4 mt-2">
             <div className="text-center">
-              <p className="text-xs text-[#8888aa]">看多得分</p>
+              <p className="text-xs text-[#8888aa]">{t.signals.bullish_score}</p>
               <p className="text-lg font-mono font-bold text-neon-green">{overall?.bullishScore?.toFixed(1) ?? '--'}</p>
             </div>
             <div className="w-px bg-[rgba(0,240,255,0.15)]" />
             <div className="text-center">
-              <p className="text-xs text-[#8888aa]">看空得分</p>
+              <p className="text-xs text-[#8888aa]">{t.signals.bearish_score}</p>
               <p className="text-lg font-mono font-bold text-neon-red">{overall?.bearishScore?.toFixed(1) ?? '--'}</p>
             </div>
           </div>
@@ -153,7 +155,7 @@ export default function SignalsPage() {
             <Signal size={16} className="inline mr-1.5 text-cyan-glow" />
             {t.signals.strength_comparison}
           </h3>
-          <Badge variant="cyan">Strength</Badge>
+          <Badge variant="cyan">{t.macro.signal_strength}</Badge>
         </div>
         <div className="h-48">
           <ResponsiveContainer width="100%" height="100%">
@@ -214,12 +216,12 @@ export default function SignalsPage() {
                   <div className="absolute top-0 left-0 w-1 h-full bg-neon-green" />
                   <div className="pl-3">
                     <div className="flex items-start justify-between mb-1">
-                      <h4 className="text-sm font-semibold text-neon-green">{signal.title || `${t.signals.bullish_signals} ${i + 1}`}</h4>
+                      <h4 className="text-sm font-semibold text-neon-green">{translateText(signal.title, t) || `${t.signals.bullish_signals} ${i + 1}`}</h4>
                       <StrengthStars strength={signal.strength} />
                     </div>
-                    <p className="text-xs text-[#8888aa] leading-relaxed">{signal.detail || t.common.no_details}</p>
+                    <p className="text-xs text-[#8888aa] leading-relaxed">{translateText(signal.detail, t) || t.common.no_details}</p>
                     {signal.category && (
-                      <Badge variant="green" size="sm" className="mt-2">{signal.category}</Badge>
+                      <Badge variant="green" size="sm" className="mt-2">{translateText(signal.category, t)}</Badge>
                     )}
                   </div>
                 </GlowCard>
@@ -246,12 +248,12 @@ export default function SignalsPage() {
                   <div className="absolute top-0 left-0 w-1 h-full bg-neon-red" />
                   <div className="pl-3">
                     <div className="flex items-start justify-between mb-1">
-                      <h4 className="text-sm font-semibold text-neon-red">{signal.title || `${t.signals.bearish_signals} ${i + 1}`}</h4>
+                      <h4 className="text-sm font-semibold text-neon-red">{translateText(signal.title, t) || `${t.signals.bearish_signals} ${i + 1}`}</h4>
                       <StrengthStars strength={signal.strength} />
                     </div>
-                    <p className="text-xs text-[#8888aa] leading-relaxed">{signal.detail || t.common.no_details}</p>
+                    <p className="text-xs text-[#8888aa] leading-relaxed">{translateText(signal.detail, t) || t.common.no_details}</p>
                     {signal.category && (
-                      <Badge variant="red" size="sm" className="mt-2">{signal.category}</Badge>
+                      <Badge variant="red" size="sm" className="mt-2">{translateText(signal.category, t)}</Badge>
                     )}
                   </div>
                 </GlowCard>

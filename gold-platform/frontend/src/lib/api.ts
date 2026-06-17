@@ -69,24 +69,24 @@ export const newsApi = {
 }
 
 export const analysisApi = {
-  getBullishFactors: () => api.get('/analysis/bullish-factors'),
-  getBearishFactors: () => api.get('/analysis/bearish-factors'),
-  getInstitutionViews: () => api.get('/analysis/institution-views'),
-  getInvestmentAdvice: (params?: { level?: string }) =>
-    api.get('/analysis/investment-advice', { params }),
-  getMarketSummary: () => api.get('/analysis/market-summary'),
-  refreshAnalysis: () => api.post('/analysis/refresh/all'),
+  getBullishFactors: (lang = 'en-US') => api.get(`/analysis/bullish-factors?lang=${lang}`),
+  getBearishFactors: (lang = 'en-US') => api.get(`/analysis/bearish-factors?lang=${lang}`),
+  getInstitutionViews: (lang = 'en-US') => api.get(`/analysis/institution-views?lang=${lang}`),
+  getInvestmentAdvice: (lang = 'en-US', params?: { level?: string }) =>
+    api.get(`/analysis/investment-advice?lang=${lang}`, { params }),
+  getMarketSummary: (lang = 'en-US') => api.get(`/analysis/market-summary?lang=${lang}`),
+  refreshAnalysis: (lang = 'en-US') => api.post(`/analysis/refresh/all?lang=${lang}`),
 }
 
 export const macroApi = {
-  getDashboard: () => api.get('/macro/dashboard'),
+  getDashboard: (lang = 'en-US') => api.get(`/macro/dashboard?lang=${lang}`),
 }
 
 export const aiApi = {
-  bullishAnalysis: () => api.post('/analysis/ai/bullish'),
-  bearishAnalysis: () => api.post('/analysis/ai/bearish'),
-  summaryAnalysis: () => api.post('/analysis/ai/summary'),
-  adviceAnalysis: () => api.post('/analysis/ai/advice'),
+  bullishAnalysis: (lang = 'en-US') => api.post('/analysis/ai/bullish', { lang }),
+  bearishAnalysis: (lang = 'en-US') => api.post('/analysis/ai/bearish', { lang }),
+  summaryAnalysis: (lang = 'en-US') => api.post('/analysis/ai/summary', { lang }),
+  adviceAnalysis: (lang = 'en-US') => api.post('/analysis/ai/advice', { lang }),
 }
 
 export const pushApi = {

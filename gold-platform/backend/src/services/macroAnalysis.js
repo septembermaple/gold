@@ -11,6 +11,162 @@ const EASTMONEY_HEADERS = {
   Accept: 'application/json,text/plain,*/*',
 };
 
+// ─── 中文翻译字典 ──────────────────────────────────────
+const zhCN = {
+  'Negative Real Rate': '实际利率为负',
+  'Real Rate Declining Trend': '实际利率下行趋势',
+  'Real Rate High and Rising': '实际利率偏高且上行',
+  'Dollar Weakening (20-day Momentum)': '美元走弱（20日动量）',
+  'Dollar Strengthening (20-day Momentum)': '美元走强（20日动量）',
+  'Core PCE YoY > 3%': '核心PCE同比 > 3%',
+  'Core PCE YoY < 2%': '核心PCE同比 < 2%',
+  'Fed Balance Sheet Expanding (Easing)': '美联储资产负债表扩张（宽松）',
+  'Fed Balance Sheet Shrinking (QT Accelerating)': '美联储资产负债表收缩（缩表加速）',
+  'VIX > 30 (Safe Haven Rising)': 'VIX > 30（避险情绪上升）',
+  'Gold Above 200-day MA': '金价高于200日均线',
+  'Gold Below 200-day MA': '金价低于200日均线',
+  '50/200-day MA Golden Cross': '50/200日均线金叉',
+  '50/200-day MA Death Cross': '50/200日均线死叉',
+  'COT Spec Net Long Crowded (>80th Pct)': 'COT投机净多头拥挤（>80百分位）',
+  'COT Spec Net Long Low (<20th Pct)': 'COT投机净多头偏低（<20百分位）',
+  'Real Rate-Gold Divergence (Overbought)': '实际利率-金价背离（超买）',
+  'Real Rate-Gold Divergence (Oversold)': '实际利率-金价背离（超卖）',
+  'GLD ETF Large Capital Inflow': 'GLD ETF资金大幅流入',
+  'GLD ETF Large Capital Outflow': 'GLD ETF资金大幅流出',
+  'Gold/Silver Ratio Extremely High (>80)': '金银比极端偏高（>80）',
+  'Gold/Silver Ratio Low (<60)': '金银比偏低（<60）',
+  'Yield Curve Inverted': '收益率曲线倒挂',
+  'Yield Curve Steepening Rapidly': '收益率曲线快速陡峭',
+  'Real Rate': '实际利率',
+  'Dollar': '美元',
+  'Inflation': '通胀',
+  'Liquidity': '流动性',
+  'Safe Haven': '避险',
+  'Technical': '技术面',
+  'COT': 'COT持仓',
+  'Divergence': '背离',
+  'ETF Flow': 'ETF资金流',
+  'Gold/Silver Ratio': '金银比',
+  'Yield Curve': '收益率曲线',
+  'Long-term inflation trend': '长期通胀趋势',
+  'Central bank buying': '央行购金',
+  'Declining inflation weakens hedge demand': '通胀下降削弱对冲需求',
+  'High inflation supports hedge demand': '高通胀支撑对冲需求',
+  'Bullish technical trend': '技术面趋势向好',
+  'Central bank buying slowing': '央行购金速度放缓',
+  'No significant risk': '无显著风险',
+  'Long-term hedge property': '长期对冲属性',
+  'Fund Flow': '资金流',
+  'Rising real rate pressures ETF': '实际利率上升压制ETF表现',
+  'Declining real rate benefits ETF': '实际利率下行利好ETF',
+  'Dollar weakening is bullish': '美元走弱利好黄金',
+  'Dollar strengthening pressures': '美元走强压制黄金',
+  'High volatility, high leverage risk': '高波动、高杠杆风险',
+  'Rising rate pressures': '利率上升压力',
+  'Declining rate is bullish': '利率下行利好',
+  'Bullish technicals': '技术面偏多',
+  'Market panic drags mining stocks': '市场恐慌拖累矿业股',
+  'Gold technicals weakening': '黄金技术面走弱',
+  'Rising gold amplifies miner profits': '金价上涨放大矿企盈利',
+  'Weak dollar benefits miner costs': '美元走弱利好矿企成本',
+  'GDX recent strong rally': 'GDX近期强势反弹',
+  'GDX recent sharp decline': 'GDX近期大幅下跌',
+  'Inherently high volatility': '内在高波动',
+  'Gold leverage effect': '黄金杠杆效应',
+  'Neutral watch': '中性观望',
+  'Neutral': '中性',
+  'Moderate': '适度仓位',
+  'Conservative': '保守仓位',
+  'Aggressive': '激进仓位',
+  'Rate Expectations': '利率预期',
+  'COT Positioning': 'COT持仓',
+  'Volatility': '波动率',
+  'Gold Trend': '黄金趋势',
+  'Equity Environment': '股市环境',
+  'VIX': 'VIX指数',
+  'Dollar Strength': '美元强度',
+  'Inflation Expectation': '通胀预期',
+  'Safe Haven Demand': '避险需求',
+  'Capital Inflow': '资金流入',
+  'GLD ETF': 'GLD ETF',
+  'Extreme Fear': '极度恐惧',
+  'Fear': '恐惧',
+  'Greed': '贪婪',
+  'Extreme Greed': '极度贪婪',
+  'Technically bullish, short-term upside momentum': '技术面偏多，短期上行动能',
+  'Technically bearish, short-term caution advised': '技术面偏空，短期需谨慎',
+  'Conflicting signals, short-term direction unclear': '信号矛盾，短期方向不明',
+  'Macro factors aligned bullish, mid-term outlook positive': '宏观因子偏多，中期展望积极',
+  'Rate and dollar dual pressure, mid-term headwinds': '利率与美元双重压力，中期承压',
+  'Mixed signals, mid-term wait-and-see': '信号混杂，中期观望',
+  'Inflation and central bank buying support long-term bullish view': '通胀与央行购金支撑长期看涨',
+  'Deflation and strong dollar pressure long-term outlook': '通缩与强美元压制长期展望',
+  'Long-term factors neutral, continued monitoring needed': '长期因素中性，需持续观察',
+  'Technical Trend': '技术趋势',
+  'RSI Momentum': 'RSI动量',
+  'Volatility Environment': '波动率环境',
+  'Short-term Safe Haven Sentiment': '短期避险情绪',
+  'Real Rate Direction': '实际利率方向',
+  'No Signal': '无信号',
+  'RSI data unavailable': 'RSI数据不可用',
+  '20-day Annualized Volatility': '20日年化波动率',
+  'high volatility bearish': '高波动率偏空',
+  'overbought=sell signal': '超买=卖出信号',
+  'oversold=buy opportunity': '超卖=买入机会',
+  'Mid-term Financial': '中期金融属性',
+  'Long-term Currency': '长期货币属性',
+  'strong_buy': '强烈看多',
+  'buy': '看多',
+  'hold': '持有',
+  'reduce': '减仓',
+  'sell': '看空',
+  'Strong bullish macro factors, recommend actively increasing gold positions': '宏观因子强烈看多，建议积极增配黄金',
+  'Most factors bullish, recommend moderately increasing gold allocation': '多数因子看多，建议适度增加黄金配置',
+  'Balanced bullish/bearish factors, recommend maintaining current positions': '多空因素均衡，建议维持当前仓位',
+  'Macro factors bearish, recommend moderately reducing gold positions': '宏观因子偏空，建议适度降低黄金配置',
+  'Most factors bearish, recommend significantly reducing or closing positions': '多数因子偏空，建议大幅减仓或平仓',
+  'N/A': '暂无',
+  'stable': '稳定',
+  'increasing': '增加',
+  'decreasing': '减少',
+  'unknown': '未知',
+  'Inverted': '倒挂',
+  'tonnes': '吨',
+  'Core PCE YoY': '核心PCE同比',
+  '5Y5Y Forward Inflation': '5年5年远期通胀',
+  'Central bank annual buying': '央行年度购金量',
+  'Cross': '交叉',
+  'Unclear': '不明',
+  'Real Rate Trend': '实际利率趋势',
+  'Dollar 20-day Momentum': '美元20日动量',
+  '10Y Breakeven': '10年盈亏平衡通胀',
+  '10Y-2Y Spread': '10年-2年期利差',
+  'Fed Assets WoW': '美联储资产周环比',
+  'Short-term Trading': '短期交易属性',
+  'MA50/MA200 Cross': 'MA50/MA200交叉',
+  'RSI(14)': 'RSI指标(14)',
+};
+
+/** 翻译函数：若 lang !== 'zh-CN' 或 text 为空，返回原文本；否则先精确匹配，再尝试正则模式匹配 */
+function translate(text, lang) {
+  if (lang !== 'zh-CN' || text == null) return text;
+  const exact = zhCN[text];
+  if (exact != null) return exact;
+  for (const key of Object.keys(zhCN)) {
+    if (key.startsWith('^') && key.endsWith('$')) {
+      try {
+        const re = new RegExp(key.slice(1, -1));
+        if (re.test(text)) {
+          return text.replace(re, zhCN[key]);
+        }
+      } catch (e) {
+        // ignore invalid regex
+      }
+    }
+  }
+  return text;
+}
+
 // ─── FRED 序列映射 ──────────────────────────────────────
 const FRED_SERIES = {
   realYield: 'DFII10',       // 10Y TIPS 实际利率
@@ -510,9 +666,18 @@ function computeCentralBankGold() {
 
 // ─── 信号引擎 ────────────────────────────────────────────
 
-function computeSignals(derived) {
+function computeSignals(derived, lang = 'en-US') {
   const bullish = [];
   const bearish = [];
+
+  const pushSignal = (list, { title, strength, detail, category }) => {
+    list.push({
+      title: translate(title, lang),
+      strength,
+      detail: translate(detail, lang),
+      category: translate(category, lang),
+    });
+  };
 
   const ry = derived.realYield || {};
   const dx = derived.dxy || {};
@@ -523,31 +688,31 @@ function computeSignals(derived) {
 
   // 1. 实际利率 < 0
   if (ry.current != null && ry.current < 0) {
-    bullish.push({
-      title: '实际利率为负',
+    pushSignal(bullish, {
+      title: 'Negative Real Rate',
       strength: 5,
-      detail: `10Y TIPS: ${ry.current.toFixed(2)}%，负实际利率强烈利好黄金`,
-      category: '实际利率',
+      detail: `10Y TIPS: ${ry.current.toFixed(2)}%, negative real rate strongly bullish for gold`,
+      category: 'Real Rate',
     });
   }
 
   // 2. 实际利率均线下穿
   if (ry.trend === 'declining') {
-    bullish.push({
-      title: '实际利率下行趋势',
+    pushSignal(bullish, {
+      title: 'Real Rate Declining Trend',
       strength: 4,
-      detail: `20日均线(${round(ry.ma20, 2) ?? 'N/A'}) < 60日均线(${round(ry.ma60, 2) ?? 'N/A'})`,
-      category: '实际利率',
+      detail: `20-day MA(${round(ry.ma20, 2) ?? 'N/A'}) < 60-day MA(${round(ry.ma60, 2) ?? 'N/A'})`,
+      category: 'Real Rate',
     });
   }
 
   // 3. 实际利率 > 2% 且上行
   if (ry.current != null && ry.current > 2.0 && ry.trend === 'rising') {
-    bearish.push({
-      title: '实际利率高位且上行',
+    pushSignal(bearish, {
+      title: 'Real Rate High and Rising',
       strength: 4,
-      detail: `10Y TIPS: ${ry.current.toFixed(2)}%，高实际利率压制黄金`,
-      category: '实际利率',
+      detail: `10Y TIPS: ${ry.current.toFixed(2)}%, high real rate pressures gold`,
+      category: 'Real Rate',
     });
   }
 
@@ -555,18 +720,18 @@ function computeSignals(derived) {
   const dxyRoc = dx.roc20d;
   if (dxyRoc != null) {
     if (dxyRoc < -2) {
-      bullish.push({
-        title: '美元走弱（20日动量）',
+      pushSignal(bullish, {
+        title: 'Dollar Weakening (20-day Momentum)',
         strength: 3,
-        detail: `美元指数 20日变化率: ${dxyRoc.toFixed(1)}%`,
-        category: '美元',
+        detail: `Dollar Index 20-day ROC: ${dxyRoc.toFixed(1)}%`,
+        category: 'Dollar',
       });
     } else if (dxyRoc > 2) {
-      bearish.push({
-        title: '美元走强（20日动量）',
+      pushSignal(bearish, {
+        title: 'Dollar Strengthening (20-day Momentum)',
         strength: 3,
-        detail: `美元指数 20日变化率: ${dxyRoc.toFixed(1)}%`,
-        category: '美元',
+        detail: `Dollar Index 20-day ROC: ${dxyRoc.toFixed(1)}%`,
+        category: 'Dollar',
       });
     }
   }
@@ -575,18 +740,18 @@ function computeSignals(derived) {
   const pceYoy = inf.corePceYoY;
   if (pceYoy != null) {
     if (pceYoy > 3.0) {
-      bullish.push({
-        title: '核心PCE同比 > 3%',
+      pushSignal(bullish, {
+        title: 'Core PCE YoY > 3%',
         strength: 3,
-        detail: `核心PCE同比: ${pceYoy.toFixed(1)}%，高通胀支撑黄金`,
-        category: '通胀',
+        detail: `Core PCE YoY: ${pceYoy.toFixed(1)}%, high inflation supports gold`,
+        category: 'Inflation',
       });
     } else if (pceYoy < 2.0) {
-      bearish.push({
-        title: '核心PCE同比 < 2%',
+      pushSignal(bearish, {
+        title: 'Core PCE YoY < 2%',
         strength: 2,
-        detail: `核心PCE同比: ${pceYoy.toFixed(1)}%，低通胀减弱黄金吸引力`,
-        category: '通胀',
+        detail: `Core PCE YoY: ${pceYoy.toFixed(1)}%, low inflation weakens gold appeal`,
+        category: 'Inflation',
       });
     }
   }
@@ -595,29 +760,29 @@ function computeSignals(derived) {
   const fedWow = fed.weekOverWeekPct;
   if (fedWow != null) {
     if (fedWow > 0) {
-      bullish.push({
-        title: '美联储扩表（流动性宽松）',
+      pushSignal(bullish, {
+        title: 'Fed Balance Sheet Expanding (Easing)',
         strength: 3,
-        detail: `美联储总资产周环比: +${fedWow.toFixed(2)}%`,
-        category: '流动性',
+        detail: `Fed total assets WoW: +${fedWow.toFixed(2)}%`,
+        category: 'Liquidity',
       });
     } else if (fedWow < -0.05) {
-      bearish.push({
-        title: '美联储缩表（QT 加速）',
+      pushSignal(bearish, {
+        title: 'Fed Balance Sheet Shrinking (QT Accelerating)',
         strength: 3,
-        detail: `美联储总资产周环比: ${fedWow.toFixed(2)}%`,
-        category: '流动性',
+        detail: `Fed total assets WoW: ${fedWow.toFixed(2)}%`,
+        category: 'Liquidity',
       });
     }
   }
 
   // 14. VIX
   if (vixCur != null && vixCur > 30) {
-    bullish.push({
-      title: 'VIX > 30（避险升温）',
+    pushSignal(bullish, {
+      title: 'VIX > 30 (Safe Haven Rising)',
       strength: 3,
-      detail: `VIX: ${vixCur.toFixed(1)}，恐慌情绪推高黄金避险需求`,
-      category: '避险',
+      detail: `VIX: ${vixCur.toFixed(1)}, fear drives gold safe haven demand`,
+      category: 'Safe Haven',
     });
   }
 
@@ -626,18 +791,18 @@ function computeSignals(derived) {
   const goldCur = derived.prices?.gold?.value;
   if (ma200 && goldCur) {
     if (goldCur > ma200) {
-      bullish.push({
-        title: '金价站上200日均线',
+      pushSignal(bullish, {
+        title: 'Gold Above 200-day MA',
         strength: 3,
-        detail: `金价 $${goldCur.toFixed(0)} > MA200 $${ma200.toFixed(0)}`,
-        category: '技术面',
+        detail: `Gold $${goldCur.toFixed(0)} > MA200 $${ma200.toFixed(0)}`,
+        category: 'Technical',
       });
     } else {
-      bearish.push({
-        title: '金价跌破200日均线',
+      pushSignal(bearish, {
+        title: 'Gold Below 200-day MA',
         strength: 4,
-        detail: `金价 $${goldCur.toFixed(0)} < MA200 $${ma200.toFixed(0)}`,
-        category: '技术面',
+        detail: `Gold $${goldCur.toFixed(0)} < MA200 $${ma200.toFixed(0)}`,
+        category: 'Technical',
       });
     }
   }
@@ -645,18 +810,18 @@ function computeSignals(derived) {
   // 17-18. 金叉/死叉
   const crossover = tech.maCrossover;
   if (crossover === 'golden') {
-    bullish.push({
-      title: '50/200日均线金叉',
+    pushSignal(bullish, {
+      title: '50/200-day MA Golden Cross',
       strength: 5,
       detail: `MA50($${round(tech.ma50, 0) ?? 'N/A'}) > MA200($${round(tech.ma200, 0) ?? 'N/A'})`,
-      category: '技术面',
+      category: 'Technical',
     });
   } else if (crossover === 'death') {
-    bearish.push({
-      title: '50/200日均线死叉',
+    pushSignal(bearish, {
+      title: '50/200-day MA Death Cross',
       strength: 5,
       detail: `MA50($${round(tech.ma50, 0) ?? 'N/A'}) < MA200($${round(tech.ma200, 0) ?? 'N/A'})`,
-      category: '技术面',
+      category: 'Technical',
     });
   }
 
@@ -666,17 +831,17 @@ function computeSignals(derived) {
   const cotCur = cotData.current || {};
   if (cotPctl != null) {
     if (cotPctl > 80) {
-      bearish.push({
-        title: 'COT投机净多头拥挤（>80百分位）',
+      pushSignal(bearish, {
+        title: 'COT Spec Net Long Crowded (>80th Pct)',
         strength: 3,
-        detail: `净多头:${cotCur.specNetLong ?? 'N/A'} 百分位:${cotPctl.toFixed(0)}%，多头拥挤回调风险`,
+        detail: `Net Long:${cotCur.specNetLong ?? 'N/A'} Percentile:${cotPctl.toFixed(0)}%, crowded longs risk pullback`,
         category: 'COT',
       });
     } else if (cotPctl < 20) {
-      bullish.push({
-        title: 'COT投机净多头低位（<20百分位）',
+      pushSignal(bullish, {
+        title: 'COT Spec Net Long Low (<20th Pct)',
         strength: 3,
-        detail: `净多头:${cotCur.specNetLong ?? 'N/A'} 百分位:${cotPctl.toFixed(0)}%，空头极端有反弹机会`,
+        detail: `Net Long:${cotCur.specNetLong ?? 'N/A'} Percentile:${cotPctl.toFixed(0)}%, extreme shorts offer rebound opportunity`,
         category: 'COT',
       });
     }
@@ -686,18 +851,18 @@ function computeSignals(derived) {
   const divZ = derived.divergence?.zScore;
   if (divZ != null) {
     if (divZ > 1.5) {
-      bearish.push({
-        title: '实际利率-金价背离（超买）',
+      pushSignal(bearish, {
+        title: 'Real Rate-Gold Divergence (Overbought)',
         strength: 3,
-        detail: `背离Z-Score: ${divZ.toFixed(2)}，金价相对实际利率偏高`,
-        category: '背离度',
+        detail: `Divergence Z-Score: ${divZ.toFixed(2)}, gold overvalued vs real rate`,
+        category: 'Divergence',
       });
     } else if (divZ < -1.5) {
-      bullish.push({
-        title: '实际利率-金价背离（超卖）',
+      pushSignal(bullish, {
+        title: 'Real Rate-Gold Divergence (Oversold)',
         strength: 3,
-        detail: `背离Z-Score: ${divZ.toFixed(2)}，金价相对实际利率偏低`,
-        category: '背离度',
+        detail: `Divergence Z-Score: ${divZ.toFixed(2)}, gold undervalued vs real rate`,
+        category: 'Divergence',
       });
     }
   }
@@ -706,18 +871,18 @@ function computeSignals(derived) {
   const gldFlow = derived.gld?.flow5dPct;
   if (gldFlow != null) {
     if (gldFlow > 10) {
-      bullish.push({
-        title: 'GLD ETF资金大幅流入',
+      pushSignal(bullish, {
+        title: 'GLD ETF Large Capital Inflow',
         strength: 2,
-        detail: `5日成交额变化: +${gldFlow.toFixed(1)}%，机构加仓`,
-        category: 'ETF资金流',
+        detail: `5-day volume change: +${gldFlow.toFixed(1)}%, institutional accumulation`,
+        category: 'ETF Flow',
       });
     } else if (gldFlow < -10) {
-      bearish.push({
-        title: 'GLD ETF资金大幅流出',
+      pushSignal(bearish, {
+        title: 'GLD ETF Large Capital Outflow',
         strength: 2,
-        detail: `5日成交额变化: ${gldFlow.toFixed(1)}%，机构减仓`,
-        category: 'ETF资金流',
+        detail: `5-day volume change: ${gldFlow.toFixed(1)}%, institutional reduction`,
+        category: 'ETF Flow',
       });
     }
   }
@@ -726,18 +891,18 @@ function computeSignals(derived) {
   const sgrCur = derived.silverGoldRatio?.current;
   if (sgrCur != null) {
     if (sgrCur > 80) {
-      bearish.push({
-        title: '金银比极端偏高 (>80)',
+      pushSignal(bearish, {
+        title: 'Gold/Silver Ratio Extremely High (>80)',
         strength: 2,
-        detail: `当前金银比: ${sgrCur.toFixed(1)}，历史极端偏高，均值回归风险`,
-        category: '金银比',
+        detail: `Current G/S ratio: ${sgrCur.toFixed(1)}, historically extreme, mean reversion risk`,
+        category: 'Gold/Silver Ratio',
       });
     } else if (sgrCur < 60) {
-      bullish.push({
-        title: '金银比偏低 (<60)',
+      pushSignal(bullish, {
+        title: 'Gold/Silver Ratio Low (<60)',
         strength: 2,
-        detail: `当前金银比: ${sgrCur.toFixed(1)}，偏低水平，黄金相对白银仍有上行空间`,
-        category: '金银比',
+        detail: `Current G/S ratio: ${sgrCur.toFixed(1)}, low level, gold still has upside vs silver`,
+        category: 'Gold/Silver Ratio',
       });
     }
   }
@@ -746,20 +911,20 @@ function computeSignals(derived) {
   const ycCur = derived.yieldCurve?.current;
   if (ycCur != null) {
     if (ycCur < 0) {
-      bullish.push({
-        title: '收益率曲线倒挂',
+      pushSignal(bullish, {
+        title: 'Yield Curve Inverted',
         strength: 3,
-        detail: `10Y-2Y利差: ${ycCur.toFixed(2)}%，曲线倒挂预示衰退风险，支撑避险黄金`,
-        category: '收益率曲线',
+        detail: `10Y-2Y spread: ${ycCur.toFixed(2)}%, inverted curve signals recession risk, supporting safe haven gold`,
+        category: 'Yield Curve',
       });
     }
     const ycRoc = derived.yieldCurve?.roc20d;
     if (ycRoc != null && ycRoc > 0.3) {
-      bearish.push({
-        title: '收益率曲线急陡',
+      pushSignal(bearish, {
+        title: 'Yield Curve Steepening Rapidly',
         strength: 2,
-        detail: `10Y-2Y利差20日变化: +${ycRoc.toFixed(2)}%，曲线急陡化反映风险偏好回升`,
-        category: '收益率曲线',
+        detail: `10Y-2Y spread 20-day change: +${ycRoc.toFixed(2)}%, rapid steepening reflects risk appetite recovery`,
+        category: 'Yield Curve',
       });
     }
   }
@@ -773,7 +938,7 @@ function computeSignals(derived) {
 
 // ─── 情绪评分 ────────────────────────────────────────────
 
-function computeSentiment(derived) {
+function computeSentiment(derived, lang = 'en-US') {
   // 0=极度恐惧(利好黄金买入机会), 100=极度贪婪(黄金过热需警惕)
   const factors = [];
   const scoreParts = [];
@@ -782,7 +947,7 @@ function computeSentiment(derived) {
   const vixCur = derived.vix?.current;
   if (vixCur != null) {
     const vixScore = clamp((40 - vixCur) / 30 * 100, 0, 100);
-    factors.push({ name: 'VIX', weight: 0.15, score: round(vixScore, 1) });
+    factors.push({ name: translate('VIX', lang), weight: 0.15, score: round(vixScore, 1) });
     scoreParts.push([vixScore, 0.15]);
   }
 
@@ -792,7 +957,7 @@ function computeSentiment(derived) {
     const diff = ry.ma20 - ry.ma60;
     // diff < -0.3 → 利好黄金 → 偏贪婪(高分)
     const ryScore = clamp((0.3 - diff) / 0.6 * 100, 0, 100);
-    factors.push({ name: '实际利率', weight: 0.25, score: round(ryScore, 1) });
+    factors.push({ name: translate('Real Rate', lang), weight: 0.25, score: round(ryScore, 1) });
     scoreParts.push([ryScore, 0.25]);
   }
 
@@ -800,7 +965,7 @@ function computeSentiment(derived) {
   const dxyRoc = derived.dxy?.roc20d;
   if (dxyRoc != null) {
     const dxyScore = clamp((3 - dxyRoc) / 6 * 100, 0, 100);
-    factors.push({ name: '美元', weight: 0.20, score: round(dxyScore, 1) });
+    factors.push({ name: translate('Dollar', lang), weight: 0.20, score: round(dxyScore, 1) });
     scoreParts.push([dxyScore, 0.20]);
   }
 
@@ -815,19 +980,19 @@ function computeSentiment(derived) {
     else if (goldCur > ma200) techScore = 65;
     else if (goldCur > ma50) techScore = 40;
     else techScore = 15;
-    factors.push({ name: '技术面', weight: 0.10, score: round(techScore, 1) });
+    factors.push({ name: translate('Technical', lang), weight: 0.10, score: round(techScore, 1) });
     scoreParts.push([techScore, 0.10]);
   }
 
   // COT 持仓 (15%)
   const cotPct = derived.cot?.specNetLongPercentile ?? 50;
-  factors.push({ name: 'COT', weight: 0.15, score: round(cotPct, 1) });
+  factors.push({ name: translate('COT', lang), weight: 0.15, score: round(cotPct, 1) });
   scoreParts.push([cotPct, 0.15]);
 
   // GLD ETF 资金流 (15%)
   const flow5d = derived.gld?.flow5dPct;
   const etfScore = flow5d != null ? clamp((flow5d + 20) / 40 * 100, 0, 100) : 50;
-  factors.push({ name: 'GLD ETF', weight: 0.15, score: round(etfScore, 1) });
+  factors.push({ name: translate('GLD ETF', lang), weight: 0.15, score: round(etfScore, 1) });
   scoreParts.push([etfScore, 0.15]);
 
   // 加权平均
@@ -838,44 +1003,44 @@ function computeSentiment(derived) {
 
   const score = round(weighted, 1);
   let label;
-  if (score <= 20) label = '极度恐惧';
-  else if (score <= 40) label = '恐惧';
-  else if (score <= 60) label = '中性';
-  else if (score <= 80) label = '贪婪';
-  else label = '极度贪婪';
+  if (score <= 20) label = 'Extreme Fear';
+  else if (score <= 40) label = 'Fear';
+  else if (score <= 60) label = 'Neutral';
+  else if (score <= 80) label = 'Greed';
+  else label = 'Extreme Greed';
 
-  return { score, label, factors };
+  return { score, label: translate(label, lang), factors };
 }
 
 // ─── 雷达图数据 ──────────────────────────────────────────
 
-function computeRadar(derived) {
+function computeRadar(derived, lang = 'en-US') {
   const axes = [];
 
   // 1. 实际利率（低=高分）
   const ry = derived.realYield?.current;
   const ryScore = ry != null ? clamp((2.5 - ry) / 4 * 10, 0, 10) : 5;
-  axes.push({ dimension: '实际利率', score: round(ryScore * 10, 1), fullMark: 100 });
+  axes.push({ dimension: translate('Real Rate', lang), score: round(ryScore * 10, 1), fullMark: 100 });
 
   // 2. 美元（弱=高分）
   const dxyRoc = derived.dxy?.roc20d;
   const dxScore = dxyRoc != null ? clamp((3 - dxyRoc) / 6 * 10, 0, 10) : 5;
-  axes.push({ dimension: '美元强弱', score: round(dxScore * 10, 1), fullMark: 100 });
+  axes.push({ dimension: translate('Dollar Strength', lang), score: round(dxScore * 10, 1), fullMark: 100 });
 
   // 3. 通胀预期（高=高分）
   const be = derived.inflation?.breakeven;
   const infScore = be != null ? clamp((be - 1.5) / 2 * 10, 0, 10) : 5;
-  axes.push({ dimension: '通胀预期', score: round(infScore * 10, 1), fullMark: 100 });
+  axes.push({ dimension: translate('Inflation Expectation', lang), score: round(infScore * 10, 1), fullMark: 100 });
 
   // 4. 流动性（宽松=高分）
   const fedWow = derived.fedBalance?.weekOverWeekPct;
   const liqScore = fedWow != null ? clamp((fedWow + 0.2) / 0.4 * 10, 0, 10) : 5;
-  axes.push({ dimension: '流动性', score: round(liqScore * 10, 1), fullMark: 100 });
+  axes.push({ dimension: translate('Liquidity', lang), score: round(liqScore * 10, 1), fullMark: 100 });
 
   // 5. 避险需求（VIX高=高分）
   const vix = derived.vix?.current;
   const safeScore = vix != null ? clamp((vix - 10) / 30 * 10, 0, 10) : 5;
-  axes.push({ dimension: '避险需求', score: round(safeScore * 10, 1), fullMark: 100 });
+  axes.push({ dimension: translate('Safe Haven Demand', lang), score: round(safeScore * 10, 1), fullMark: 100 });
 
   // 6. 资金流入
   const cotPct = derived.cot?.specNetLongPercentile ?? 50;
@@ -883,14 +1048,14 @@ function computeRadar(derived) {
   const cotPart = cotPct / 10;
   const gldPart = gldFlow != null ? clamp((gldFlow + 20) / 4, 0, 10) : 5;
   const capitalScore = clamp(cotPart * 0.6 + gldPart * 0.4, 0, 10);
-  axes.push({ dimension: '资金流入', score: round(capitalScore * 10, 1), fullMark: 100 });
+  axes.push({ dimension: translate('Capital Inflow', lang), score: round(capitalScore * 10, 1), fullMark: 100 });
 
   return axes;
 }
 
 // ─── 风险矩阵 ────────────────────────────────────────────
 
-function computeRiskMatrix(derived) {
+function computeRiskMatrix(derived, lang = 'en-US') {
   const ry = derived.realYield || {};
   const dx = derived.dxy || {};
   const tech = derived.technicals || {};
@@ -903,6 +1068,9 @@ function computeRiskMatrix(derived) {
     if (score < 65) return 'medium';
     return 'high';
   };
+
+  const t = (text) => translate(text, lang);
+  const tArr = (arr) => arr.map(t);
 
   // 通用因子状态
   const ryBearish = (ry.current ?? 1) > 1.5 && ry.trend === 'rising';
@@ -925,11 +1093,11 @@ function computeRiskMatrix(derived) {
   if (cbTrend === 'decreasing') physScore += 10;
   const physRisks = [];
   const physOpps = [];
-  if (!infHigh) physRisks.push('通胀回落减弱保值需求');
-  if (infHigh) physOpps.push('高通胀支撑保值需求');
-  if (techBullish) physOpps.push('技术面多头趋势');
-  if (cbTrend === 'increasing' || cbTrend === 'stable') physOpps.push(`央行持续购金(${cb.rollingAnnualTonnes ?? 'N/A'}吨/年)`);
-  if (cbTrend === 'decreasing') physRisks.push('央行购金放缓');
+  if (!infHigh) physRisks.push('Declining inflation weakens hedge demand');
+  if (infHigh) physOpps.push('High inflation supports hedge demand');
+  if (techBullish) physOpps.push('Bullish technical trend');
+  if (cbTrend === 'increasing' || cbTrend === 'stable') physOpps.push(`Central banks continue buying (${cb.rollingAnnualTonnes ?? 'N/A'} tonnes/year)`);
+  if (cbTrend === 'decreasing') physRisks.push('Central bank buying slowing');
 
   // 黄金ETF
   let etfScore = 50;
@@ -941,10 +1109,10 @@ function computeRiskMatrix(derived) {
   if (techBullish) etfScore -= 5;
   const etfRisks = [];
   const etfOpps = [];
-  if (ryBearish) etfRisks.push('实际利率上行压制ETF');
-  if (ryBullish) etfOpps.push('实际利率下行利好ETF');
-  if (dxBullish) etfOpps.push('美元走弱利好');
-  if (dxBearish) etfRisks.push('美元走强压制');
+  if (ryBearish) etfRisks.push('Rising real rate pressures ETF');
+  if (ryBullish) etfOpps.push('Declining real rate benefits ETF');
+  if (dxBullish) etfOpps.push('Dollar weakening is bullish');
+  if (dxBearish) etfRisks.push('Dollar strengthening pressures');
 
   // 黄金期货
   let futScore = 50;
@@ -955,10 +1123,10 @@ function computeRiskMatrix(derived) {
   if (techBullish) futScore -= 10;
   const futRisks = [];
   const futOpps = [];
-  if (volHigh) futRisks.push('波动率偏高，杠杆风险大');
-  if (ryBearish) futRisks.push('利率上行压制');
-  if (ryBullish) futOpps.push('利率下行利好');
-  if (techBullish) futOpps.push('技术面看多');
+  if (volHigh) futRisks.push('High volatility, high leverage risk');
+  if (ryBearish) futRisks.push('Rising rate pressures');
+  if (ryBullish) futOpps.push('Declining rate is bullish');
+  if (techBullish) futOpps.push('Bullish technicals');
 
   // 金矿股
   let minerScore = 55;
@@ -968,60 +1136,61 @@ function computeRiskMatrix(derived) {
   if (dxBearish) minerScore += 5;
   const minerRisks = [];
   const minerOpps = [];
-  if (vixCur > 25) minerRisks.push('股市恐慌拖累矿业股');
-  if (techBearish) minerRisks.push('金价技术面走弱');
-  if (techBullish) minerOpps.push('金价上涨放大矿企利润');
-  if (dxBullish) minerOpps.push('弱美元利好矿企成本');
+  if (vixCur > 25) minerRisks.push('Market panic drags mining stocks');
+  if (techBearish) minerRisks.push('Gold technicals weakening');
+  if (techBullish) minerOpps.push('Rising gold amplifies miner profits');
+  if (dxBullish) minerOpps.push('Weak dollar benefits miner costs');
   // GDX 数据
   const gdxRoc = derived.gdx?.roc20d;
   if (gdxRoc != null) {
-    if (gdxRoc > 5) minerOpps.push('GDX 近期强势上涨');
-    if (gdxRoc < -5) minerRisks.push('GDX 近期大幅下跌');
+    if (gdxRoc > 5) minerOpps.push('GDX recent strong rally');
+    if (gdxRoc < -5) minerRisks.push('GDX recent sharp decline');
   }
 
   return {
     physicalGold: {
       riskLevel: riskLevel(physScore),
       riskScore: round(physScore / 100, 2),
-      keyFactors: ['长期通胀趋势', '央行购金'],
-      riskSignals: physRisks.length > 0 ? physRisks : ['暂无明显风险'],
-      opportunitySignals: physOpps.length > 0 ? physOpps : ['长期保值属性'],
-      positionAdvice: physScore < 65 ? '适中' : '保守',
+      keyFactors: tArr(['Long-term inflation trend', 'Central bank buying']),
+      riskSignals: physRisks.length > 0 ? tArr(physRisks) : [t('No significant risk')],
+      opportunitySignals: physOpps.length > 0 ? tArr(physOpps) : [t('Long-term hedge property')],
+      positionAdvice: t(physScore < 65 ? 'Moderate' : 'Conservative'),
     },
     goldEtf: {
       riskLevel: riskLevel(etfScore),
       riskScore: round(etfScore / 100, 2),
-      keyFactors: ['实际利率', '资金流', '美元'],
-      riskSignals: etfRisks.length > 0 ? etfRisks : ['暂无明显风险'],
-      opportunitySignals: etfOpps.length > 0 ? etfOpps : ['中性观望'],
-      positionAdvice: etfScore < 65 ? '适中' : '保守',
+      keyFactors: tArr(['Real Rate', 'Fund Flow', 'Dollar']),
+      riskSignals: etfRisks.length > 0 ? tArr(etfRisks) : [t('No significant risk')],
+      opportunitySignals: etfOpps.length > 0 ? tArr(etfOpps) : [t('Neutral watch')],
+      positionAdvice: t(etfScore < 65 ? 'Moderate' : 'Conservative'),
     },
     goldFutures: {
       riskLevel: riskLevel(futScore),
       riskScore: round(futScore / 100, 2),
-      keyFactors: ['利率预期', 'COT持仓', '波动率'],
-      riskSignals: futRisks.length > 0 ? futRisks : ['暂无明显风险'],
-      opportunitySignals: futOpps.length > 0 ? futOpps : ['中性'],
-      positionAdvice: futScore >= 65 ? '保守' : futScore >= 35 ? '适中' : '激进',
+      keyFactors: tArr(['Rate Expectations', 'COT Positioning', 'Volatility']),
+      riskSignals: futRisks.length > 0 ? tArr(futRisks) : [t('No significant risk')],
+      opportunitySignals: futOpps.length > 0 ? tArr(futOpps) : [t('Neutral')],
+      positionAdvice: t(futScore >= 65 ? 'Conservative' : futScore >= 35 ? 'Moderate' : 'Aggressive'),
     },
     goldMining: {
       riskLevel: riskLevel(minerScore),
       riskScore: round(minerScore / 100, 2),
-      keyFactors: ['金价趋势', '股市环境', '美元'],
-      riskSignals: minerRisks.length > 0 ? minerRisks : ['波动天然较大'],
-      opportunitySignals: minerOpps.length > 0 ? minerOpps : ['金价杠杆效应'],
-      positionAdvice: minerScore >= 65 ? '保守' : '适中',
+      keyFactors: tArr(['Gold Trend', 'Equity Environment', 'Dollar']),
+      riskSignals: minerRisks.length > 0 ? tArr(minerRisks) : [t('Inherently high volatility')],
+      opportunitySignals: minerOpps.length > 0 ? tArr(minerOpps) : [t('Gold leverage effect')],
+      positionAdvice: t(minerScore >= 65 ? 'Conservative' : 'Moderate'),
     },
   };
 }
 
 // ─── 走势预期 ────────────────────────────────────────────
 
-function computeOutlook(derived) {
+function computeOutlook(derived, lang = 'en-US') {
   const tech = derived.technicals || {};
   const ry = derived.realYield || {};
   const dx = derived.dxy || {};
   const inf = derived.inflation || {};
+  const t = (text) => translate(text, lang);
 
   const dirLabel = (b, n) => {
     if (b > n) return 'bullish';
@@ -1048,14 +1217,14 @@ function computeOutlook(derived) {
   const shortDir = dirLabel(stBull, stBear);
   const shortConf = confValue(Math.abs(stBull - stBear));
   const shortDrivers = [];
-  if (tech.maCrossover) shortDrivers.push(`MA交叉: ${tech.maCrossover === 'golden' ? '金叉' : '死叉'}`);
-  if (tech.rsi14 != null) shortDrivers.push(`RSI(14): ${tech.rsi14.toFixed(1)}`);
-  if (goldCur && ma200) shortDrivers.push(`金价${goldCur > ma200 ? '>' : '<'}200日均线`);
+  if (tech.maCrossover) shortDrivers.push(t(`MA Cross: ${tech.maCrossover === 'golden' ? 'Golden' : 'Death'}`));
+  if (tech.rsi14 != null) shortDrivers.push(t(`RSI(14): ${tech.rsi14.toFixed(1)}`));
+  if (goldCur && ma200) shortDrivers.push(t(`Gold ${goldCur > ma200 ? '>' : '<'} 200-day MA`));
 
   const shortSummaries = {
-    bullish: '技术面偏多，短期有上行动能',
-    bearish: '技术面偏空，短期需谨慎',
-    neutral: '信号矛盾，短期方向不明',
+    bullish: 'Technically bullish, short-term upside momentum',
+    bearish: 'Technically bearish, short-term caution advised',
+    neutral: 'Conflicting signals, short-term direction unclear',
   };
 
   // 中期
@@ -1069,14 +1238,14 @@ function computeOutlook(derived) {
   const midDir = dirLabel(mtBull, mtBear);
   const midConf = confValue(Math.abs(mtBull - mtBear));
   const midDrivers = [];
-  if (ry.trend) midDrivers.push(`实际利率趋势: ${ry.trend === 'declining' ? '下行' : '上行'}`);
-  if (dx.roc20d != null) midDrivers.push(`美元20日动量: ${dx.roc20d.toFixed(1)}%`);
-  if (yc.current != null) midDrivers.push(`收益率曲线: ${yc.current.toFixed(2)}%${yc.inverted ? ' (倒挂)' : ''}`);
+  if (ry.trend) midDrivers.push(t(`Real Rate Trend: ${ry.trend === 'declining' ? 'Declining' : 'Rising'}`));
+  if (dx.roc20d != null) midDrivers.push(t(`Dollar 20-day Momentum: ${dx.roc20d.toFixed(1)}%`));
+  if (yc.current != null) midDrivers.push(t(`Yield Curve: ${yc.current.toFixed(2)}%${yc.inverted ? ' (Inverted)' : ''}`));
 
   const midSummaries = {
-    bullish: '宏观因子共振偏多，中期看涨',
-    bearish: '利率美元双压，中期承压',
-    neutral: '多空交织，中期观望',
+    bullish: 'Macro factors aligned bullish, mid-term outlook positive',
+    bearish: 'Rate and dollar dual pressure, mid-term headwinds',
+    neutral: 'Mixed signals, mid-term wait-and-see',
   };
 
   // 长期
@@ -1094,17 +1263,17 @@ function computeOutlook(derived) {
   const longDir = dirLabel(ltBull, ltBear);
   const longConf = 0.5;
   const longDrivers = [];
-  if (inf.corePceYoY != null) longDrivers.push(`核心PCE同比: ${inf.corePceYoY.toFixed(1)}%`);
-  if (fwdInf != null) longDrivers.push(`5Y5Y远期通胀预期: ${fwdInf.toFixed(2)}%`);
+  if (inf.corePceYoY != null) longDrivers.push(t(`Core PCE YoY: ${inf.corePceYoY.toFixed(1)}%`));
+  if (fwdInf != null) longDrivers.push(t(`5Y5Y Forward Inflation: ${fwdInf.toFixed(2)}%`));
   longDrivers.push(cb.rollingAnnualTonnes
-    ? `央行年购金: ${cb.rollingAnnualTonnes.toFixed(0)}吨 (${cbTrend})`
-    : '央行持续购金（结构性支撑）'
+    ? t(`Central bank annual buying: ${cb.rollingAnnualTonnes.toFixed(0)} tonnes (${cbTrend})`)
+    : t('Central banks continue buying (structural support)')
   );
 
   const longSummaries = {
-    bullish: '通胀与购金支撑长期看多',
-    bearish: '通缩与强美元压制长期预期',
-    neutral: '长期因子中性，需持续跟踪',
+    bullish: 'Inflation and central bank buying support long-term bullish view',
+    bearish: 'Deflation and strong dollar pressure long-term outlook',
+    neutral: 'Long-term factors neutral, continued monitoring needed',
   };
 
   return {
@@ -1112,19 +1281,19 @@ function computeOutlook(derived) {
       direction: shortDir,
       confidence: shortConf,
       drivers: shortDrivers,
-      summary: shortSummaries[shortDir],
+      summary: t(shortSummaries[shortDir]),
     },
     midTerm: {
       direction: midDir,
       confidence: midConf,
       drivers: midDrivers,
-      summary: midSummaries[midDir],
+      summary: t(midSummaries[midDir]),
     },
     longTerm: {
       direction: longDir,
       confidence: longConf,
       drivers: longDrivers,
-      summary: longSummaries[longDir],
+      summary: t(longSummaries[longDir]),
     },
   };
 }
@@ -1139,13 +1308,13 @@ function computeOverallSignal(bullish, bearish) {
   let direction, label;
   if (diff > 5) {
     direction = 'bullish';
-    label = '看多';
+    label = 'Bullish';
   } else if (diff < -5) {
     direction = 'bearish';
-    label = '看空';
+    label = 'Bearish';
   } else {
     direction = 'neutral';
-    label = '中性';
+    label = 'Neutral';
   }
 
   return {
@@ -1159,7 +1328,7 @@ function computeOverallSignal(bullish, bearish) {
 
 // ─── 十维度评分模型 ──────────────────────────────────────
 
-function computeTenDimensionScore(derived) {
+function computeTenDimensionScore(derived, lang = 'en-US') {
   const ry = derived.realYield || {};
   const dx = derived.dxy || {};
   const inf = derived.inflation || {};
@@ -1168,68 +1337,89 @@ function computeTenDimensionScore(derived) {
   const vixCur = derived.vix?.current ?? 20;
   const yc = derived.yieldCurve || {};
   const cb = derived.centralBankGold || {};
+  const t = (text) => translate(text, lang);
+  const isZh = lang === 'zh-CN';
+
+  // Helper: 生成 "中文标签: 数值" 或 "English label: value"
+  const desc = (label, value) =>
+    isZh ? `${t(label)}: ${value}` : `${label}: ${value}`;
 
   // 短期交易属性 (权重 40%)
   const shortDimensions = [
     {
-      name: '技术趋势',
+      name: 'Technical Trend',
       weight: 0.30,
       score: (() => {
         if (tech.maCrossover === 'golden') return 0.8;
         if (tech.maCrossover === 'death') return 0.2;
         return 0.5;
       })(),
-      description: `MA50/MA200交叉: ${tech.maCrossover === 'golden' ? '金叉' : tech.maCrossover === 'death' ? '死叉' : '无信号'}`,
+      description: desc(
+        'MA50/MA200 Cross',
+        tech.maCrossover === 'golden' ? (isZh ? '金叉' : 'Golden')
+          : tech.maCrossover === 'death' ? (isZh ? '死叉' : 'Death')
+          : (isZh ? '无信号' : 'No Signal')
+      ),
     },
     {
-      name: 'RSI动量',
+      name: 'RSI Momentum',
       weight: 0.25,
       score: (() => {
         if (tech.rsi14 == null) return 0.5;
-        if (tech.rsi14 < 30) return 0.8; // 超卖=买入机会
-        if (tech.rsi14 > 70) return 0.2; // 超买=卖出信号
+        if (tech.rsi14 < 30) return 0.8;
+        if (tech.rsi14 > 70) return 0.2;
         return 0.5 + (50 - tech.rsi14) / 100;
       })(),
-      description: tech.rsi14 != null ? `RSI(14): ${tech.rsi14.toFixed(1)}` : 'RSI数据不可用',
+      description: tech.rsi14 != null
+        ? desc('RSI(14)', tech.rsi14.toFixed(1))
+        : t('RSI data unavailable'),
     },
     {
-      name: '波动率环境',
+      name: 'Volatility Environment',
       weight: 0.20,
       score: (() => {
         const vol20 = vol.current20d;
         if (vol20 == null) return 0.5;
-        if (vol20 > 20) return 0.3; // 高波动偏空
+        if (vol20 > 20) return 0.3;
         if (vol20 < 10) return 0.7;
         return 0.5;
       })(),
-      description: `20日年化波动率: ${vol.current20d != null ? vol.current20d.toFixed(1) + '%' : 'N/A'}`,
+      description: desc(
+        '20-day Annualized Volatility',
+        vol.current20d != null ? vol.current20d.toFixed(1) + '%' : t('N/A')
+      ),
     },
     {
-      name: '短期避险情绪',
+      name: 'Short-term Safe Haven Sentiment',
       weight: 0.25,
       score: (() => {
-        if (vixCur > 30) return 0.7; // VIX高利好黄金
+        if (vixCur > 30) return 0.7;
         if (vixCur < 15) return 0.4;
         return 0.5;
       })(),
-      description: `VIX: ${vixCur.toFixed(1)}`,
+      description: desc('VIX', vixCur.toFixed(1)),
     },
   ];
 
   // 中期金融属性 (权重 40%)
   const midDimensions = [
     {
-      name: '实际利率方向',
+      name: 'Real Rate Direction',
       weight: 0.30,
       score: (() => {
         if (ry.trend === 'declining') return 0.8;
         if (ry.trend === 'rising') return 0.2;
         return 0.5;
       })(),
-      description: `实际利率趋势: ${ry.trend === 'declining' ? '下行' : ry.trend === 'rising' ? '上行' : '不明'}`,
+      description: desc(
+        'Real Rate Trend',
+        ry.trend === 'declining' ? (isZh ? '下行' : 'Declining')
+          : ry.trend === 'rising' ? (isZh ? '上行' : 'Rising')
+          : (isZh ? '不明' : 'Unclear')
+      ),
     },
     {
-      name: '美元强弱',
+      name: 'Dollar Strength',
       weight: 0.25,
       score: (() => {
         const roc20 = dx.roc20d;
@@ -1238,10 +1428,13 @@ function computeTenDimensionScore(derived) {
         if (roc20 > 2) return 0.2;
         return 0.5;
       })(),
-      description: `美元20日动量: ${dx.roc20d != null ? dx.roc20d.toFixed(1) + '%' : 'N/A'}`,
+      description: desc(
+        'Dollar 20-day Momentum',
+        dx.roc20d != null ? dx.roc20d.toFixed(1) + '%' : t('N/A')
+      ),
     },
     {
-      name: '通胀预期',
+      name: 'Inflation Expectation',
       weight: 0.25,
       score: (() => {
         const be = inf.breakeven;
@@ -1250,36 +1443,49 @@ function computeTenDimensionScore(derived) {
         if (be < 2.0) return 0.3;
         return 0.5;
       })(),
-      description: `10Y Breakeven: ${inf.breakeven != null ? inf.breakeven.toFixed(2) + '%' : 'N/A'}`,
+      description: desc(
+        '10Y Breakeven',
+        inf.breakeven != null ? inf.breakeven.toFixed(2) + '%' : t('N/A')
+      ),
     },
     {
-      name: '收益率曲线',
+      name: 'Yield Curve',
       weight: 0.20,
       score: (() => {
-        if (yc.inverted) return 0.7; // 倒挂利好黄金
+        if (yc.inverted) return 0.7;
         if (yc.current != null && yc.current > 1) return 0.3;
         return 0.5;
       })(),
-      description: `10Y-2Y利差: ${yc.current != null ? yc.current.toFixed(2) + '%' : 'N/A'}${yc.inverted ? ' (倒挂)' : ''}`,
+      description: (() => {
+        const val = yc.current != null ? yc.current.toFixed(2) + '%' : t('N/A');
+        const suffix = yc.inverted ? (isZh ? ` (${t('Inverted')})` : ` (Inverted)`) : '';
+        return isZh ? `${t('10Y-2Y Spread')}: ${val}${suffix}` : `10Y-2Y Spread: ${val}${suffix}`;
+      })(),
     },
   ];
 
   // 长期货币属性 (权重 20%)
   const longDimensions = [
     {
-      name: '央行购金趋势',
+      name: 'Central Bank Buying Trend',
       weight: 0.30,
       score: (() => {
-        const t = cb.trend;
-        if (t === 'increasing') return 0.8;
-        if (t === 'stable') return 0.6;
-        if (t === 'decreasing') return 0.3;
+        const trd = cb.trend;
+        if (trd === 'increasing') return 0.8;
+        if (trd === 'stable') return 0.6;
+        if (trd === 'decreasing') return 0.3;
         return 0.5;
       })(),
-      description: `央行年购金: ${cb.rollingAnnualTonnes != null ? cb.rollingAnnualTonnes.toFixed(0) + '吨' : 'N/A'} (${cb.trend ?? 'unknown'})`,
+      description: (() => {
+        const val = cb.rollingAnnualTonnes != null
+          ? (isZh ? `${cb.rollingAnnualTonnes.toFixed(0)} ${t('tonnes')}` : `${cb.rollingAnnualTonnes.toFixed(0)} tonnes`)
+          : t('N/A');
+        const trendTxt = cb.trend ? t(cb.trend) : t('unknown');
+        return isZh ? `${t('Central bank annual buying')}: ${val} (${trendTxt})` : `Central bank annual buying: ${val} (${cb.trend ?? 'unknown'})`;
+      })(),
     },
     {
-      name: '核心PCE',
+      name: 'Core PCE',
       weight: 0.25,
       score: (() => {
         const pce = inf.corePceYoY;
@@ -1288,10 +1494,13 @@ function computeTenDimensionScore(derived) {
         if (pce < 2) return 0.3;
         return 0.5;
       })(),
-      description: `核心PCE同比: ${inf.corePceYoY != null ? inf.corePceYoY.toFixed(1) + '%' : 'N/A'}`,
+      description: desc(
+        'Core PCE YoY',
+        inf.corePceYoY != null ? inf.corePceYoY.toFixed(1) + '%' : t('N/A')
+      ),
     },
     {
-      name: '远期通胀预期',
+      name: 'Forward Inflation Expectation',
       weight: 0.25,
       score: (() => {
         const fwd = inf.fwdInflation5y5y;
@@ -1300,19 +1509,25 @@ function computeTenDimensionScore(derived) {
         if (fwd < 2.0) return 0.3;
         return 0.5;
       })(),
-      description: `5Y5Y远期通胀: ${inf.fwdInflation5y5y != null ? inf.fwdInflation5y5y.toFixed(2) + '%' : 'N/A'}`,
+      description: desc(
+        '5Y5Y Forward Inflation',
+        inf.fwdInflation5y5y != null ? inf.fwdInflation5y5y.toFixed(2) + '%' : t('N/A')
+      ),
     },
     {
-      name: '美联储资产负债表',
+      name: 'Fed Balance Sheet',
       weight: 0.20,
       score: (() => {
         const wow = derived.fedBalance?.weekOverWeekPct;
         if (wow == null) return 0.5;
-        if (wow > 0) return 0.6; // 扩表利好
-        if (wow < -0.1) return 0.3; // 缩表利空
+        if (wow > 0) return 0.6;
+        if (wow < -0.1) return 0.3;
         return 0.5;
       })(),
-      description: `美联储资产周环比: ${derived.fedBalance?.weekOverWeekPct != null ? derived.fedBalance.weekOverWeekPct.toFixed(2) + '%' : 'N/A'}`,
+      description: desc(
+        'Fed Assets WoW',
+        derived.fedBalance?.weekOverWeekPct != null ? derived.fedBalance.weekOverWeekPct.toFixed(2) + '%' : t('N/A')
+      ),
     },
   ];
 
@@ -1343,40 +1558,37 @@ function computeTenDimensionScore(derived) {
   else if (totalScore >= 0.30) investmentSignal = 'reduce';
   else investmentSignal = 'sell';
 
-  // 操作建议
-  const adviceMap = {
-    strong_buy: '宏观因子强烈看多，建议积极增仓黄金资产',
-    buy: '多数因子偏多，建议适度增加黄金配置',
-    hold: '多空因子均衡，建议维持当前仓位',
-    reduce: '宏观因子偏空，建议适度减持黄金资产',
-    sell: '多数因子看空，建议大幅减持或清仓',
-  };
-
   return {
     shortTerm: {
-      label: '短期交易属性',
+      label: t('Short-term Trading'),
       weight: 0.4,
-      dimensions: shortDimensions,
+      dimensions: shortDimensions.map((dim) => ({ ...dim, name: t(dim.name) })),
     },
     midTerm: {
-      label: '中期金融属性',
+      label: t('Mid-term Financial'),
       weight: 0.4,
-      dimensions: midDimensions,
+      dimensions: midDimensions.map((dim) => ({ ...dim, name: t(dim.name) })),
     },
     longTerm: {
-      label: '长期货币属性',
+      label: t('Long-term Currency'),
       weight: 0.2,
-      dimensions: longDimensions,
+      dimensions: longDimensions.map((dim) => ({ ...dim, name: t(dim.name) })),
     },
     totalScore: round(totalScore, 3),
-    investmentSignal,
-    actionAdvice: adviceMap[investmentSignal],
+    investmentSignal: t(investmentSignal),
+    actionAdvice: t(
+      investmentSignal === 'strong_buy' ? 'Strong bullish macro factors, recommend actively increasing gold positions'
+        : investmentSignal === 'buy' ? 'Most factors bullish, recommend moderately increasing gold allocation'
+        : investmentSignal === 'hold' ? 'Balanced bullish/bearish factors, recommend maintaining current positions'
+        : investmentSignal === 'reduce' ? 'Macro factors bearish, recommend moderately reducing gold positions'
+        : 'Most factors bearish, recommend significantly reducing or closing positions'
+    ),
   };
 }
 
 // ─── 主函数：获取完整仪表盘数据 ──────────────────────────
 
-export async function getMacroDashboard(env) {
+export async function getMacroDashboard(env, lang = 'en-US') {
   const fredApiKey = env?.FRED_API_KEY || '';
 
   // ── 1. 并行获取东方财富实时数据 ──
@@ -1778,13 +1990,13 @@ export async function getMacroDashboard(env) {
   };
 
   // ── 8. 生成信号和评分 ──
-  const { bullish, bearish } = computeSignals(derived);
+  const { bullish, bearish } = computeSignals(derived, lang);
   const overallSignal = computeOverallSignal(bullish, bearish);
-  const sentiment = computeSentiment(derived);
-  const radar = computeRadar(derived);
-  const riskMatrix = computeRiskMatrix(derived);
-  const outlook = computeOutlook(derived);
-  const tenDimensionScore = computeTenDimensionScore(derived);
+  const sentiment = computeSentiment(derived, lang);
+  const radar = computeRadar(derived, lang);
+  const riskMatrix = computeRiskMatrix(derived, lang);
+  const outlook = computeOutlook(derived, lang);
+  const tenDimensionScore = computeTenDimensionScore(derived, lang);
 
   // ── 9. 构建金价历史图表数据（含MA50/MA200） ──
   const goldHistory = [];

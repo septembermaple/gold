@@ -9,9 +9,9 @@ import Badge from '../components/ui/Badge'
 import Button from '../components/ui/Button'
 import Loading from '../components/ui/Loading'
 import { macroApi } from '../lib/api'
-import { extractApiData } from '../lib/utils'
+import { extractApiData, translateText, translateArray } from '../lib/utils'
 import { toast } from 'sonner'
-import { useTranslation } from '../contexts/LanguageContext'
+import { useTranslation, useLanguage } from '../contexts/LanguageContext'
 
 interface RiskItem {
   riskLevel?: string
@@ -43,23 +43,30 @@ interface DashboardData {
   }
 }
 
-const riskLevelConfig: Record<string, { color: string; variant: 'green' | 'gold' | 'red'; label: string }> = {
-  low: { color: '#00ff88', variant: 'green', label: '低风险' },
-  medium: { color: '#fbbf24', variant: 'gold', label: '中风险' },
-  high: { color: '#ff3366', variant: 'red', label: '高风险' },
+const riskLevelConfig: Record<string, { color: string; variant: 'green' | 'gold' | 'red' }> = {
+  low: { color: '#00ff88', variant: 'green' },
+  medium: { color: '#fbbf24', variant: 'gold' },
+  high: { color: '#ff3366', variant: 'red' },
 }
 
-const directionConfig: Record<string, { icon: React.ReactNode; color: string; label: string }> = {
-  bullish: { icon: <TrendingUp size={20} />, color: '#00ff88', label: '看涨' },
-  bearish: { icon: <TrendingDown size={20} />, color: '#ff3366', label: '看跌' },
-  neutral: { icon: <Minus size={20} />, color: '#8888aa', label: '中性' },
+const directionConfig: Record<string, { icon: React.ReactNode; color: string }> = {
+  bullish: { icon: <TrendingUp size={20} />, color: '#00ff88' },
+  bearish: { icon: <TrendingDown size={20} />, color: '#ff3366' },
+  neutral: { icon: <Minus size={20} />, color: '#8888aa' },
 }
 
 function RiskCard({ title, icon, data }: { title: string; icon: React.ReactNode; data?: RiskItem }) {
+  const t = useTranslation()
   const level = riskLevelConfig[data?.riskLevel ?? 'medium']
 
+  const riskLevelLabels: Record<string, string> = {
+    low: t.risk.low_risk,
+    medium: t.risk.medium_risk,
+    high: t.risk.high_risk,
+  }
+
   return (
-    <GlowCard color={level.variant} className="relative overflow-hidden">
+    <GlowCard color={level.variant} className="relative overflow-hidden min-h-[220px]">
       <div className="absolute top-0 right-0 w-24 h-24 opacity-5">
         {icon}
       </div>
@@ -69,13 +76,13 @@ function RiskCard({ title, icon, data }: { title: string; icon: React.ReactNode;
             {icon}
             {title}
           </h4>
-          <Badge variant={level.variant} size="md">{level.label}</Badge>
+          <Badge variant={level.variant} size="md">{riskLevelLabels[data?.riskLevel ?? 'medium']}</Badge>
         </div>
 
         {/* Risk Score */}
         <div className="mb-4">
           <div className="flex items-center justify-between mb-1">
-            <span className="text-xs text-[#8888aa]">风险分数</span>
+            <span className="text-xs text-[#8888aa]">{t.risk.risk_score}</span>
             <span className="text-sm font-mono font-bold" style={{ color: level.color }}>
               {data?.riskScore?.toFixed(1) ?? '--'}
             </span>
@@ -95,9 +102,9 @@ function RiskCard({ title, icon, data }: { title: string; icon: React.ReactNode;
         {/* Key Factors */}
         {data?.keyFactors && data.keyFactors.length > 0 && (
           <div className="mb-3">
-            <p className="text-xs text-[#8888aa] mb-1">关键因子</p>
+            <p className="text-xs text-[#8888aa] mb-1">{t.risk.key_factors}</p>
             <div className="flex flex-wrap gap-1">
-              {data.keyFactors.map((f, i) => (
+              {translateArray(data.keyFactors, t).map((f, i) => (
                 <Badge key={i} variant="gray" size="sm">{f}</Badge>
               ))}
             </div>
@@ -108,10 +115,10 @@ function RiskCard({ title, icon, data }: { title: string; icon: React.ReactNode;
         {data?.riskSignals && data.riskSignals.length > 0 && (
           <div className="mb-3">
             <p className="text-xs text-[#8888aa] mb-1 flex items-center gap-1">
-              <AlertTriangle size={10} className="text-neon-red" /> 风险信号
+              <AlertTriangle size={10} className="text-neon-red" /> {t.risk.risk_signals}
             </p>
             <ul className="space-y-0.5">
-              {data.riskSignals.map((s, i) => (
+              {translateArray(data.riskSignals, t).map((s, i) => (
                 <li key={i} className="text-xs text-neon-red/80 flex items-start gap-1">
                   <span className="mt-1">•</span> {s}
                 </li>
@@ -124,10 +131,10 @@ function RiskCard({ title, icon, data }: { title: string; icon: React.ReactNode;
         {data?.opportunitySignals && data.opportunitySignals.length > 0 && (
           <div className="mb-3">
             <p className="text-xs text-[#8888aa] mb-1 flex items-center gap-1">
-              <CheckCircle2 size={10} className="text-neon-green" /> 机会信号
+              <CheckCircle2 size={10} className="text-neon-green" /> {t.risk.opportunity_signals}
             </p>
             <ul className="space-y-0.5">
-              {data.opportunitySignals.map((s, i) => (
+              {translateArray(data.opportunitySignals, t).map((s, i) => (
                 <li key={i} className="text-xs text-neon-green/80 flex items-start gap-1">
                   <span className="mt-1">•</span> {s}
                 </li>
@@ -139,8 +146,8 @@ function RiskCard({ title, icon, data }: { title: string; icon: React.ReactNode;
         {/* Position Advice */}
         {data?.positionAdvice && (
           <div className="mt-3 pt-3 border-t border-[rgba(0,240,255,0.06)]">
-            <p className="text-xs text-[#8888aa] mb-1">仓位建议</p>
-            <p className="text-xs text-[#e0e0ff]">{data.positionAdvice}</p>
+            <p className="text-xs text-[#8888aa] mb-1">{t.risk.position_advice}</p>
+            <p className="text-xs text-[#e0e0ff]">{translateText(data.positionAdvice, t)}</p>
           </div>
         )}
       </div>
@@ -149,7 +156,14 @@ function RiskCard({ title, icon, data }: { title: string; icon: React.ReactNode;
 }
 
 function OutlookCard({ title, data }: { title: string; data?: OutlookPeriod }) {
+  const t = useTranslation()
   const dir = directionConfig[data?.direction ?? 'neutral']
+
+  const directionLabels: Record<string, string> = {
+    bullish: t.risk.bullish,
+    bearish: t.risk.bearish,
+    neutral: t.risk.neutral,
+  }
 
   return (
     <GlowCard
@@ -159,14 +173,14 @@ function OutlookCard({ title, data }: { title: string; data?: OutlookPeriod }) {
         <h4 className="text-sm font-semibold text-[#e0e0ff]">{title}</h4>
         <div className="flex items-center gap-1.5" style={{ color: dir.color }}>
           {dir.icon}
-          <span className="text-sm font-bold">{dir.label}</span>
+          <span className="text-sm font-bold">{directionLabels[data?.direction ?? 'neutral']}</span>
         </div>
       </div>
 
       {/* Confidence */}
       <div className="mb-3">
         <div className="flex items-center justify-between mb-1">
-          <span className="text-xs text-[#8888aa]">置信度</span>
+          <span className="text-xs text-[#8888aa]">{t.risk.confidence}</span>
           <span className="text-xs font-mono" style={{ color: dir.color }}>
             {data?.confidence !== undefined ? `${(data.confidence * 100).toFixed(0)}%` : '--'}
           </span>
@@ -186,9 +200,9 @@ function OutlookCard({ title, data }: { title: string; data?: OutlookPeriod }) {
       {/* Drivers */}
       {data?.drivers && data.drivers.length > 0 && (
         <div className="mb-3">
-          <p className="text-xs text-[#8888aa] mb-1">驱动因子</p>
+          <p className="text-xs text-[#8888aa] mb-1">{t.risk.driving_factors}</p>
           <div className="flex flex-wrap gap-1">
-            {data.drivers.map((d, i) => (
+            {translateArray(data.drivers, t).map((d, i) => (
               <Badge key={i} variant="gray" size="sm">{d}</Badge>
             ))}
           </div>
@@ -197,13 +211,14 @@ function OutlookCard({ title, data }: { title: string; data?: OutlookPeriod }) {
 
       {/* Summary */}
       {data?.summary && (
-        <p className="text-xs text-[#8888aa] leading-relaxed">{data.summary}</p>
+        <p className="text-xs text-[#8888aa] leading-relaxed">{translateText(data.summary, t)}</p>
       )}
     </GlowCard>
   )
 }
 
 export default function RiskPage() {
+  const { language } = useLanguage()
   const [data, setData] = useState<DashboardData | null>(null)
   const [loading, setLoading] = useState(true)
   const tr = useTranslation()
@@ -211,7 +226,7 @@ export default function RiskPage() {
   const fetchData = useCallback(async () => {
     try {
       setLoading(true)
-      const res = await macroApi.getDashboard()
+      const res = await macroApi.getDashboard(language)
       const d = extractApiData(res) as DashboardData
       setData(d)
     } catch (err: unknown) {

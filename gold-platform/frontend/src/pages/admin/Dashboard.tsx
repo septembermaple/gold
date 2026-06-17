@@ -7,8 +7,10 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { adminApi } from '../../lib/api'
 import { extractApiData, ensureArray } from '../../lib/utils'
 import { toast } from 'sonner'
+import { useTranslation } from '../../contexts/LanguageContext'
 
 export default function AdminDashboard() {
+  const { t } = useTranslation()
   const [stats, setStats] = useState({
     totalUsers: 0,
     activeUsers: 0,
@@ -42,17 +44,17 @@ export default function AdminDashboard() {
       setChartData(ensureArray(data.apiTrend))
       setMembershipDist(ensureArray(data.memberships))
     } catch {
-      toast.error('获取统计数据失败')
+      toast.error(t.admin.get_stats_failed)
     } finally {
       setLoading(false)
     }
   }
 
   const statCards = [
-    { label: '总用户数', value: stats.totalUsers.toLocaleString(), icon: Users, color: 'cyan' as const },
-    { label: '活跃用户', value: stats.activeUsers.toLocaleString(), icon: Activity, color: 'green' as const },
-    { label: '今日新增', value: stats.todayNewUsers.toLocaleString(), icon: TrendingUp, color: 'gold' as const },
-    { label: '今日API调用', value: stats.apiCallsToday.toLocaleString(), icon: Zap, color: 'blue' as const },
+    { label: t.admin.total_users, value: stats.totalUsers.toLocaleString(), icon: Users, color: 'cyan' as const },
+    { label: t.admin.active_users, value: stats.activeUsers.toLocaleString(), icon: Activity, color: 'green' as const },
+    { label: t.admin.today_new, value: stats.todayNewUsers.toLocaleString(), icon: TrendingUp, color: 'gold' as const },
+    { label: t.admin.today_api_calls, value: stats.apiCallsToday.toLocaleString(), icon: Zap, color: 'blue' as const },
   ]
 
   const membershipColors: Record<string, string> = {
@@ -80,9 +82,9 @@ export default function AdminDashboard() {
     <div className="space-y-6 animate-fade-in">
       <div>
         <h1 className="text-2xl font-bold text-[#e0e0ff]">
-          管理<HolographicText color="gold">概览</HolographicText>
+          {t.admin.management}<HolographicText color="gold">{t.admin.overview}</HolographicText>
         </h1>
-        <p className="text-sm text-[#8888aa] mt-1">系统运行数据与用户统计</p>
+        <p className="text-sm text-[#8888aa] mt-1">{t.admin.system_stats}</p>
       </div>
 
       {/* Stat Cards */}
@@ -114,9 +116,9 @@ export default function AdminDashboard() {
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-sm font-medium text-[#e0e0ff]">
                 <BarChart3 size={16} className="inline mr-1.5 text-cyan-glow" />
-                API调用趋势
+                {t.admin.api_trend}
               </h3>
-              <Badge variant="cyan">近7天</Badge>
+              <Badge variant="cyan">{t.admin.last_7_days}</Badge>
             </div>
             <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
@@ -144,7 +146,7 @@ export default function AdminDashboard() {
         <GlowCard color="gold">
           <div className="flex items-center gap-2 mb-4">
             <CreditCard size={18} className="text-gold" />
-            <h3 className="text-base font-semibold text-[#e0e0ff]">会员分布</h3>
+            <h3 className="text-base font-semibold text-[#e0e0ff]">{t.admin.membership_distribution}</h3>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {membershipDist.map(({ membership_level, count }) => {

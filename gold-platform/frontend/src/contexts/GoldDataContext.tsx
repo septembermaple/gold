@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react'
 import { goldApi, analysisApi } from '../lib/api'
+import { useLanguage } from './LanguageContext'
 
 interface GoldStats {
   internationalPrice: number
@@ -44,6 +45,7 @@ interface GoldDataContextType {
 const GoldDataContext = createContext<GoldDataContextType | undefined>(undefined)
 
 export function GoldDataProvider({ children }: { children: ReactNode }) {
+  const { language } = useLanguage()
   const [stats, setStats] = useState<GoldStats | null>(null)
   const [klineData, setKlineData] = useState<KlineData[]>([])
   const [analysis, setAnalysis] = useState<AnalysisData | null>(null)
@@ -70,7 +72,7 @@ export function GoldDataProvider({ children }: { children: ReactNode }) {
       })
       setError(null)
     } catch (err) {
-      setError('获取金价数据失败')
+      setError('Failed to fetch gold price data')
     }
   }, [])
 
@@ -109,11 +111,11 @@ export function GoldDataProvider({ children }: { children: ReactNode }) {
   const refreshAnalysis = useCallback(async () => {
     try {
       const [bullishRes, bearishRes, summaryRes, viewsRes, adviceRes] = await Promise.allSettled([
-        analysisApi.getBullishFactors(),
-        analysisApi.getBearishFactors(),
-        analysisApi.getMarketSummary(),
-        analysisApi.getInstitutionViews(),
-        analysisApi.getInvestmentAdvice(),
+        analysisApi.getBullishFactors(language),
+        analysisApi.getBearishFactors(language),
+        analysisApi.getMarketSummary(language),
+        analysisApi.getInstitutionViews(language),
+        analysisApi.getInvestmentAdvice(language),
       ])
 
       const extractData = (res: any) => res.value?.data?.data || res.value?.data || {}
@@ -128,12 +130,12 @@ export function GoldDataProvider({ children }: { children: ReactNode }) {
         bullishFactors: Array.isArray(bullishData) ? bullishData : [],
         bearishFactors: Array.isArray(bearishData) ? bearishData : [],
         marketSummary: summaryData.priceOverview
-          ? `国际金价$${summaryData.priceOverview.international?.price || '--'}/盎司，${summaryData.marketSentiment?.trend === 'bullish' ? '市场偏多' : summaryData.marketSentiment?.trend === 'bearish' ? '市场偏空' : '市场震荡'}。支撑位$${summaryData.keyLevels?.support || '--'}，阻力位$${summaryData.keyLevels?.resistance || '--'}。`
+          ? `International gold $${summaryData.priceOverview.international?.price || '--'}/oz, ${summaryData.marketSentiment?.trend === 'bullish' ? 'Bullish' : summaryData.marketSentiment?.trend === 'bearish' ? 'Bearish' : 'Sideways'}. Support $${summaryData.keyLevels?.support || '--'}, Resistance $${summaryData.keyLevels?.resistance || '--'}.`
           : (summaryData.summary || ''),
         institutionViews: Array.isArray(viewsData) ? viewsData.map((v: any) => ({
           id: v.id,
-          institution: v.institution_name || v.institution || '未知机构',
-          view: v.rating === 'buy' ? '看涨' : v.rating === 'sell' ? '看跌' : v.rating === 'hold' ? '中性' : (v.view || '中性'),
+          institution: v.institution_name || v.institution || 'Unknown Institution',
+          view: v.rating === 'buy' ? 'Bullish' : v.rating === 'sell' ? 'Bearish' : v.rating === 'hold' ? 'Neutral' : (v.view || 'Neutral'),
           targetPrice: v.target_price || v.targetPrice,
           date: v.created_at || v.date || new Date().toISOString(),
         })) : [],

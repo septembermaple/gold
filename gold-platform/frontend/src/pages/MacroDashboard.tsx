@@ -14,9 +14,9 @@ import Badge from '../components/ui/Badge'
 import Button from '../components/ui/Button'
 import Loading from '../components/ui/Loading'
 import { macroApi } from '../lib/api'
-import { ensureArray, extractApiData } from '../lib/utils'
+import { ensureArray, extractApiData, translateText } from '../lib/utils'
 import { toast } from 'sonner'
-import { useTranslation } from '../contexts/LanguageContext'
+import { useTranslation, useLanguage } from '../contexts/LanguageContext'
 
 interface DashboardData {
   summary?: {
@@ -77,6 +77,7 @@ const ChartTooltip = ({ active, payload, label }: { active?: boolean; payload?: 
 }
 
 export default function MacroDashboard() {
+  const { language } = useLanguage()
   const [data, setData] = useState<DashboardData | null>(null)
   const [loading, setLoading] = useState(true)
   const tr = useTranslation()
@@ -84,7 +85,7 @@ export default function MacroDashboard() {
   const fetchData = useCallback(async () => {
     try {
       setLoading(true)
-      const res = await macroApi.getDashboard()
+      const res = await macroApi.getDashboard(language)
       const d = extractApiData(res) as DashboardData
       setData(d)
     } catch (err: unknown) {
@@ -107,12 +108,12 @@ export default function MacroDashboard() {
   const tech = data?.technicals
 
   const summaryCards = [
-    { label: '金价 XAU/USD', value: s?.goldPrice ? `$${s.goldPrice.toFixed(2)}` : '--', change: s?.goldChange ?? 0, icon: Coins, color: 'gold' as const },
-    { label: '美元指数 DXY', value: s?.dollarIndex?.toFixed(2) ?? '--', change: s?.dollarChange ?? 0, icon: DollarSign, color: 'blue' as const },
-    { label: '实际利率', value: s?.realRate?.toFixed(2) ?? '--', change: s?.realRateChange ?? 0, icon: TrendingDown, color: 'cyan' as const },
-    { label: 'VIX 恐慌指数', value: s?.vix?.toFixed(2) ?? '--', change: s?.vixChange ?? 0, icon: Flame, color: 'red' as const },
-    { label: '通胀预期', value: s?.inflationExpectation?.toFixed(2) ?? '--', change: s?.inflationChange ?? 0, icon: Target, color: 'green' as const },
-    { label: '美联储利率', value: s?.fedRate?.toFixed(2) ?? '--', change: s?.fedRateChange ?? 0, icon: Landmark, color: 'gold' as const },
+    { label: tr.macro.gold_price_xau, value: s?.goldPrice ? `$${s.goldPrice.toFixed(2)}` : '--', change: s?.goldChange ?? 0, icon: Coins, color: 'gold' as const },
+    { label: tr.macro.dollar_index_dxy, value: s?.dollarIndex?.toFixed(2) ?? '--', change: s?.dollarChange ?? 0, icon: DollarSign, color: 'blue' as const },
+    { label: tr.macro.real_rate, value: s?.realRate?.toFixed(2) ?? '--', change: s?.realRateChange ?? 0, icon: TrendingDown, color: 'cyan' as const },
+    { label: tr.macro.vix_index, value: s?.vix?.toFixed(2) ?? '--', change: s?.vixChange ?? 0, icon: Flame, color: 'red' as const },
+    { label: tr.macro.inflation_expectation, value: s?.inflationExpectation?.toFixed(2) ?? '--', change: s?.inflationChange ?? 0, icon: Target, color: 'green' as const },
+    { label: tr.macro.fed_rate, value: s?.fedRate?.toFixed(2) ?? '--', change: s?.fedRateChange ?? 0, icon: Landmark, color: 'gold' as const },
   ]
 
   const goldHistory = ensureArray(data?.goldHistory)
@@ -126,9 +127,9 @@ export default function MacroDashboard() {
   }
 
   const trendLabel = (trend?: string) => {
-    if (trend === 'up' || trend === 'bullish' || trend === 'rising' || trend === 'increasing') return '上行'
-    if (trend === 'down' || trend === 'bearish' || trend === 'declining' || trend === 'decreasing') return '下行'
-    return '震荡'
+    if (trend === 'up' || trend === 'bullish' || trend === 'rising' || trend === 'increasing') return tr.macro.up
+    if (trend === 'down' || trend === 'bearish' || trend === 'declining' || trend === 'decreasing') return tr.macro.down
+    return tr.macro.sideways
   }
 
   const trendColor = (trend?: string) => {
@@ -143,19 +144,19 @@ export default function MacroDashboard() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-[#e0e0ff]">
-            <HolographicText as="span" color="cyan">宏观分析</HolographicText>仪表盘
+            <HolographicText as="span" color="cyan">{tr.macro.title_part1}</HolographicText>{tr.macro.title_part2}
           </h1>
-          <p className="text-sm text-[#8888aa] mt-1">全球宏观因子与黄金市场全景分析</p>
+          <p className="text-sm text-[#8888aa] mt-1">{tr.macro.subtitle}</p>
         </div>
         <Button variant="ghost" size="sm" onClick={fetchData}>
-          <RefreshCw size={14} /> 刷新
+          <RefreshCw size={14} /> {tr.common.refresh}
         </Button>
       </div>
 
       {/* Summary Cards */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
         {summaryCards.map((card) => (
-          <GlowCard key={card.label} color={card.color} className="relative overflow-hidden">
+          <GlowCard key={card.label} color={card.color} className="relative overflow-hidden min-w-[120px]">
             <div className="flex items-start justify-between">
               <div className="min-w-0">
                 <p className="text-[10px] text-[#8888aa] mb-1 truncate">{card.label}</p>
@@ -186,12 +187,12 @@ export default function MacroDashboard() {
       <div>
         <h2 className="text-lg font-semibold text-[#e0e0ff] mb-3">
           <Shield size={18} className="inline mr-1.5 text-cyan-glow" />
-          核心因子面板
+          {tr.macro.core_factor_panel}
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
           {/* Real Rate */}
-          <GlowCard color="cyan">
-            <p className="text-xs text-[#8888aa] mb-2">实际利率</p>
+          <GlowCard color="cyan" className="min-w-0">
+            <p className="text-xs text-[#8888aa] mb-2">{tr.macro.real_rate}</p>
             <p className="text-xl font-mono font-bold text-cyan-glow mb-2">
               {f?.realRate?.current?.toFixed(2) ?? '--'}%
             </p>
@@ -199,7 +200,7 @@ export default function MacroDashboard() {
               <div className="flex justify-between"><span className="text-[#8888aa]">MA20</span><span className="text-[#e0e0ff]">{f?.realRate?.ma20?.toFixed(2) ?? '--'}</span></div>
               <div className="flex justify-between"><span className="text-[#8888aa]">MA60</span><span className="text-[#e0e0ff]">{f?.realRate?.ma60?.toFixed(2) ?? '--'}</span></div>
               <div className="flex justify-between items-center">
-                <span className="text-[#8888aa]">趋势</span>
+                <span className="text-[#8888aa]">{tr.macro.trend}</span>
                 <span className={`flex items-center gap-1 ${trendColor(f?.realRate?.trend)}`}>
                   {trendIcon(f?.realRate?.trend)} {trendLabel(f?.realRate?.trend)}
                 </span>
@@ -208,15 +209,15 @@ export default function MacroDashboard() {
           </GlowCard>
 
           {/* Dollar */}
-          <GlowCard color="blue">
-            <p className="text-xs text-[#8888aa] mb-2">美元指数</p>
+          <GlowCard color="blue" className="min-w-0">
+            <p className="text-xs text-[#8888aa] mb-2">{tr.macro.dollar_index}</p>
             <p className="text-xl font-mono font-bold text-electric-blue mb-2">
               {f?.dollar?.current?.toFixed(2) ?? '--'}
             </p>
             <div className="space-y-1 text-xs">
-              <div className="flex justify-between"><span className="text-[#8888aa]">20日动量</span><span className="text-[#e0e0ff]">{f?.dollar?.momentum20d?.toFixed(2) ?? '--'}</span></div>
+              <div className="flex justify-between"><span className="text-[#8888aa]">{tr.macro.momentum_20d}</span><span className="text-[#e0e0ff]">{f?.dollar?.momentum20d?.toFixed(2) ?? '--'}</span></div>
               <div className="flex justify-between items-center">
-                <span className="text-[#8888aa]">趋势</span>
+                <span className="text-[#8888aa]">{tr.macro.trend}</span>
                 <span className={`flex items-center gap-1 ${trendColor(f?.dollar?.trend)}`}>
                   {trendIcon(f?.dollar?.trend)} {trendLabel(f?.dollar?.trend)}
                 </span>
@@ -225,34 +226,34 @@ export default function MacroDashboard() {
           </GlowCard>
 
           {/* Inflation */}
-          <GlowCard color="gold">
-            <p className="text-xs text-[#8888aa] mb-2">通胀指标</p>
+          <GlowCard color="gold" className="min-w-0">
+            <p className="text-xs text-[#8888aa] mb-2">{tr.macro.inflation_indicator}</p>
             <div className="space-y-2 text-xs">
-              <div className="flex justify-between"><span className="text-[#8888aa]">Breakeven</span><span className="text-gold font-mono">{f?.inflation?.breakeven?.toFixed(2) ?? '--'}%</span></div>
-              <div className="flex justify-between"><span className="text-[#8888aa]">CPI</span><span className="text-gold font-mono">{f?.inflation?.cpi?.toFixed(2) ?? '--'}%</span></div>
-              <div className="flex justify-between"><span className="text-[#8888aa]">PCE</span><span className="text-gold font-mono">{f?.inflation?.pce?.toFixed(2) ?? '--'}%</span></div>
+              <div className="flex justify-between"><span className="text-[#8888aa]">{tr.macro.breakeven}</span><span className="text-gold font-mono">{f?.inflation?.breakeven?.toFixed(2) ?? '--'}%</span></div>
+              <div className="flex justify-between"><span className="text-[#8888aa]">{tr.macro.cpi}</span><span className="text-gold font-mono">{f?.inflation?.cpi?.toFixed(2) ?? '--'}%</span></div>
+              <div className="flex justify-between"><span className="text-[#8888aa]">{tr.macro.pce}</span><span className="text-gold font-mono">{f?.inflation?.pce?.toFixed(2) ?? '--'}%</span></div>
             </div>
           </GlowCard>
 
           {/* Fed Assets */}
-          <GlowCard color="gold">
-            <p className="text-xs text-[#8888aa] mb-2">美联储资产</p>
+          <GlowCard color="gold" className="min-w-0">
+            <p className="text-xs text-[#8888aa] mb-2">{tr.macro.fed_assets}</p>
             <p className="text-xl font-mono font-bold text-gold mb-2">
               {f?.fedAssets?.current ? `$${(f.fedAssets.current / 1e3).toFixed(0)}B` : '--'}
             </p>
             <div className="text-xs">
-              <div className="flex justify-between"><span className="text-[#8888aa]">变动</span><span className={f?.fedAssets?.change && f.fedAssets.change < 0 ? 'text-neon-red' : 'text-neon-green'}>{f?.fedAssets?.change ? `${(f.fedAssets.change / 1e3).toFixed(0)}B` : '--'}</span></div>
+              <div className="flex justify-between"><span className="text-[#8888aa]">{tr.macro.change}</span><span className={f?.fedAssets?.change && f.fedAssets.change < 0 ? 'text-neon-red' : 'text-neon-green'}>{f?.fedAssets?.change ? `${(f.fedAssets.change / 1e3).toFixed(0)}B` : '--'}</span></div>
             </div>
           </GlowCard>
 
           {/* VIX */}
-          <GlowCard color="red">
-            <p className="text-xs text-[#8888aa] mb-2">VIX 恐慌指数</p>
+          <GlowCard color="red" className="min-w-0">
+            <p className="text-xs text-[#8888aa] mb-2">{tr.macro.vix_index}</p>
             <p className="text-xl font-mono font-bold text-neon-red mb-2">
               {f?.vix?.current?.toFixed(2) ?? '--'}
             </p>
             <div className="flex justify-between items-center text-xs">
-              <span className="text-[#8888aa]">趋势</span>
+              <span className="text-[#8888aa]">{tr.macro.trend}</span>
               <span className={`flex items-center gap-1 ${trendColor(f?.vix?.trend)}`}>
                 {trendIcon(f?.vix?.trend)} {trendLabel(f?.vix?.trend)}
               </span>
@@ -268,7 +269,7 @@ export default function MacroDashboard() {
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-sm font-medium text-[#e0e0ff]">
               <LineChart size={16} className="inline mr-1.5 text-gold" />
-              金价走势 + MA50/MA200
+              {tr.macro.gold_trend_ma}
             </h3>
             <Badge variant="gold">XAU/USD</Badge>
           </div>
@@ -286,9 +287,9 @@ export default function MacroDashboard() {
                 <YAxis tick={{ fill: '#8888aa', fontSize: 11 }} axisLine={{ stroke: 'rgba(0,240,255,0.1)' }} tickLine={false} domain={['auto', 'auto']} />
                 <Tooltip content={<ChartTooltip />} />
                 <Legend wrapperStyle={{ fontSize: 12, color: '#8888aa' }} />
-                <Area type="monotone" dataKey="price" stroke="#fbbf24" strokeWidth={2} fill="url(#goldGradient)" name="金价" />
-                <Area type="monotone" dataKey="ma50" stroke="#00f0ff" strokeWidth={1.5} strokeDasharray="4 2" fill="none" name="MA50" />
-                <Area type="monotone" dataKey="ma200" stroke="#ff3366" strokeWidth={1.5} strokeDasharray="6 3" fill="none" name="MA200" />
+                <Area type="monotone" dataKey="price" stroke="#fbbf24" strokeWidth={2} fill="url(#goldGradient)" name={tr.macro.gold_price} />
+                <Area type="monotone" dataKey="ma50" stroke="#00f0ff" strokeWidth={1.5} strokeDasharray="4 2" fill="none" name={tr.macro.ma50} />
+                <Area type="monotone" dataKey="ma200" stroke="#ff3366" strokeWidth={1.5} strokeDasharray="6 3" fill="none" name={tr.macro.ma200} />
               </AreaChart>
             </ResponsiveContainer>
           </div>
@@ -299,7 +300,7 @@ export default function MacroDashboard() {
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-sm font-medium text-[#e0e0ff]">
               <TrendingDown size={16} className="inline mr-1.5 text-cyan-glow" />
-              实际利率走势
+              {tr.macro.real_rate_trend}
             </h3>
             <Badge variant="cyan">Real Rate</Badge>
           </div>
@@ -316,7 +317,7 @@ export default function MacroDashboard() {
                 <XAxis dataKey="date" tick={{ fill: '#8888aa', fontSize: 10 }} axisLine={{ stroke: 'rgba(0,240,255,0.1)' }} tickLine={false} />
                 <YAxis tick={{ fill: '#8888aa', fontSize: 10 }} axisLine={{ stroke: 'rgba(0,240,255,0.1)' }} tickLine={false} />
                 <Tooltip content={<ChartTooltip />} />
-                <Area type="monotone" dataKey="value" stroke="#00f0ff" strokeWidth={2} fill="url(#rateGradient)" name="实际利率" />
+                <Area type="monotone" dataKey="value" stroke="#00f0ff" strokeWidth={2} fill="url(#rateGradient)" name={tr.macro.real_rate} />
               </AreaChart>
             </ResponsiveContainer>
           </div>
@@ -328,7 +329,7 @@ export default function MacroDashboard() {
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-sm font-medium text-[#e0e0ff]">
             <DollarSign size={16} className="inline mr-1.5 text-electric-blue" />
-            美元指数走势
+            {tr.macro.dollar_trend}
           </h3>
           <Badge variant="blue">DXY</Badge>
         </div>
@@ -345,7 +346,7 @@ export default function MacroDashboard() {
               <XAxis dataKey="date" tick={{ fill: '#8888aa', fontSize: 11 }} axisLine={{ stroke: 'rgba(0,240,255,0.1)' }} tickLine={false} />
               <YAxis tick={{ fill: '#8888aa', fontSize: 11 }} axisLine={{ stroke: 'rgba(0,240,255,0.1)' }} tickLine={false} domain={['auto', 'auto']} />
               <Tooltip content={<ChartTooltip />} />
-              <Area type="monotone" dataKey="value" stroke="#0088ff" strokeWidth={2} fill="url(#dollarGradient)" name="美元指数" />
+              <Area type="monotone" dataKey="value" stroke="#0088ff" strokeWidth={2} fill="url(#dollarGradient)" name={tr.macro.dollar_index} />
             </AreaChart>
           </ResponsiveContainer>
         </div>
@@ -357,15 +358,15 @@ export default function MacroDashboard() {
         <GlowCard color="cyan">
           <h3 className="text-sm font-medium text-[#e0e0ff] mb-4">
             <Zap size={16} className="inline mr-1.5 text-cyan-glow" />
-            技术指标面板
+            {tr.macro.tech_indicator_panel}
           </h3>
           <div className="space-y-3">
             {[
               { label: 'MA50', value: data?.technicals?.ma50?.toFixed(2) ?? '--', color: 'text-cyan-glow' },
               { label: 'MA200', value: data?.technicals?.ma200?.toFixed(2) ?? '--', color: 'text-neon-red' },
               { label: 'RSI14', value: data?.technicals?.rsi14?.toFixed(2) ?? '--', color: data?.technicals?.rsi14 && data.technicals.rsi14 > 70 ? 'text-neon-red' : data?.technicals?.rsi14 && data.technicals.rsi14 < 30 ? 'text-neon-green' : 'text-cyan-glow' },
-              { label: '支撑位', value: data?.technicals?.support?.toFixed(2) ?? '--', color: 'text-neon-green' },
-              { label: '阻力位', value: data?.technicals?.resistance?.toFixed(2) ?? '--', color: 'text-neon-red' },
+              { label: tr.macro.support, value: data?.technicals?.support?.toFixed(2) ?? '--', color: 'text-neon-green' },
+              { label: tr.macro.resistance, value: data?.technicals?.resistance?.toFixed(2) ?? '--', color: 'text-neon-red' },
             ].map((item) => (
               <div key={item.label} className="flex items-center justify-between py-2 border-b border-[rgba(0,240,255,0.06)] last:border-0">
                 <span className="text-xs text-[#8888aa]">{item.label}</span>
@@ -373,9 +374,9 @@ export default function MacroDashboard() {
               </div>
             ))}
             <div className="flex items-center justify-between py-2">
-              <span className="text-xs text-[#8888aa]">金叉/死叉</span>
+              <span className="text-xs text-[#8888aa]">{tr.macro.golden_cross}/{tr.macro.death_cross}</span>
               <Badge variant={data?.technicals?.crossStatus === 'golden_cross' ? 'green' : data?.technicals?.crossStatus === 'death_cross' ? 'red' : 'gray'}>
-                {data?.technicals?.crossStatus === 'golden_cross' ? '金叉' : data?.technicals?.crossStatus === 'death_cross' ? '死叉' : '无信号'}
+                {data?.technicals?.crossStatus === 'golden_cross' ? tr.macro.golden_cross : data?.technicals?.crossStatus === 'death_cross' ? tr.macro.death_cross : tr.macro.no_signal}
               </Badge>
             </div>
           </div>
@@ -385,19 +386,19 @@ export default function MacroDashboard() {
         <GlowCard color="gold">
           <h3 className="text-sm font-medium text-[#e0e0ff] mb-4">
             <BarChart3 size={16} className="inline mr-1.5 text-gold" />
-            扩展市场数据
+            {tr.macro.extended_market}
           </h3>
           <div className="space-y-3">
             {[
-              { label: '金银比', value: data?.goldSilverRatio?.toFixed(2) ?? '--', color: 'text-gold' },
-              { label: 'GDX 金矿ETF', value: data?.gdxEtf?.price ? `$${data.gdxEtf.price.toFixed(2)}` : '--', sub: data?.gdxEtf?.change?.toFixed(2) ? `${data.gdxEtf.change >= 0 ? '+' : ''}${data.gdxEtf.change.toFixed(2)}%` : undefined, color: 'text-gold' },
-              { label: '收益率曲线斜率', value: data?.yieldCurve?.slope?.toFixed(2) ?? '--', color: 'text-electric-blue' },
-              { label: '收益率曲线趋势', value: data?.yieldCurve?.trend ?? '--', color: 'text-electric-blue' },
-              { label: '波动率(当前/30日均值)', value: data?.volatility ? `${data.volatility.current?.toFixed(2) ?? '--'} / ${data.volatility.avg30d?.toFixed(2) ?? '--'}` : '--', color: 'text-neon-red' },
-              { label: 'COT 净多头', value: data?.cot?.netLong?.toLocaleString() ?? '--', sub: data?.cot?.change?.toFixed(0) ? `${data.cot.change >= 0 ? '+' : ''}${data.cot.change.toFixed(0)}` : undefined, color: 'text-cyan-glow' },
-              { label: 'GLD ETF 流入', value: data?.gldEtf?.flow?.toFixed(2) ?? '--', color: 'text-neon-green' },
-              { label: 'GLD ETF 持仓', value: data?.gldEtf?.holdings ? `${data.gldEtf.holdings.toFixed(0)}t` : '--', color: 'text-neon-green' },
-              { label: '央行购金', value: data?.centralBankBuying?.tonnes ? `${data.centralBankBuying.tonnes.toFixed(0)}t` : '--', color: 'text-gold' },
+              { label: tr.macro.gold_silver_ratio, value: data?.goldSilverRatio?.toFixed(2) ?? '--', color: 'text-gold' },
+              { label: tr.macro.gdx_etf, value: data?.gdxEtf?.price ? `$${data.gdxEtf.price.toFixed(2)}` : '--', sub: data?.gdxEtf?.change?.toFixed(2) ? `${data.gdxEtf.change >= 0 ? '+' : ''}${data.gdxEtf.change.toFixed(2)}%` : undefined, color: 'text-gold' },
+              { label: tr.macro.yield_curve_slope, value: data?.yieldCurve?.slope?.toFixed(2) ?? '--', color: 'text-electric-blue' },
+              { label: tr.macro.yield_curve_trend, value: data?.yieldCurve?.trend ? translateText(data.yieldCurve.trend, tr) : '--', color: 'text-electric-blue' },
+              { label: tr.macro.volatility_ratio, value: data?.volatility ? `${data.volatility.current?.toFixed(2) ?? '--'} / ${data.volatility.avg30d?.toFixed(2) ?? '--'}` : '--', color: 'text-neon-red' },
+              { label: tr.macro.cot_net_long, value: data?.cot?.netLong?.toLocaleString() ?? '--', sub: data?.cot?.change?.toFixed(0) ? `${data.cot.change >= 0 ? '+' : ''}${data.cot.change.toFixed(0)}` : undefined, color: 'text-cyan-glow' },
+              { label: tr.macro.gld_inflow, value: data?.gldEtf?.flow?.toFixed(2) ?? '--', color: 'text-neon-green' },
+              { label: tr.macro.gld_holding, value: data?.gldEtf?.holdings ? `${data.gldEtf.holdings.toFixed(0)}t` : '--', color: 'text-neon-green' },
+              { label: tr.macro.cb_gold_buy, value: data?.centralBankBuying?.tonnes ? `${data.centralBankBuying.tonnes.toFixed(0)}t` : '--', color: 'text-gold' },
             ].map((item) => (
               <div key={item.label} className="flex items-center justify-between py-2 border-b border-[rgba(0,240,255,0.06)] last:border-0">
                 <span className="text-xs text-[#8888aa]">{item.label}</span>

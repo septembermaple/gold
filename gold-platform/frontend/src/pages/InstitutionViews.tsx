@@ -5,7 +5,7 @@ import Badge from '../components/ui/Badge'
 import Button from '../components/ui/Button'
 import Loading from '../components/ui/Loading'
 import { useGoldData } from '../contexts/GoldDataContext'
-import { formatPrice, formatTime } from '../lib/utils'
+import { formatPrice, formatTime, translateText } from '../lib/utils'
 import { useTranslation } from '../contexts/LanguageContext'
 
 export default function InstitutionViews() {
@@ -21,14 +21,14 @@ export default function InstitutionViews() {
     : defaultViews
 
   const getViewIcon = (view: string) => {
-    if (view?.includes(t.institution.bullish) || view?.includes('买入') || view?.includes('增持')) return TrendingUp
-    if (view?.includes(t.institution.bearish) || view?.includes('卖出') || view?.includes('减持')) return TrendingDown
+    if (view?.includes(t.institution.bullish) || view?.includes('Buy') || view?.includes('buy')) return TrendingUp
+    if (view?.includes(t.institution.bearish) || view?.includes('Sell') || view?.includes('sell')) return TrendingDown
     return Minus
   }
 
   const getViewColor = (view: string) => {
-    if (view?.includes(t.institution.bullish) || view?.includes('买入') || view?.includes('增持')) return 'green' as const
-    if (view?.includes(t.institution.bearish) || view?.includes('卖出') || view?.includes('减持')) return 'red' as const
+    if (view?.includes(t.institution.bullish) || view?.includes('Buy') || view?.includes('buy')) return 'green' as const
+    if (view?.includes(t.institution.bearish) || view?.includes('Sell') || view?.includes('sell')) return 'red' as const
     return 'gold' as const
   }
 
@@ -52,21 +52,21 @@ export default function InstitutionViews() {
         <GlowCard color="green" className="text-center">
           <TrendingUp size={24} className="mx-auto text-neon-green mb-2" />
           <p className="text-2xl font-mono font-bold text-neon-green">
-            {views.filter(v => v.view?.includes(t.institution.bullish) || v.view?.includes('买入')).length}
+            {views.filter(v => v.view?.includes(t.institution.bullish) || v.view?.includes('Buy')).length}
           </p>
           <p className="text-xs text-[#8888aa]">{t.institution.bullish_institutions}</p>
         </GlowCard>
         <GlowCard color="gold" className="text-center">
           <Minus size={24} className="mx-auto text-gold mb-2" />
           <p className="text-2xl font-mono font-bold text-gold">
-            {views.filter(v => v.view?.includes(t.institution.neutral) || v.view?.includes('持有')).length}
+            {views.filter(v => v.view?.includes(t.institution.neutral) || v.view?.includes('Hold')).length}
           </p>
           <p className="text-xs text-[#8888aa]">{t.institution.neutral_institutions}</p>
         </GlowCard>
         <GlowCard color="red" className="text-center">
           <TrendingDown size={24} className="mx-auto text-neon-red mb-2" />
           <p className="text-2xl font-mono font-bold text-neon-red">
-            {views.filter(v => v.view?.includes(t.institution.bearish) || v.view?.includes('卖出')).length}
+            {views.filter(v => v.view?.includes(t.institution.bearish) || v.view?.includes('Sell')).length}
           </p>
           <p className="text-xs text-[#8888aa]">{t.institution.bearish_institutions}</p>
         </GlowCard>
@@ -97,17 +97,17 @@ export default function InstitutionViews() {
                     <div className="flex items-center gap-2">
                       {view.targetPrice && (
                         <Badge variant="cyan" size="sm">
-                          目标价: ${formatPrice(view.targetPrice)}
+                          {t.institution.target_price}: ${formatPrice(view.targetPrice)}
                         </Badge>
                       )}
                       <Badge variant={color === 'green' ? 'green' : color === 'red' ? 'red' : 'gold'} size="sm">
                         <ViewIcon size={12} className="mr-1" />
-                        {view.view}
+                        {translateText(view.view, t)}
                       </Badge>
                     </div>
                   </div>
                   <p className="text-sm text-[#8888aa] leading-relaxed">
-                    {t.institution?.institution_view_desc?.replace('{institution}', view.institution).replace('{view}', view.view) || `${view.institution}对黄金市场持${view.view}态度`}
+                    {t.institution?.institution_view_desc?.replace('{institution}', view.institution).replace('{view}', view.view) || `${view.institution} ${t.institution.holds} ${view.view} ${t.institution.stance}`}
                   </p>
                   {view.date && (
                     <p className="text-xs text-[#8888aa]/60 mt-2">
@@ -125,10 +125,10 @@ export default function InstitutionViews() {
 }
 
 const defaultViews = [
-  { id: '1', institution: 'Goldman Sachs', view: '看涨', targetPrice: 4650, date: '2026-06-01' },
-  { id: '2', institution: 'JP Morgan', view: '看涨', targetPrice: 4550, date: '2026-06-01' },
-  { id: '3', institution: 'UBS', view: '看涨', targetPrice: 4500, date: '2026-05-28' },
-  { id: '4', institution: 'Bank of America', view: '中性', targetPrice: 4350, date: '2026-05-25' },
-  { id: '5', institution: 'Citigroup', view: '看涨', targetPrice: 4700, date: '2026-05-20' },
-  { id: '6', institution: 'Morgan Stanley', view: '中性', targetPrice: 4300, date: '2026-05-18' },
+  { id: '1', institution: 'Goldman Sachs', view: 'Bullish', targetPrice: 4650, date: '2026-06-01' },
+  { id: '2', institution: 'JP Morgan', view: 'Bullish', targetPrice: 4550, date: '2026-06-01' },
+  { id: '3', institution: 'UBS', view: 'Bullish', targetPrice: 4500, date: '2026-05-28' },
+  { id: '4', institution: 'Bank of America', view: 'Neutral', targetPrice: 4350, date: '2026-05-25' },
+  { id: '5', institution: 'Citigroup', view: 'Bullish', targetPrice: 4700, date: '2026-05-20' },
+  { id: '6', institution: 'Morgan Stanley', view: 'Neutral', targetPrice: 4300, date: '2026-05-18' },
 ]

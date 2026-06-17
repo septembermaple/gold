@@ -1,18 +1,20 @@
 import { Outlet, Link, useLocation } from 'react-router-dom'
 import { BarChart3, Users, CreditCard, Shield, Server, ArrowLeft, CandlestickChart } from 'lucide-react'
 import { cn } from '../../lib/utils'
+import { useTranslation } from '../../contexts/LanguageContext'
 
-const adminLinks = [
-  { path: '/admin', label: '管理概览', icon: BarChart3 },
-  { path: '/admin/users', label: '用户管理', icon: Users },
-  { path: '/admin/memberships', label: '会员管理', icon: CreditCard },
-  { path: '/admin/permissions', label: '权限管理', icon: Shield },
-  { path: '/admin/system', label: '系统设置', icon: Server },
-  { path: '/admin/kline-data', label: 'K线数据', icon: CandlestickChart },
+const adminLinkDefs = [
+  { path: '/admin', labelKey: 'admin_overview', icon: BarChart3 },
+  { path: '/admin/users', labelKey: 'user_management', icon: Users },
+  { path: '/admin/memberships', labelKey: 'membership_management', icon: CreditCard },
+  { path: '/admin/permissions', labelKey: 'permission_management', icon: Shield },
+  { path: '/admin/system', labelKey: 'system_settings', icon: Server },
+  { path: '/admin/kline-data', labelKey: 'kline_data', icon: CandlestickChart },
 ]
 
 export default function AdminLayout() {
   const location = useLocation()
+  const { t } = useTranslation()
 
   const isActive = (path: string) => {
     if (path === '/admin') return location.pathname === '/admin'
@@ -27,11 +29,11 @@ export default function AdminLayout() {
           <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-gold to-gold-dark flex items-center justify-center glow-border-gold">
             <span className="text-dark-900 font-bold text-sm">Au</span>
           </div>
-          <span className="text-lg font-bold glow-text-gold">管理后台</span>
+          <span className="text-lg font-bold glow-text-gold">{t.admin.admin_panel}</span>
         </div>
         <div className="ml-auto">
           <Link to="/dashboard" className="flex items-center gap-1.5 text-sm text-[#8888aa] hover:text-[#e0e0ff] transition-colors">
-            <ArrowLeft size={14} /> 返回前台
+            <ArrowLeft size={14} /> {t.admin.back_to_front}
           </Link>
         </div>
       </div>
@@ -40,7 +42,7 @@ export default function AdminLayout() {
         {/* Sidebar */}
         <aside className="hidden lg:flex flex-col w-60 min-h-[calc(100vh-4rem)] bg-dark-800/30 border-r border-[rgba(0,240,255,0.08)] py-4 px-3">
           <nav className="space-y-1">
-            {adminLinks.map((link) => (
+            {adminLinkDefs.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
@@ -52,7 +54,7 @@ export default function AdminLayout() {
                 )}
               >
                 <link.icon size={18} />
-                {link.label}
+                {t.admin[link.labelKey]}
               </Link>
             ))}
           </nav>
@@ -60,13 +62,13 @@ export default function AdminLayout() {
 
         {/* Main Content */}
         <main className="flex-1 min-h-[calc(100vh-4rem)] overflow-auto flex flex-col">
-          <div className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="flex-1 w-full px-4 sm:px-6 lg:px-8 py-6">
             <Outlet />
           </div>
           <footer className="border-t border-[rgba(0,240,255,0.08)] bg-dark-950">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div className="w-full px-4 sm:px-6 lg:px-8 py-4">
               <div className="p-3 rounded-lg bg-gold/5 border border-gold/15 text-xs text-[#aaa89a] leading-relaxed text-center">
-                <span className="text-gold font-medium">风险提示：</span>本平台提供的数据分析与AI解读仅供学习参考，不构成任何投资建议。金融市场存在较大风险，投资需谨慎，请根据自身情况独立判断并承担相应风险。
+                <span className="text-gold font-medium">{t.admin.risk_warning_short}</span>{t.common.risk_warning.replace(t.admin.risk_warning_short, '')}
               </div>
             </div>
           </footer>

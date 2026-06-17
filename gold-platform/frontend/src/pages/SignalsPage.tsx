@@ -12,6 +12,7 @@ import HolographicText from '../components/ui/HolographicText'
 import Badge from '../components/ui/Badge'
 import Button from '../components/ui/Button'
 import Loading from '../components/ui/Loading'
+import { useTranslation } from '../contexts/LanguageContext'
 import { macroApi } from '../lib/api'
 import { ensureArray, extractApiData } from '../lib/utils'
 import { toast } from 'sonner'
@@ -65,6 +66,7 @@ const StrengthStars = ({ strength }: { strength?: number }) => {
 }
 
 export default function SignalsPage() {
+  const t = useTranslation()
   const [data, setData] = useState<DashboardData | null>(null)
   const [loading, setLoading] = useState(true)
 
@@ -104,12 +106,12 @@ export default function SignalsPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-[#e0e0ff]">
-            <HolographicText as="span" color="mixed">多空信号</HolographicText>面板
+            <HolographicText as="span" color="mixed">{t.signals.title}</HolographicText>
           </h1>
-          <p className="text-sm text-[#8888aa] mt-1">实时市场多空信号综合分析</p>
+          <p className="text-sm text-[#8888aa] mt-1">{t.signals.subtitle}</p>
         </div>
         <Button variant="ghost" size="sm" onClick={fetchData}>
-          <RefreshCw size={14} /> 刷新
+          <RefreshCw size={14} /> {t.common.refresh}
         </Button>
       </div>
 
@@ -149,7 +151,7 @@ export default function SignalsPage() {
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-sm font-medium text-[#e0e0ff]">
             <Signal size={16} className="inline mr-1.5 text-cyan-glow" />
-            信号强度对比
+            {t.signals.strength_comparison}
           </h3>
           <Badge variant="cyan">Strength</Badge>
         </div>
@@ -177,9 +179,9 @@ export default function SignalsPage() {
                   fontSize: '14px',
                   marginBottom: '6px',
                 }}
-                formatter={(value: number) => [
+                formatter={(value) => [
                   <span style={{ color: '#ffffff', fontSize: '16px', fontWeight: 'bold', display: 'block' }}>{value}</span>,
-                  <span style={{ color: '#8888aa', fontSize: '11px', display: 'block' }}>信号强度</span>
+                  <span style={{ color: '#8888aa', fontSize: '11px', display: 'block' }}>{t.signals.signal_strength}</span>
                 ]}
               />
               <Bar dataKey="value" radius={[0, 4, 4, 0]} barSize={32}>
@@ -198,13 +200,13 @@ export default function SignalsPage() {
         <div>
           <h2 className="text-lg font-semibold text-[#e0e0ff] mb-3 flex items-center gap-2">
             <CheckCircle2 size={18} className="text-neon-green" />
-            看多信号
+            {t.signals.bullish_signals}
             <Badge variant="green" size="md">{bullishSignals.length}</Badge>
           </h2>
           <div className="space-y-3">
             {bullishSignals.length === 0 ? (
               <div className="glass-dark p-6 text-center">
-                <p className="text-sm text-[#8888aa]">暂无看多信号</p>
+                <p className="text-sm text-[#8888aa]">{t.signals.bullish_signals} {t.common.no_data}</p>
               </div>
             ) : (
               bullishSignals.map((signal, i) => (
@@ -212,10 +214,10 @@ export default function SignalsPage() {
                   <div className="absolute top-0 left-0 w-1 h-full bg-neon-green" />
                   <div className="pl-3">
                     <div className="flex items-start justify-between mb-1">
-                      <h4 className="text-sm font-semibold text-neon-green">{signal.title || `看多信号 ${i + 1}`}</h4>
+                      <h4 className="text-sm font-semibold text-neon-green">{signal.title || `${t.signals.bullish_signals} ${i + 1}`}</h4>
                       <StrengthStars strength={signal.strength} />
                     </div>
-                    <p className="text-xs text-[#8888aa] leading-relaxed">{signal.detail || '暂无详情'}</p>
+                    <p className="text-xs text-[#8888aa] leading-relaxed">{signal.detail || t.common.no_details}</p>
                     {signal.category && (
                       <Badge variant="green" size="sm" className="mt-2">{signal.category}</Badge>
                     )}
@@ -230,13 +232,13 @@ export default function SignalsPage() {
         <div>
           <h2 className="text-lg font-semibold text-[#e0e0ff] mb-3 flex items-center gap-2">
             <XCircle size={18} className="text-neon-red" />
-            看空信号
+            {t.signals.bearish_signals}
             <Badge variant="red" size="md">{bearishSignals.length}</Badge>
           </h2>
           <div className="space-y-3">
             {bearishSignals.length === 0 ? (
               <div className="glass-dark p-6 text-center">
-                <p className="text-sm text-[#8888aa]">暂无看空信号</p>
+                <p className="text-sm text-[#8888aa]">{t.signals.bearish_signals} {t.common.no_data}</p>
               </div>
             ) : (
               bearishSignals.map((signal, i) => (
@@ -244,10 +246,10 @@ export default function SignalsPage() {
                   <div className="absolute top-0 left-0 w-1 h-full bg-neon-red" />
                   <div className="pl-3">
                     <div className="flex items-start justify-between mb-1">
-                      <h4 className="text-sm font-semibold text-neon-red">{signal.title || `看空信号 ${i + 1}`}</h4>
+                      <h4 className="text-sm font-semibold text-neon-red">{signal.title || `${t.signals.bearish_signals} ${i + 1}`}</h4>
                       <StrengthStars strength={signal.strength} />
                     </div>
-                    <p className="text-xs text-[#8888aa] leading-relaxed">{signal.detail || '暂无详情'}</p>
+                    <p className="text-xs text-[#8888aa] leading-relaxed">{signal.detail || t.common.no_details}</p>
                     {signal.category && (
                       <Badge variant="red" size="sm" className="mt-2">{signal.category}</Badge>
                     )}

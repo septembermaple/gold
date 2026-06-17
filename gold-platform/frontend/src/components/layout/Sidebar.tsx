@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom'
 import { BarChart3, TrendingUp, Building2, Lightbulb, User, Settings, Users, Shield, CreditCard, Server, Globe, Zap, Heart, Star, ShieldAlert, Brain } from 'lucide-react'
+import { useTranslation } from '../../contexts/LanguageContext'
 import { cn } from '../../lib/utils'
 
 interface SidebarProps {
@@ -7,28 +8,29 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ variant = 'main' }: SidebarProps) {
+  const t = useTranslation()
   const location = useLocation()
 
   const mainLinks = [
-    { path: '/dashboard', label: '仪表盘', icon: BarChart3 },
-    { path: '/macro', label: '宏观分析', icon: Globe },
-    { path: '/signals', label: '多空信号', icon: Zap },
-    { path: '/sentiment', label: '市场情绪', icon: Heart },
-    { path: '/scoring', label: '评分模型', icon: Star },
-    { path: '/risk', label: '风险评估', icon: ShieldAlert },
-    { path: '/ai-analysis', label: 'AI分析', icon: Brain },
-    { path: '/analysis', label: '因子分析', icon: TrendingUp },
-    { path: '/institution-views', label: '机构观点', icon: Building2 },
-    { path: '/investment-advice', label: '投资建议', icon: Lightbulb },
-    { path: '/profile', label: '个人中心', icon: User },
+    { path: '/dashboard', label: t.common.dashboard, icon: BarChart3 },
+    { path: '/macro', label: t.common.macro, icon: Globe },
+    { path: '/signals', label: t.common.signals, icon: Zap },
+    { path: '/sentiment', label: t.common.sentiment, icon: Heart },
+    { path: '/scoring', label: t.common.scoring, icon: Star },
+    { path: '/risk', label: t.common.risk, icon: ShieldAlert },
+    { path: '/ai-analysis', label: t.common.ai_analysis, icon: Brain },
+    { path: '/analysis', label: t.common.analysis, icon: TrendingUp },
+    { path: '/institution-views', label: t.common.institution_views, icon: Building2 },
+    { path: '/investment-advice', label: t.common.investment_advice, icon: Lightbulb },
+    { path: '/profile', label: t.common.profile, icon: User },
   ]
 
   const adminLinks = [
-    { path: '/admin', label: '管理概览', icon: BarChart3 },
-    { path: '/admin/users', label: '用户管理', icon: Users },
-    { path: '/admin/memberships', label: '会员管理', icon: CreditCard },
-    { path: '/admin/permissions', label: '权限管理', icon: Shield },
-    { path: '/admin/system', label: '系统设置', icon: Server },
+    { path: '/admin', label: t.common.admin, icon: BarChart3 },
+    { path: '/admin/users', label: `${t.common.admin} - Users`, icon: Users },
+    { path: '/admin/memberships', label: `${t.common.admin} - Memberships`, icon: CreditCard },
+    { path: '/admin/permissions', label: `${t.common.admin} - Permissions`, icon: Shield },
+    { path: '/admin/system', label: `${t.common.admin} - System`, icon: Server },
   ]
 
   const links = variant === 'admin' ? adminLinks : mainLinks

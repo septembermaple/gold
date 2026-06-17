@@ -6,47 +6,49 @@ import HolographicText from '../components/ui/HolographicText'
 import Badge from '../components/ui/Badge'
 import { useGoldData } from '../contexts/GoldDataContext'
 import { formatPrice, formatPercent, getPriceColor } from '../lib/utils'
+import { useTranslation } from '../contexts/LanguageContext'
 
 export default function Home() {
   const navigate = useNavigate()
   const { stats } = useGoldData()
   const isLoggedIn = !!localStorage.getItem('token')
+  const t = useTranslation()
 
   const features = [
     {
       icon: Brain,
-      title: 'AI 智能分析',
-      description: '基于大语言模型的深度市场分析，实时解读全球宏观经济与黄金走势',
+      title: t.home.features.ai_analysis,
+      description: t.home.features.ai_analysis_desc,
       color: 'cyan' as const,
     },
     {
       icon: TrendingUp,
-      title: '实时行情追踪',
-      description: '国际金价 XAU/USD 与国内 AU9999 实时报价，K线图表一目了然',
+      title: t.home.features.realtime_data,
+      description: t.home.features.realtime_data_desc,
       color: 'gold' as const,
     },
     {
       icon: Building2,
-      title: '机构观点聚合',
-      description: '全球顶级投行与机构黄金预测汇总，掌握市场主流观点',
+      title: t.home.features.institution_views,
+      description: t.home.features.institution_views_desc,
       color: 'blue' as const,
     },
     {
       icon: Shield,
-      title: '投资策略建议',
-      description: '根据会员等级提供差异化投资建议，从入门到专业全覆盖',
+      title: t.home.features.investment_advice,
+      description: t.home.features.investment_advice_desc,
       color: 'green' as const,
     },
     {
       icon: Zap,
-      title: '智能推送',
-      description: '关键行情异动即时推送，不错过任何重要交易机会',
+      title: t.home.features.smart_push,
+      description: t.home.features.smart_push_desc,
       color: 'cyan' as const,
     },
     {
       icon: BarChart3,
-      title: '多维度因子分析',
-      description: '看涨/看跌因子量化评估，全方位解读市场驱动力量',
+      title: t.home.features.factor_analysis,
+      description: t.home.features.factor_analysis_desc,
       color: 'gold' as const,
     },
   ]
@@ -79,13 +81,12 @@ export default function Home() {
               AI Agent
             </HolographicText>
             <br />
-            <span className="text-[#e0e0ff]">黄金市场智能分析平台</span>
+            <span className="text-[#e0e0ff]">{t.home.title}</span>
           </h1>
 
           {/* Subtitle */}
           <p className="text-lg sm:text-xl text-[#8888aa] max-w-2xl mx-auto leading-relaxed">
-            融合人工智能与金融市场分析，为您提供实时行情、深度因子分析、
-            机构观点聚合与个性化投资策略，助您精准把握黄金市场脉搏
+            {t.home.description}
           </p>
 
           {/* Live Price Preview */}
@@ -116,10 +117,10 @@ export default function Home() {
           {/* CTA Buttons */}
           <div className="flex justify-center gap-4">
             <Button variant="primary" size="lg" glow onClick={() => navigate(isLoggedIn ? '/dashboard' : '/register')}>
-              开始使用 <ArrowRight size={18} />
+              {t.home.get_started} <ArrowRight size={18} />
             </Button>
             <Button variant="ghost" size="lg" onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })}>
-              了解更多 <ChevronDown size={18} />
+              {t.home.learn_more} <ChevronDown size={18} />
             </Button>
           </div>
         </div>
@@ -129,10 +130,10 @@ export default function Home() {
       <section id="features" className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="text-center mb-16">
           <h2 className="text-3xl sm:text-4xl font-bold text-[#e0e0ff] mb-4">
-            核心<span className="glow-text text-cyan-glow">功能</span>
+            {t.home.core}<span className="glow-text text-cyan-glow">{t.home.features_title}</span>
           </h2>
           <p className="text-[#8888aa] max-w-xl mx-auto">
-            全方位黄金市场分析工具，从数据到决策一站式服务
+            {t.home.features_subtitle}
           </p>
         </div>
 
@@ -165,13 +166,13 @@ export default function Home() {
           <div className="absolute inset-0 holographic-bg opacity-30" />
           <div className="relative z-10">
             <h2 className="text-3xl font-bold text-[#e0e0ff] mb-4">
-              开启您的<span className="neon-text-gold">黄金投资</span>智能之旅
+              {t.home.cta_title}
             </h2>
             <p className="text-[#8888aa] mb-8 max-w-lg mx-auto">
-              注册即可获得免费基础分析权限，升级会员解锁更多高级功能
+              {t.home.cta_description}
             </p>
             <Button variant="gold" size="lg" glow onClick={() => navigate(isLoggedIn ? '/dashboard' : '/register')}>
-              {isLoggedIn ? '进入仪表盘' : '立即注册'} <ArrowRight size={18} />
+              {isLoggedIn ? t.home.enter_dashboard : t.home.register_now} <ArrowRight size={18} />
             </Button>
           </div>
         </div>
@@ -181,9 +182,9 @@ export default function Home() {
       <footer className="border-t border-[rgba(0,240,255,0.08)] bg-dark-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="p-3 rounded-lg bg-gold/5 border border-gold/15 text-xs text-[#aaa89a] leading-relaxed text-center mb-4">
-            <span className="text-gold font-medium">风险提示：</span>本平台提供的数据分析与AI解读仅供学习参考，不构成任何投资建议。金融市场存在较大风险，投资需谨慎，请根据自身情况独立判断并承担相应风险。
+            <span className="text-gold font-medium">{t.common.risk_warning.split('：')[0]}：</span>{t.common.risk_warning.split('：')[1]}
           </div>
-          <p className="text-center text-sm text-[#8888aa]">© 2024 GoldAI - AI Agent 黄金市场智能分析平台</p>
+          <p className="text-center text-sm text-[#8888aa]">{t.home.footer}</p>
         </div>
       </footer>
     </div>

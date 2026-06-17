@@ -6,13 +6,15 @@ import Button from '../components/ui/Button'
 import Loading from '../components/ui/Loading'
 import { useGoldData } from '../contexts/GoldDataContext'
 import { useAuth, MembershipGate } from '../lib/auth'
+import { useTranslation } from '../contexts/LanguageContext'
 
 export default function InvestmentAdvice() {
   const { analysis, loading, refreshAnalysis } = useGoldData()
   const { user } = useAuth()
+  const t = useTranslation()
 
   if (loading && !analysis) {
-    return <Loading text="加载投资建议..." />
+    return <Loading text={t.common.loading} />
   }
 
   const advice = (analysis?.investmentAdvice?.length ?? 0) > 0
@@ -28,12 +30,12 @@ export default function InvestmentAdvice() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-[#e0e0ff]">
-            投资<HolographicText color="gold">建议</HolographicText>
+            {t.investment.title_part1}<HolographicText color="gold">{t.investment.title_part2}</HolographicText>
           </h1>
-          <p className="text-sm text-[#8888aa] mt-1">根据会员等级提供差异化投资策略建议</p>
+          <p className="text-sm text-[#8888aa] mt-1">{t.investment.subtitle}</p>
         </div>
         <Button variant="ghost" size="sm" onClick={refreshAnalysis}>
-          <RefreshCw size={14} /> 刷新
+          <RefreshCw size={14} /> {t.common.refresh}
         </Button>
       </div>
 
@@ -44,11 +46,11 @@ export default function InvestmentAdvice() {
             <Lightbulb size={24} className="text-gold" />
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-[#e0e0ff]">当前会员等级</h3>
+            <h3 className="text-lg font-semibold text-[#e0e0ff]">{t.investment.current_level}</h3>
             <p className="text-sm text-[#8888aa]">
-              {user?.membershipLevel === 'pro' ? '专业版' :
-               user?.membershipLevel === 'basic' ? '基础版' :
-               user?.membershipLevel === 'enterprise' ? '企业版' : '免费版'}
+              {user?.membershipLevel === 'pro' ? t.investment.pro :
+               user?.membershipLevel === 'basic' ? t.investment.basic :
+               user?.membershipLevel === 'enterprise' ? t.investment.enterprise : t.investment.free}
             </p>
           </div>
         </div>
@@ -64,10 +66,10 @@ export default function InvestmentAdvice() {
           const isLocked = levelIndex > userLevelIndex
 
           const levelNames: Record<string, string> = {
-            free: '免费版',
-            basic: '基础版',
-            pro: '专业版',
-            enterprise: '企业版',
+            free: t.investment.free,
+            basic: t.investment.basic,
+            pro: t.investment.pro,
+            enterprise: t.investment.enterprise,
           }
 
           const levelColors: Record<string, 'cyan' | 'gold' | 'blue' | 'green'> = {
@@ -80,7 +82,7 @@ export default function InvestmentAdvice() {
           return (
             <div key={level}>
               <div className="flex items-center gap-2 mb-3">
-                <h2 className="text-lg font-semibold text-[#e0e0ff]">{levelNames[level]} 建议</h2>
+                <h2 className="text-lg font-semibold text-[#e0e0ff]">{levelNames[level]} {t.investment.advice}</h2>
                 <Badge variant={levelColors[level]}>{level.toUpperCase()}</Badge>
                 {isLocked && <Lock size={14} className="text-[#8888aa]" />}
               </div>
@@ -88,7 +90,7 @@ export default function InvestmentAdvice() {
               {isLocked ? (
                 <GlowCard color={levelColors[level]} className="text-center py-8 opacity-60">
                   <Lock size={32} className="mx-auto text-[#8888aa] mb-3" />
-                  <p className="text-sm text-[#8888aa]">升级到 {levelNames[level]} 解锁此级别投资建议</p>
+                  <p className="text-sm text-[#8888aa]">{t.investment?.upgrade_to_unlock?.replace('{level}', levelNames[level]) || `升级到${levelNames[level]}解锁此级别投资建议`}</p>
                 </GlowCard>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

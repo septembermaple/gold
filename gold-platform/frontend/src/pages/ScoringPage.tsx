@@ -8,6 +8,7 @@ import Loading from '../components/ui/Loading'
 import { macroApi } from '../lib/api'
 import { ensureArray, extractApiData } from '../lib/utils'
 import { toast } from 'sonner'
+import { useTranslation } from '../contexts/LanguageContext'
 
 interface SignalItem {
   title?: string
@@ -93,6 +94,7 @@ export default function ScoringPage() {
   const [data, setData] = useState<DashboardData | null>(null)
   const [loading, setLoading] = useState(true)
   const [activeModel, setActiveModel] = useState<'dashboard' | 'analyzer'>('dashboard')
+  const tr = useTranslation()
 
   const fetchData = useCallback(async () => {
     try {
@@ -101,19 +103,19 @@ export default function ScoringPage() {
       const d = extractApiData(res) as DashboardData
       setData(d)
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : '未知错误'
-      toast.error('加载评分数据失败', { description: message })
+      const message = err instanceof Error ? err.message : 'Unknown error'
+      toast.error(tr.scoring.load_error, { description: message })
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [tr])
 
   useEffect(() => {
     const init = async () => { await fetchData() }
     init()
   }, [fetchData])
 
-  if (loading && !data) return <Loading text="加载评分模型..." />
+  if (loading && !data) return <Loading text={tr.common.loading} />
 
   const overall = data?.overallSignal
   const tenDim = data?.tenDimensionScore
@@ -125,12 +127,12 @@ export default function ScoringPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-[#e0e0ff]">
-            <HolographicText as="span" color="mixed">评分模型</HolographicText>
+            <HolographicText as="span" color="mixed">{tr.scoring.title}</HolographicText>
           </h1>
-          <p className="text-sm text-[#8888aa] mt-1">多模型黄金投资评分与信号系统</p>
+          <p className="text-sm text-[#8888aa] mt-1">{tr.scoring.subtitle}</p>
         </div>
         <Button variant="ghost" size="sm" onClick={fetchData}>
-          <RefreshCw size={14} /> 刷新
+          <RefreshCw size={14} /> {tr.common.refresh}
         </Button>
       </div>
 
@@ -142,7 +144,7 @@ export default function ScoringPage() {
           onClick={() => setActiveModel('dashboard')}
           glow={activeModel === 'dashboard'}
         >
-          <Scale size={14} /> 信号引擎
+          <Scale size={14} /> {tr.scoring.signal_engine}
         </Button>
         <Button
           variant={activeModel === 'analyzer' ? 'gold' : 'ghost'}
@@ -150,7 +152,7 @@ export default function ScoringPage() {
           onClick={() => setActiveModel('analyzer')}
           glow={activeModel === 'analyzer'}
         >
-          <Target size={14} /> 十维度评分
+          <Target size={14} /> {tr.scoring.ten_dimension}
         </Button>
       </div>
 
@@ -183,21 +185,21 @@ export default function ScoringPage() {
           <GlowCard color="cyan">
             <h3 className="text-sm font-medium text-[#e0e0ff] mb-4 flex items-center gap-2">
               <Award size={16} className="text-cyan-glow" />
-              信号引擎评分
+              {tr.scoring.signal_engine_score}
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div className="text-center p-4 glass-dark rounded-lg">
-                <p className="text-xs text-[#8888aa] mb-1">综合方向</p>
+                <p className="text-xs text-[#8888aa] mb-1">{tr.scoring.overall_direction}</p>
                 <p className={`text-lg font-bold ${overall?.direction === 'bullish' ? 'text-neon-green' : overall?.direction === 'bearish' ? 'text-neon-red' : 'text-gold'}`}>
-                  {overall?.direction === 'bullish' ? '看多' : overall?.direction === 'bearish' ? '看空' : '中性'}
+                  {overall?.direction === 'bullish' ? tr.scoring.bullish : overall?.direction === 'bearish' ? tr.scoring.bearish : tr.scoring.neutral}
                 </p>
               </div>
               <div className="text-center p-4 glass-dark rounded-lg">
-                <p className="text-xs text-[#8888aa] mb-1">看多得分</p>
+                <p className="text-xs text-[#8888aa] mb-1">{tr.scoring.bullish_score}</p>
                 <p className="text-lg font-mono font-bold text-neon-green">{overall?.bullishScore?.toFixed(1) ?? '--'}</p>
               </div>
               <div className="text-center p-4 glass-dark rounded-lg">
-                <p className="text-xs text-[#8888aa] mb-1">看空得分</p>
+                <p className="text-xs text-[#8888aa] mb-1">{tr.scoring.bearish_score}</p>
                 <p className="text-lg font-mono font-bold text-neon-red">{overall?.bearishScore?.toFixed(1) ?? '--'}</p>
               </div>
             </div>
@@ -211,21 +213,21 @@ export default function ScoringPage() {
           {[
             {
               key: 'shortTerm' as const,
-              title: '短期交易属性',
+              title: tr.scoring.short_term_trading,
               weight: 40,
               icon: <TrendingUp size={16} className="text-cyan-glow" />,
               color: 'cyan' as const,
             },
             {
               key: 'midTerm' as const,
-              title: '中期金融属性',
+              title: tr.scoring.mid_term_financial,
               weight: 40,
               icon: <Scale size={16} className="text-gold" />,
               color: 'gold' as const,
             },
             {
               key: 'longTerm' as const,
-              title: '长期货币属性',
+              title: tr.scoring.long_term_currency,
               weight: 20,
               icon: <Target size={16} className="text-electric-blue" />,
               color: 'blue' as const,
@@ -242,13 +244,13 @@ export default function ScoringPage() {
                     {group.title}
                   </h3>
                   <Badge variant={group.color} size="md">
-                    权重 {groupData?.weight !== undefined ? `${(groupData.weight * 100).toFixed(0)}%` : `${group.weight}%`}
+                    {tr.scoring.weight} {groupData?.weight !== undefined ? `${(groupData.weight * 100).toFixed(0)}%` : `${group.weight}%`}
                   </Badge>
                 </div>
 
                 {dimensions.length === 0 ? (
                   <div className="text-center py-4">
-                    <p className="text-xs text-[#8888aa]">暂无数据</p>
+                    <p className="text-xs text-[#8888aa]">{tr.common.no_data}</p>
                   </div>
                 ) : (
                   <div className="space-y-4">
@@ -259,9 +261,9 @@ export default function ScoringPage() {
                         <div key={i} className="glass-dark rounded-lg p-3">
                           <div className="flex items-center justify-between mb-2">
                             <div className="flex items-center gap-2">
-                              <span className="text-sm text-[#e0e0ff]">{dim.name || `维度 ${i + 1}`}</span>
+                              <span className="text-sm text-[#e0e0ff]">{dim.name || `${tr.scoring.dimension} ${i + 1}`}</span>
                               {dim.weight !== undefined && (
-                                <Badge variant="gray" size="sm">权重 {(dim.weight * 100).toFixed(0)}%</Badge>
+                                <Badge variant="gray" size="sm">{tr.scoring.weight} {(dim.weight * 100).toFixed(0)}%</Badge>
                               )}
                             </div>
                             <span className={`text-sm font-mono font-bold ${scoreColor(dim.score)}`}>
@@ -288,22 +290,22 @@ export default function ScoringPage() {
 
           {/* Total Score Summary */}
           <GlowCard color="gold" className="text-center py-6">
-            <h3 className="text-sm font-medium text-[#e0e0ff] mb-4">评分总结</h3>
+            <h3 className="text-sm font-medium text-[#e0e0ff] mb-4">{tr.scoring.score_summary}</h3>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
-                <p className="text-xs text-[#8888aa] mb-1">加权总分</p>
+                <p className="text-xs text-[#8888aa] mb-1">{tr.scoring.weighted_score}</p>
                 <p className="text-2xl font-mono font-bold text-gold">
                   {tenDim?.totalScore !== undefined ? (tenDim.totalScore * 100).toFixed(1) : '--'}
                 </p>
               </div>
               <div>
-                <p className="text-xs text-[#8888aa] mb-1">投资信号</p>
+                <p className="text-xs text-[#8888aa] mb-1">{tr.scoring.investment_signal}</p>
                 <p className="text-lg font-bold" style={{ color: signal.color }}>
                   {tenDim?.investmentSignal ? getSignalConfig(tenDim.investmentSignal).label : '--'}
                 </p>
               </div>
               <div>
-                <p className="text-xs text-[#8888aa] mb-1">操作建议</p>
+                <p className="text-xs text-[#8888aa] mb-1">{tr.scoring.action_advice}</p>
                 <p className="text-sm text-[#e0e0ff]">{tenDim?.actionAdvice ?? '--'}</p>
               </div>
             </div>

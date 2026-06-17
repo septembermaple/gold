@@ -6,6 +6,7 @@ import Input from '../components/ui/Input'
 import HolographicText from '../components/ui/HolographicText'
 import { useAuth } from '../lib/auth'
 import { toast } from 'sonner'
+import { useTranslation } from '../contexts/LanguageContext'
 
 export default function Register() {
   const navigate = useNavigate()
@@ -17,18 +18,19 @@ export default function Register() {
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const t = useTranslation()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
 
     if (password !== confirmPassword) {
-      setError('两次输入的密码不一致')
+      setError(t.register.password_mismatch)
       return
     }
 
     if (password.length < 6) {
-      setError('密码长度至少6位')
+      setError(t.register.password_too_short)
       return
     }
 
@@ -36,11 +38,11 @@ export default function Register() {
 
     try {
       await register(username, email, password)
-      toast.success('注册成功')
+      toast.success(t.register.register_success)
       navigate('/dashboard')
     } catch (err: unknown) {
       const error = err as { response?: { data?: { message?: string } } }
-      setError(error.response?.data?.message || '注册失败，请稍后重试')
+      setError(error.response?.data?.message || t.register.register_failed)
     } finally {
       setLoading(false)
     }
@@ -61,9 +63,9 @@ export default function Register() {
             <span className="text-dark-900 font-bold text-2xl">Au</span>
           </div>
           <h1 className="text-3xl font-bold text-[#e0e0ff] mb-2">
-            <HolographicText color="gold">注册</HolographicText>
+            <HolographicText color="gold">{t.register.title}</HolographicText>
           </h1>
-          <p className="text-[#8888aa]">创建您的 GoldAI 账户</p>
+          <p className="text-[#8888aa]">{t.register.register_subtitle}</p>
         </div>
 
         {/* Form */}
@@ -76,32 +78,32 @@ export default function Register() {
             )}
 
             <Input
-              label="用户名"
+              label={t.register.username}
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              placeholder="请输入用户名"
+              placeholder={t.register.username_placeholder}
               icon={<User size={16} />}
               required
             />
 
             <Input
-              label="邮箱"
+              label={t.register.email}
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="请输入邮箱"
+              placeholder={t.register.email_placeholder}
               icon={<Mail size={16} />}
               required
             />
 
             <div className="relative">
               <Input
-                label="密码"
+                label={t.register.password}
                 type={showPassword ? 'text' : 'password'}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="请输入密码（至少6位）"
+                placeholder={t.register.password_placeholder}
                 icon={<Lock size={16} />}
                 required
               />
@@ -115,17 +117,17 @@ export default function Register() {
             </div>
 
             <Input
-              label="确认密码"
+              label={t.register.confirm_password}
               type="password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              placeholder="请再次输入密码"
+              placeholder={t.register.confirm_password_placeholder}
               icon={<Lock size={16} />}
               required
             />
 
             <div className="p-3 rounded-lg bg-gold/5 border border-gold/15 text-xs text-[#aaa89a] leading-relaxed">
-              <span className="text-gold font-medium">风险提示：</span>本平台提供的数据分析与AI解读仅供学习参考，不构成任何投资建议。金融市场存在较大风险，投资需谨慎，请根据自身情况独立判断并承担相应风险。
+              <span className="text-gold font-medium">{t.common.risk_warning.split('：')[0]}：</span>{t.common.risk_warning.split('：')[1]}
             </div>
 
             <Button
@@ -139,19 +141,19 @@ export default function Register() {
               {loading ? (
                 <div className="animate-spin rounded-full h-5 w-5 border-2 border-gold/20 border-t-gold" />
               ) : (
-                <><UserPlus size={18} /> 注册</>
+                <><UserPlus size={18} /> {t.register.sign_up}</>
               )}
             </Button>
           </form>
 
           <div className="mt-6 text-center">
             <p className="text-sm text-[#8888aa]">
-              已有账户？{' '}
+              {t.register.already_account}{' '}
               <button
                 onClick={() => navigate('/login')}
                 className="text-cyan-glow hover:underline"
               >
-                立即登录
+                {t.register.login}
               </button>
             </p>
           </div>

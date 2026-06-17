@@ -6,6 +6,7 @@ import Input from '../components/ui/Input'
 import HolographicText from '../components/ui/HolographicText'
 import { useAuth } from '../lib/auth'
 import { toast } from 'sonner'
+import { useTranslation } from '../contexts/LanguageContext'
 
 export default function Login() {
   const navigate = useNavigate()
@@ -15,6 +16,7 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const t = useTranslation()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -23,11 +25,11 @@ export default function Login() {
 
     try {
       await login(account, password)
-      toast.success('登录成功')
+      toast.success(t.login.login_success)
       navigate('/dashboard')
     } catch (err: unknown) {
       const error = err as { response?: { data?: { message?: string } } }
-      setError(error.response?.data?.message || '登录失败，请检查账号和密码')
+      setError(error.response?.data?.message || t.login.login_failed)
     } finally {
       setLoading(false)
     }
@@ -48,9 +50,9 @@ export default function Login() {
             <span className="text-dark-900 font-bold text-2xl">Au</span>
           </div>
           <h1 className="text-3xl font-bold text-[#e0e0ff] mb-2">
-            <HolographicText color="cyan">登录</HolographicText>
+            <HolographicText color="cyan">{t.login.title}</HolographicText>
           </h1>
-          <p className="text-[#8888aa]">登录您的 GoldAI 账户</p>
+          <p className="text-[#8888aa]">{t.login.login_subtitle}</p>
         </div>
 
         {/* Form */}
@@ -63,22 +65,22 @@ export default function Login() {
             )}
 
             <Input
-              label="邮箱 / 用户名"
+              label={t.login.email}
               type="text"
               value={account}
               onChange={(e) => setAccount(e.target.value)}
-              placeholder="请输入邮箱或用户名"
+              placeholder={t.login.email_placeholder}
               icon={<User size={16} />}
               required
             />
 
             <div className="relative">
               <Input
-                label="密码"
+                label={t.login.password}
                 type={showPassword ? 'text' : 'password'}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="请输入密码"
+                placeholder={t.login.password_placeholder}
                 icon={<Lock size={16} />}
                 required
               />
@@ -102,19 +104,19 @@ export default function Login() {
               {loading ? (
                 <div className="animate-spin rounded-full h-5 w-5 border-2 border-cyan-glow/20 border-t-cyan-glow" />
               ) : (
-                <><LogIn size={18} /> 登录</>
+                <><LogIn size={18} /> {t.login.sign_in}</>
               )}
             </Button>
           </form>
 
           <div className="mt-6 text-center">
             <p className="text-sm text-[#8888aa]">
-              还没有账户？{' '}
+              {t.login.no_account}{' '}
               <button
                 onClick={() => navigate('/register')}
                 className="text-cyan-glow hover:underline"
               >
-                立即注册
+                {t.login.register}
               </button>
             </p>
           </div>

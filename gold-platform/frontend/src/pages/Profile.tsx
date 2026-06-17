@@ -9,6 +9,7 @@ import { useAuth } from '../lib/auth'
 import { authApi } from '../lib/api'
 import { formatDate } from '../lib/utils'
 import { toast } from 'sonner'
+import { useTranslation } from '../contexts/LanguageContext'
 
 export default function Profile() {
   const { user, updateUser } = useAuth()
@@ -19,15 +20,16 @@ export default function Profile() {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [saving, setSaving] = useState(false)
   const [changingPassword, setChangingPassword] = useState(false)
+  const t = useTranslation()
 
   const handleSaveProfile = async () => {
     setSaving(true)
     try {
       const res = await authApi.updateProfile({ username, email })
       updateUser(res.data.user || res.data)
-      toast.success('个人信息更新成功')
+      toast.success(t.profile.update_success)
     } catch {
-      toast.error('更新失败，请稍后重试')
+      toast.error(t.profile.update_failed)
     } finally {
       setSaving(false)
     }
@@ -35,11 +37,11 @@ export default function Profile() {
 
   const handleChangePassword = async () => {
     if (newPassword !== confirmPassword) {
-      toast.error('两次输入的密码不一致')
+      toast.error(t.profile.password_mismatch)
       return
     }
     if (newPassword.length < 6) {
-      toast.error('密码长度至少6位')
+      toast.error(t.profile.password_too_short)
       return
     }
     setChangingPassword(true)
@@ -48,19 +50,19 @@ export default function Profile() {
       setOldPassword('')
       setNewPassword('')
       setConfirmPassword('')
-      toast.success('密码修改成功')
+      toast.success(t.profile.password_change_success)
     } catch {
-      toast.error('密码修改失败，请检查原密码是否正确')
+      toast.error(t.profile.password_change_failed)
     } finally {
       setChangingPassword(false)
     }
   }
 
   const membershipInfo: Record<string, { name: string; color: 'cyan' | 'gold' | 'blue' | 'green'; features: string[] }> = {
-    free: { name: '免费版', color: 'cyan', features: ['基础行情数据', '每日3次AI分析', '公开机构观点'] },
-    basic: { name: '基础版', color: 'gold', features: ['实时行情数据', '每日30次AI分析', '看涨/看跌因子', '基础投资建议'] },
-    pro: { name: '专业版', color: 'blue', features: ['全部行情数据', '无限AI分析', '全部因子分析', '专业投资建议', '智能推送'] },
-    enterprise: { name: '企业版', color: 'green', features: ['全部专业版功能', '定制化分析', '专属投资策略', 'API接口', '专属客服'] },
+    free: { name: t.profile.free, color: 'cyan', features: [t.profile.free_features] },
+    basic: { name: t.profile.basic, color: 'gold', features: [t.profile.basic_features] },
+    pro: { name: t.profile.pro, color: 'blue', features: [t.profile.pro_features] },
+    enterprise: { name: t.profile.enterprise, color: 'green', features: [t.profile.enterprise_features] },
   }
 
   const currentMembership = membershipInfo[user?.membershipLevel || 'free']
@@ -70,9 +72,9 @@ export default function Profile() {
       {/* Header */}
       <div>
         <h1 className="text-2xl font-bold text-[#e0e0ff]">
-          个人<HolographicText color="cyan">中心</HolographicText>
+          {t.profile.title_part1}<HolographicText color="cyan">{t.profile.title_part2}</HolographicText>
         </h1>
-        <p className="text-sm text-[#8888aa] mt-1">管理您的账户信息与会员设置</p>
+        <p className="text-sm text-[#8888aa] mt-1">{t.profile.subtitle}</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -82,17 +84,17 @@ export default function Profile() {
           <GlowCard color="cyan">
             <div className="flex items-center gap-2 mb-6">
               <User size={18} className="text-cyan-glow" />
-              <h3 className="text-lg font-semibold text-[#e0e0ff]">基本信息</h3>
+              <h3 className="text-lg font-semibold text-[#e0e0ff]">{t.profile.basic_info}</h3>
             </div>
             <div className="space-y-4">
               <Input
-                label="用户名"
+                label={t.profile.username}
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 icon={<User size={16} />}
               />
               <Input
-                label="邮箱"
+                label={t.profile.email}
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -100,7 +102,7 @@ export default function Profile() {
               />
               <div className="flex justify-end">
                 <Button variant="primary" size="sm" onClick={handleSaveProfile} disabled={saving}>
-                  <Save size={14} /> {saving ? '保存中...' : '保存修改'}
+                  <Save size={14} /> {saving ? t.profile.saving : t.profile.save}
                 </Button>
               </div>
             </div>
@@ -110,33 +112,33 @@ export default function Profile() {
           <GlowCard color="gold">
             <div className="flex items-center gap-2 mb-6">
               <Key size={18} className="text-gold" />
-              <h3 className="text-lg font-semibold text-[#e0e0ff]">修改密码</h3>
+              <h3 className="text-lg font-semibold text-[#e0e0ff]">{t.profile.change_password}</h3>
             </div>
             <div className="space-y-4">
               <Input
-                label="当前密码"
+                label={t.profile.current_password}
                 type="password"
                 value={oldPassword}
                 onChange={(e) => setOldPassword(e.target.value)}
-                placeholder="请输入当前密码"
+                placeholder={t.profile.current_password_placeholder}
               />
               <Input
-                label="新密码"
+                label={t.profile.new_password}
                 type="password"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
-                placeholder="请输入新密码（至少6位）"
+                placeholder={t.profile.new_password_placeholder}
               />
               <Input
-                label="确认新密码"
+                label={t.profile.confirm_new_password}
                 type="password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                placeholder="请再次输入新密码"
+                placeholder={t.profile.confirm_new_password_placeholder}
               />
               <div className="flex justify-end">
                 <Button variant="gold" size="sm" onClick={handleChangePassword} disabled={changingPassword}>
-                  <Key size={14} /> {changingPassword ? '修改中...' : '修改密码'}
+                  <Key size={14} /> {changingPassword ? t.profile.changing : t.profile.change_password}
                 </Button>
               </div>
             </div>
@@ -175,7 +177,7 @@ export default function Profile() {
               </div>
               {user?.membershipLevel !== 'enterprise' && (
                 <Button variant="gold" size="sm" glow className="w-full mt-4">
-                  升级会员
+                  {t.profile.upgrade_membership}
                 </Button>
               )}
             </div>
@@ -185,12 +187,12 @@ export default function Profile() {
           <GlowCard color="blue">
             <div className="flex items-center gap-2 mb-4">
               <BarChart3 size={18} className="text-electric-blue" />
-              <h3 className="text-base font-semibold text-[#e0e0ff]">API 使用量</h3>
+              <h3 className="text-base font-semibold text-[#e0e0ff]">{t.profile.api_usage}</h3>
             </div>
             <div className="space-y-3">
               <div>
                 <div className="flex justify-between text-sm mb-1">
-                  <span className="text-[#8888aa]">已使用</span>
+                  <span className="text-[#8888aa]">{t.profile.used}</span>
                   <span className="text-[#e0e0ff] font-mono">{user?.apiUsage || 0}</span>
                 </div>
                 <div className="w-full h-2 bg-dark-700 rounded-full overflow-hidden">
@@ -201,7 +203,7 @@ export default function Profile() {
                 </div>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-[#8888aa]">配额上限</span>
+                <span className="text-[#8888aa]">{t.profile.quota_limit}</span>
                 <span className="text-[#e0e0ff] font-mono">{user?.apiLimit || 100}</span>
               </div>
             </div>
@@ -211,17 +213,17 @@ export default function Profile() {
           <GlowCard color="cyan">
             <div className="flex items-center gap-2 mb-4">
               <Calendar size={18} className="text-cyan-glow" />
-              <h3 className="text-base font-semibold text-[#e0e0ff]">账户信息</h3>
+              <h3 className="text-base font-semibold text-[#e0e0ff]">{t.profile.account_info}</h3>
             </div>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
-                <span className="text-[#8888aa]">注册时间</span>
+                <span className="text-[#8888aa]">{t.profile.register_time}</span>
                 <span className="text-[#e0e0ff]">{user?.createdAt ? formatDate(user.createdAt) : '--'}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-[#8888aa]">用户角色</span>
+                <span className="text-[#8888aa]">{t.profile.user_role}</span>
                 <Badge variant={user?.role === 'admin' ? 'gold' : 'gray'} size="sm">
-                  {user?.role === 'admin' ? '管理员' : '普通用户'}
+                  {user?.role === 'admin' ? t.profile.admin : t.profile.normal_user}
                 </Badge>
               </div>
             </div>

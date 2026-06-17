@@ -6,12 +6,14 @@ import Button from '../components/ui/Button'
 import Loading from '../components/ui/Loading'
 import { useGoldData } from '../contexts/GoldDataContext'
 import { formatPrice, formatTime } from '../lib/utils'
+import { useTranslation } from '../contexts/LanguageContext'
 
 export default function InstitutionViews() {
   const { analysis, loading, refreshAnalysis } = useGoldData()
+  const t = useTranslation()
 
   if (loading && !analysis) {
-    return <Loading text="加载机构观点..." />
+    return <Loading text={t.common.loading} />
   }
 
   const views = (analysis?.institutionViews?.length ?? 0) > 0
@@ -19,14 +21,14 @@ export default function InstitutionViews() {
     : defaultViews
 
   const getViewIcon = (view: string) => {
-    if (view?.includes('看涨') || view?.includes('买入') || view?.includes('增持')) return TrendingUp
-    if (view?.includes('看跌') || view?.includes('卖出') || view?.includes('减持')) return TrendingDown
+    if (view?.includes(t.institution.bullish) || view?.includes('买入') || view?.includes('增持')) return TrendingUp
+    if (view?.includes(t.institution.bearish) || view?.includes('卖出') || view?.includes('减持')) return TrendingDown
     return Minus
   }
 
   const getViewColor = (view: string) => {
-    if (view?.includes('看涨') || view?.includes('买入') || view?.includes('增持')) return 'green' as const
-    if (view?.includes('看跌') || view?.includes('卖出') || view?.includes('减持')) return 'red' as const
+    if (view?.includes(t.institution.bullish) || view?.includes('买入') || view?.includes('增持')) return 'green' as const
+    if (view?.includes(t.institution.bearish) || view?.includes('卖出') || view?.includes('减持')) return 'red' as const
     return 'gold' as const
   }
 
@@ -36,12 +38,12 @@ export default function InstitutionViews() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-[#e0e0ff]">
-            机构<HolographicText color="gold">观点</HolographicText>
+            {t.institution.title_part1}<HolographicText color="gold">{t.institution.title_part2}</HolographicText>
           </h1>
-          <p className="text-sm text-[#8888aa] mt-1">全球顶级金融机构黄金市场预测汇总</p>
+          <p className="text-sm text-[#8888aa] mt-1">{t.institution.subtitle}</p>
         </div>
         <Button variant="ghost" size="sm" onClick={refreshAnalysis}>
-          <RefreshCw size={14} /> 刷新
+          <RefreshCw size={14} /> {t.common.refresh}
         </Button>
       </div>
 
@@ -50,23 +52,23 @@ export default function InstitutionViews() {
         <GlowCard color="green" className="text-center">
           <TrendingUp size={24} className="mx-auto text-neon-green mb-2" />
           <p className="text-2xl font-mono font-bold text-neon-green">
-            {views.filter(v => v.view?.includes('看涨') || v.view?.includes('买入')).length}
+            {views.filter(v => v.view?.includes(t.institution.bullish) || v.view?.includes('买入')).length}
           </p>
-          <p className="text-xs text-[#8888aa]">看涨机构</p>
+          <p className="text-xs text-[#8888aa]">{t.institution.bullish_institutions}</p>
         </GlowCard>
         <GlowCard color="gold" className="text-center">
           <Minus size={24} className="mx-auto text-gold mb-2" />
           <p className="text-2xl font-mono font-bold text-gold">
-            {views.filter(v => v.view?.includes('中性') || v.view?.includes('持有')).length}
+            {views.filter(v => v.view?.includes(t.institution.neutral) || v.view?.includes('持有')).length}
           </p>
-          <p className="text-xs text-[#8888aa]">中性机构</p>
+          <p className="text-xs text-[#8888aa]">{t.institution.neutral_institutions}</p>
         </GlowCard>
         <GlowCard color="red" className="text-center">
           <TrendingDown size={24} className="mx-auto text-neon-red mb-2" />
           <p className="text-2xl font-mono font-bold text-neon-red">
-            {views.filter(v => v.view?.includes('看跌') || v.view?.includes('卖出')).length}
+            {views.filter(v => v.view?.includes(t.institution.bearish) || v.view?.includes('卖出')).length}
           </p>
-          <p className="text-xs text-[#8888aa]">看跌机构</p>
+          <p className="text-xs text-[#8888aa]">{t.institution.bearish_institutions}</p>
         </GlowCard>
       </div>
 
@@ -105,12 +107,11 @@ export default function InstitutionViews() {
                     </div>
                   </div>
                   <p className="text-sm text-[#8888aa] leading-relaxed">
-                    {view.institution}对黄金市场持{view.view}态度
-                    {view.targetPrice && `，目标价位 $${formatPrice(view.targetPrice)}`}
+                    {t.institution?.institution_view_desc?.replace('{institution}', view.institution).replace('{view}', view.view) || `${view.institution}对黄金市场持${view.view}态度`}
                   </p>
                   {view.date && (
                     <p className="text-xs text-[#8888aa]/60 mt-2">
-                      更新时间: {formatTime(view.date)}
+                      {t.institution.update_time}: {formatTime(view.date)}
                     </p>
                   )}
                 </div>

@@ -11,6 +11,7 @@ import Loading from '../components/ui/Loading'
 import { macroApi } from '../lib/api'
 import { extractApiData } from '../lib/utils'
 import { toast } from 'sonner'
+import { useTranslation } from '../contexts/LanguageContext'
 
 interface RiskItem {
   riskLevel?: string
@@ -205,6 +206,7 @@ function OutlookCard({ title, data }: { title: string; data?: OutlookPeriod }) {
 export default function RiskPage() {
   const [data, setData] = useState<DashboardData | null>(null)
   const [loading, setLoading] = useState(true)
+  const tr = useTranslation()
 
   const fetchData = useCallback(async () => {
     try {
@@ -213,34 +215,34 @@ export default function RiskPage() {
       const d = extractApiData(res) as DashboardData
       setData(d)
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : '未知错误'
-      toast.error('加载风险评估数据失败', { description: message })
+      const message = err instanceof Error ? err.message : 'Unknown error'
+      toast.error(tr.risk.load_error, { description: message })
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [tr])
 
   useEffect(() => {
     const init = async () => { await fetchData() }
     init()
   }, [fetchData])
 
-  if (loading && !data) return <Loading text="加载风险评估数据..." />
+  if (loading && !data) return <Loading text={tr.common.loading} />
 
   const rm = data?.riskMatrix
   const outlook = data?.outlook
 
   const riskCards = [
-    { title: '实物黄金', icon: <ShieldAlert size={16} className="text-gold" />, data: rm?.physicalGold },
-    { title: '黄金ETF', icon: <ShieldAlert size={16} className="text-cyan-glow" />, data: rm?.goldEtf },
-    { title: '黄金期货', icon: <ShieldAlert size={16} className="text-electric-blue" />, data: rm?.goldFutures },
-    { title: '金矿股', icon: <ShieldAlert size={16} className="text-neon-red" />, data: rm?.goldMining },
+    { title: tr.risk.physical_gold, icon: <ShieldAlert size={16} className="text-gold" />, data: rm?.physicalGold },
+    { title: tr.risk.gold_etf, icon: <ShieldAlert size={16} className="text-cyan-glow" />, data: rm?.goldEtf },
+    { title: tr.risk.gold_futures, icon: <ShieldAlert size={16} className="text-electric-blue" />, data: rm?.goldFutures },
+    { title: tr.risk.gold_mining, icon: <ShieldAlert size={16} className="text-neon-red" />, data: rm?.goldMining },
   ]
 
   const outlookCards = [
-    { title: '短期展望', data: outlook?.shortTerm },
-    { title: '中期展望', data: outlook?.midTerm },
-    { title: '长期展望', data: outlook?.longTerm },
+    { title: tr.risk.short_term, data: outlook?.shortTerm },
+    { title: tr.risk.mid_term, data: outlook?.midTerm },
+    { title: tr.risk.long_term, data: outlook?.longTerm },
   ]
 
   return (
@@ -249,12 +251,12 @@ export default function RiskPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-[#e0e0ff]">
-            <HolographicText as="span" color="red">风险评估</HolographicText>
+            <HolographicText as="span" color="red">{tr.risk.title}</HolographicText>
           </h1>
-          <p className="text-sm text-[#8888aa] mt-1">多品种风险矩阵与走势预期分析</p>
+          <p className="text-sm text-[#8888aa] mt-1">{tr.risk.subtitle}</p>
         </div>
         <Button variant="ghost" size="sm" onClick={fetchData}>
-          <RefreshCw size={14} /> 刷新
+          <RefreshCw size={14} /> {tr.common.refresh}
         </Button>
       </div>
 
@@ -262,7 +264,7 @@ export default function RiskPage() {
       <div>
         <h2 className="text-lg font-semibold text-[#e0e0ff] mb-3 flex items-center gap-2">
           <ShieldAlert size={18} className="text-neon-red" />
-          风险矩阵
+          {tr.risk.risk_matrix}
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {riskCards.map((card) => (
@@ -275,7 +277,7 @@ export default function RiskPage() {
       <div>
         <h2 className="text-lg font-semibold text-[#e0e0ff] mb-3 flex items-center gap-2">
           <Compass size={18} className="text-cyan-glow" />
-          走势预期
+          {tr.risk.trend_outlook}
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {outlookCards.map((card) => (

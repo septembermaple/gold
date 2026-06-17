@@ -16,6 +16,7 @@ import Loading from '../components/ui/Loading'
 import { macroApi } from '../lib/api'
 import { ensureArray, extractApiData } from '../lib/utils'
 import { toast } from 'sonner'
+import { useTranslation } from '../contexts/LanguageContext'
 
 interface DashboardData {
   summary?: {
@@ -78,6 +79,7 @@ const ChartTooltip = ({ active, payload, label }: { active?: boolean; payload?: 
 export default function MacroDashboard() {
   const [data, setData] = useState<DashboardData | null>(null)
   const [loading, setLoading] = useState(true)
+  const tr = useTranslation()
 
   const fetchData = useCallback(async () => {
     try {
@@ -86,23 +88,23 @@ export default function MacroDashboard() {
       const d = extractApiData(res) as DashboardData
       setData(d)
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : '未知错误'
-      toast.error('加载宏观仪表盘数据失败', { description: message })
+      const message = err instanceof Error ? err.message : 'Unknown error'
+      toast.error(tr.macro.load_error, { description: message })
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [tr])
 
   useEffect(() => {
     const init = async () => { await fetchData() }
     init()
   }, [fetchData])
 
-  if (loading && !data) return <Loading text="加载宏观分析数据..." />
+  if (loading && !data) return <Loading text={tr.common.loading} />
 
   const s = data?.summary
   const f = data?.factors
-  const t = data?.technicals
+  const tech = data?.technicals
 
   const summaryCards = [
     { label: '金价 XAU/USD', value: s?.goldPrice ? `$${s.goldPrice.toFixed(2)}` : '--', change: s?.goldChange ?? 0, icon: Coins, color: 'gold' as const },
@@ -359,11 +361,11 @@ export default function MacroDashboard() {
           </h3>
           <div className="space-y-3">
             {[
-              { label: 'MA50', value: t?.ma50?.toFixed(2) ?? '--', color: 'text-cyan-glow' },
-              { label: 'MA200', value: t?.ma200?.toFixed(2) ?? '--', color: 'text-neon-red' },
-              { label: 'RSI14', value: t?.rsi14?.toFixed(2) ?? '--', color: t?.rsi14 && t.rsi14 > 70 ? 'text-neon-red' : t?.rsi14 && t.rsi14 < 30 ? 'text-neon-green' : 'text-cyan-glow' },
-              { label: '支撑位', value: t?.support?.toFixed(2) ?? '--', color: 'text-neon-green' },
-              { label: '阻力位', value: t?.resistance?.toFixed(2) ?? '--', color: 'text-neon-red' },
+              { label: 'MA50', value: data?.technicals?.ma50?.toFixed(2) ?? '--', color: 'text-cyan-glow' },
+              { label: 'MA200', value: data?.technicals?.ma200?.toFixed(2) ?? '--', color: 'text-neon-red' },
+              { label: 'RSI14', value: data?.technicals?.rsi14?.toFixed(2) ?? '--', color: data?.technicals?.rsi14 && data.technicals.rsi14 > 70 ? 'text-neon-red' : data?.technicals?.rsi14 && data.technicals.rsi14 < 30 ? 'text-neon-green' : 'text-cyan-glow' },
+              { label: '支撑位', value: data?.technicals?.support?.toFixed(2) ?? '--', color: 'text-neon-green' },
+              { label: '阻力位', value: data?.technicals?.resistance?.toFixed(2) ?? '--', color: 'text-neon-red' },
             ].map((item) => (
               <div key={item.label} className="flex items-center justify-between py-2 border-b border-[rgba(0,240,255,0.06)] last:border-0">
                 <span className="text-xs text-[#8888aa]">{item.label}</span>
@@ -372,8 +374,8 @@ export default function MacroDashboard() {
             ))}
             <div className="flex items-center justify-between py-2">
               <span className="text-xs text-[#8888aa]">金叉/死叉</span>
-              <Badge variant={t?.crossStatus === 'golden_cross' ? 'green' : t?.crossStatus === 'death_cross' ? 'red' : 'gray'}>
-                {t?.crossStatus === 'golden_cross' ? '金叉' : t?.crossStatus === 'death_cross' ? '死叉' : '无信号'}
+              <Badge variant={data?.technicals?.crossStatus === 'golden_cross' ? 'green' : data?.technicals?.crossStatus === 'death_cross' ? 'red' : 'gray'}>
+                {data?.technicals?.crossStatus === 'golden_cross' ? '金叉' : data?.technicals?.crossStatus === 'death_cross' ? '死叉' : '无信号'}
               </Badge>
             </div>
           </div>

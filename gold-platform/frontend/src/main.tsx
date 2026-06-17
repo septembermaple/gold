@@ -2,8 +2,8 @@ import { StrictMode, Component, type ReactNode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
+import { LanguageProvider } from './contexts/LanguageContext'
 
-// 错误边界：防止子组件崩溃导致白屏
 class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boolean; error: string }> {
   state = { hasError: false, error: '' }
 
@@ -34,8 +34,10 @@ class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boole
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <ErrorBoundary>
-      <App />
-    </ErrorBoundary>
+    <LanguageProvider>
+      <ErrorBoundary>
+        <App />
+      </ErrorBoundary>
+    </LanguageProvider>
   </StrictMode>,
 )

@@ -12,6 +12,7 @@ import Loading from '../components/ui/Loading'
 import { macroApi } from '../lib/api'
 import { ensureArray, extractApiData } from '../lib/utils'
 import { toast } from 'sonner'
+import { useTranslation } from '../contexts/LanguageContext'
 
 interface FactorScore {
   name?: string
@@ -139,6 +140,7 @@ function GaugeChart({ score }: { score: number }) {
 export default function SentimentPage() {
   const [data, setData] = useState<DashboardData | null>(null)
   const [loading, setLoading] = useState(true)
+  const tr = useTranslation()
 
   const fetchData = useCallback(async () => {
     try {
@@ -147,19 +149,19 @@ export default function SentimentPage() {
       const d = extractApiData(res) as DashboardData
       setData(d)
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : '未知错误'
-      toast.error('加载情绪数据失败', { description: message })
+      const message = err instanceof Error ? err.message : 'Unknown error'
+      toast.error(tr.sentiment.load_error, { description: message })
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [tr])
 
   useEffect(() => {
     const init = async () => { await fetchData() }
     init()
   }, [fetchData])
 
-  if (loading && !data) return <Loading text="加载市场情绪数据..." />
+  if (loading && !data) return <Loading text={tr.common.loading} />
 
   const sentiment = data?.sentiment
   const factors = ensureArray<FactorScore>(sentiment?.factors)
@@ -184,12 +186,12 @@ export default function SentimentPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-[#e0e0ff]">
-            <HolographicText as="span" color="gold">市场情绪</HolographicText>分析
+            <HolographicText as="span" color="gold">{tr.sentiment.title_part1}</HolographicText>{tr.sentiment.title_part2}
           </h1>
-          <p className="text-sm text-[#8888aa] mt-1">多维度市场情绪指标与雷达图分析</p>
+          <p className="text-sm text-[#8888aa] mt-1">{tr.sentiment.subtitle}</p>
         </div>
         <Button variant="ghost" size="sm" onClick={fetchData}>
-          <RefreshCw size={14} /> 刷新
+          <RefreshCw size={14} /> {tr.common.refresh}
         </Button>
       </div>
 
@@ -202,11 +204,11 @@ export default function SentimentPage() {
         >
           <h3 className="text-sm font-medium text-[#e0e0ff] mb-4 flex items-center gap-2">
             <Gauge size={16} className="text-cyan-glow" />
-            情绪仪表盘
+            {tr.sentiment.gauge_title}
           </h3>
           <GaugeChart score={sentiment?.score ?? 50} />
           {sentiment?.label && (
-            <p className="text-xs text-[#8888aa] mt-3">标签: <span className="text-[#e0e0ff]">{sentiment.label}</span></p>
+            <p className="text-xs text-[#8888aa] mt-3">{tr.sentiment.label}: <span className="text-[#e0e0ff]">{sentiment.label}</span></p>
           )}
         </GlowCard>
 
@@ -214,7 +216,7 @@ export default function SentimentPage() {
         <GlowCard color="cyan">
           <h3 className="text-sm font-medium text-[#e0e0ff] mb-4 flex items-center gap-2">
             <Activity size={16} className="text-cyan-glow" />
-            六因子评分
+            {tr.sentiment.factor_scores}
           </h3>
           <div className="space-y-4">
             {factors.length === 0 ? (
@@ -267,7 +269,7 @@ export default function SentimentPage() {
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-sm font-medium text-[#e0e0ff]">
             <Activity size={16} className="inline mr-1.5 text-gold" />
-            六维雷达图
+            {tr.sentiment.radar_chart}
           </h3>
           <Badge variant="gold">Radar</Badge>
         </div>
@@ -295,7 +297,7 @@ export default function SentimentPage() {
                 }}
               />
               <Radar
-                name="情绪评分"
+                name={tr.sentiment.sentiment_score}
                 dataKey="score"
                 stroke="#00f0ff"
                 fill="#00f0ff"

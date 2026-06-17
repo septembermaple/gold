@@ -2,22 +2,25 @@ import { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Menu, X, User, LogOut, Settings, ChevronDown, BarChart3, TrendingUp, Building2, Lightbulb } from 'lucide-react'
 import { useAuth } from '../../lib/auth'
+import { useTranslation } from '../../contexts/LanguageContext'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 import * as Avatar from '@radix-ui/react-avatar'
 import Button from '../ui/Button'
+import LanguageSwitcher from '../ui/LanguageSwitcher'
 import { cn } from '../../lib/utils'
 
 export default function Navbar() {
   const { user, logout } = useAuth()
+  const t = useTranslation()
   const location = useLocation()
   const navigate = useNavigate()
   const [mobileOpen, setMobileOpen] = useState(false)
 
   const navLinks = [
-    { path: '/dashboard', label: '仪表盘', icon: BarChart3 },
-    { path: '/analysis', label: 'AI分析', icon: TrendingUp },
-    { path: '/institution-views', label: '机构观点', icon: Building2 },
-    { path: '/investment-advice', label: '投资建议', icon: Lightbulb },
+    { path: '/dashboard', label: t.common.dashboard, icon: BarChart3 },
+    { path: '/analysis', label: t.common.ai_analysis, icon: TrendingUp },
+    { path: '/institution-views', label: t.common.institution_views, icon: Building2 },
+    { path: '/investment-advice', label: t.common.investment_advice, icon: Lightbulb },
   ]
 
   const isActive = (path: string) => location.pathname === path
@@ -55,6 +58,9 @@ export default function Navbar() {
             ))}
           </div>
 
+          {/* Language Switcher */}
+          <LanguageSwitcher />
+
           {/* User Menu */}
           <div className="flex items-center gap-3">
             {user ? (
@@ -78,13 +84,13 @@ export default function Navbar() {
                   >
                     <DropdownMenu.Item asChild>
                       <Link to="/profile" className="flex items-center gap-2 px-3 py-2 text-sm text-[#e0e0ff] hover:bg-white/5 rounded-md cursor-pointer outline-none">
-                        <User size={14} /> 个人中心
+                        <User size={14} /> {t.common.profile}
                       </Link>
                     </DropdownMenu.Item>
                     {user.role === 'admin' && (
                       <DropdownMenu.Item asChild>
                         <Link to="/admin" className="flex items-center gap-2 px-3 py-2 text-sm text-[#e0e0ff] hover:bg-white/5 rounded-md cursor-pointer outline-none">
-                          <Settings size={14} /> 管理后台
+                          <Settings size={14} /> {t.common.admin}
                         </Link>
                       </DropdownMenu.Item>
                     )}
@@ -93,7 +99,7 @@ export default function Navbar() {
                       className="flex items-center gap-2 px-3 py-2 text-sm text-neon-red hover:bg-neon-red/10 rounded-md cursor-pointer outline-none"
                       onClick={() => { logout(); navigate('/') }}
                     >
-                      <LogOut size={14} /> 退出登录
+                      <LogOut size={14} /> {t.common.logout}
                     </DropdownMenu.Item>
                   </DropdownMenu.Content>
                 </DropdownMenu.Portal>
@@ -101,10 +107,10 @@ export default function Navbar() {
             ) : (
               <div className="flex items-center gap-2">
                 <Button variant="ghost" size="sm" onClick={() => navigate('/login')}>
-                  登录
+                  {t.common.login}
                 </Button>
                 <Button variant="primary" size="sm" onClick={() => navigate('/register')}>
-                  注册
+                  {t.common.register}
                 </Button>
               </div>
             )}

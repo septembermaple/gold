@@ -9,12 +9,13 @@ import Button from '../components/ui/Button'
 import Loading from '../components/ui/Loading'
 import { useGoldData } from '../contexts/GoldDataContext'
 import { formatPrice, formatPercent, getPriceColor } from '../lib/utils'
+import { useTranslation } from '../contexts/LanguageContext'
 
 const PERIOD_OPTIONS = [
-  { key: '1h', label: '1小时' },
-  { key: '4h', label: '4小时' },
-  { key: '1d', label: '日K' },
-  { key: '1w', label: '周K' },
+  { key: '1h', label: '1hour' },
+  { key: '4h', label: '4hour' },
+  { key: '1d', label: 'dayK' },
+  { key: '1w', label: 'weekK' },
 ]
 
 const CustomTooltip = ({ active, payload, label }: { active?: boolean; payload?: Array<{ value: number; name: string; payload?: { time?: string } }>; label?: string | number }) => {
@@ -26,7 +27,7 @@ const CustomTooltip = ({ active, payload, label }: { active?: boolean; payload?:
         <p className="text-[#8888aa] mb-1">{timeLabel}</p>
         {payload.map((entry, i) => (
           <p key={i} className="font-mono font-bold" style={{ color: entry.name === 'volume' ? '#fbbf24' : '#00f0ff' }}>
-            {entry.name === 'volume' ? `成交量: ${entry.value?.toLocaleString()}` : `$${formatPrice(entry.value)}`}
+            {entry.name === 'volume' ? `${'volume'}: ${entry.value?.toLocaleString()}` : `$${formatPrice(entry.value)}`}
           </p>
         ))}
       </div>
@@ -40,6 +41,7 @@ export default function Dashboard() {
   const { stats, klineData, loading, refreshStats, refreshKline } = useGoldData()
   const [activePeriod, setActivePeriod] = useState('1d')
   const [klineLoading, setKlineLoading] = useState(false)
+  const t = useTranslation()
 
   const handlePeriodChange = async (period: string) => {
     setActivePeriod(period)
@@ -49,7 +51,7 @@ export default function Dashboard() {
   }
 
   if (loading && !stats) {
-    return <Loading text="加载行情数据..." />
+    return <Loading text={t.common.loading} />
   }
 
   const formatKlineTime = (time: string, period: string) => {
@@ -120,28 +122,28 @@ export default function Dashboard() {
 
   const statCards = [
     {
-      label: '国际金价 XAU/USD',
+      label: t.dashboard.international_price,
       value: stats?.internationalPrice ? `$${formatPrice(stats.internationalPrice)}` : '--',
       change: stats?.internationalChange || 0,
       icon: DollarSign,
       color: 'cyan' as const,
     },
     {
-      label: '国内金价 AU9999',
+      label: t.dashboard.domestic_price,
       value: stats?.domesticPrice ? `¥${formatPrice(stats.domesticPrice)}` : '--',
       change: stats?.domesticChange || 0,
       icon: BarChart3,
       color: 'gold' as const,
     },
     {
-      label: '24h 最高',
+      label: t.dashboard.high24h,
       value: stats?.high24h ? `$${formatPrice(stats.high24h)}` : '--',
       change: 0,
       icon: TrendingUp,
       color: 'green' as const,
     },
     {
-      label: '24h 最低',
+      label: t.dashboard.low24h,
       value: stats?.low24h ? `$${formatPrice(stats.low24h)}` : '--',
       change: 0,
       icon: TrendingDown,
@@ -155,12 +157,12 @@ export default function Dashboard() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-[#e0e0ff]">
-            市场<HolographicText color="cyan">仪表盘</HolographicText>
+            {t.dashboard.market}<HolographicText color="cyan">{t.dashboard.dashboard}</HolographicText>
           </h1>
-          <p className="text-sm text-[#8888aa] mt-1">实时黄金市场行情与数据概览</p>
+          <p className="text-sm text-[#8888aa] mt-1">{t.dashboard.market_overview}</p>
         </div>
         <Button variant="ghost" size="sm" onClick={() => { refreshStats(); refreshKline(activePeriod) }}>
-          <RefreshCw size={14} /> 刷新数据
+          <RefreshCw size={14} /> {t.common.refresh}
         </Button>
       </div>
 
@@ -202,10 +204,10 @@ export default function Dashboard() {
       {/* Market Stats Row */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         {[
-          { label: '开盘价', value: stats?.openPrice ? `$${formatPrice(stats.openPrice)}` : '--' },
-          { label: '24h成交量', value: stats?.volume ? stats.volume.toLocaleString() : '--' },
-          { label: '数据更新', value: stats?.updatedAt ? new Date(stats.updatedAt).toLocaleTimeString('zh-CN') : '--' },
-          { label: '市场状态', value: '交易中' },
+          { label: t.dashboard.open_price, value: stats?.openPrice ? `$${formatPrice(stats.openPrice)}` : '--' },
+          { label: t.dashboard.volume24h, value: stats?.volume ? stats.volume.toLocaleString() : '--' },
+          { label: t.dashboard.data_update, value: stats?.updatedAt ? new Date(stats.updatedAt).toLocaleTimeString('zh-CN') : '--' },
+          { label: t.dashboard.market_status, value: t.dashboard.trading },
         ].map((item) => (
           <div key={item.label} className="glass-dark p-4 text-center">
             <p className="text-xs text-[#8888aa] mb-1">{item.label}</p>
@@ -221,12 +223,12 @@ export default function Dashboard() {
             <Brain size={24} className="text-cyan-glow" />
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-[#e0e0ff]">AI 智能分析</h3>
-            <p className="text-sm text-[#8888aa]">让 AI 为您解读当前市场走势与交易机会</p>
+            <h3 className="text-lg font-semibold text-[#e0e0ff]">{t.dashboard.ai_analysis}</h3>
+            <p className="text-sm text-[#8888aa]">{t.dashboard.ai_analysis_desc}</p>
           </div>
         </div>
         <Button variant="primary" glow onClick={() => navigate('/analysis')}>
-          开始分析 <TrendingUp size={16} />
+          {t.dashboard.start_analysis} <TrendingUp size={16} />
         </Button>
       </GlowCard>
 
@@ -237,7 +239,7 @@ export default function Dashboard() {
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-sm font-medium text-[#e0e0ff]">
               <Activity size={16} className="inline mr-1.5 text-cyan-glow" />
-              金价走势
+              {t.dashboard.price_trend}
             </h3>
             <div className="flex items-center gap-2">
               {/* K线周期切换 */}
@@ -252,7 +254,7 @@ export default function Dashboard() {
                         : 'text-[#8888aa] hover:text-[#e0e0ff] border border-transparent'
                     }`}
                   >
-                    {opt.label}
+                    {t.dashboard[opt.label as keyof typeof t.dashboard] || opt.label}
                   </button>
                 ))}
               </div>
@@ -262,7 +264,7 @@ export default function Dashboard() {
           <div className="h-72 relative">
             {klineLoading && (
               <div className="absolute inset-0 flex items-center justify-center bg-dark-900/50 z-10 rounded-lg">
-                <div className="text-cyan-glow text-sm animate-pulse">加载中...</div>
+                <div className="text-cyan-glow text-sm animate-pulse">{t.common.loading}</div>
               </div>
             )}
             {chartData.length > 0 ? (
@@ -304,7 +306,7 @@ export default function Dashboard() {
               </ResponsiveContainer>
             ) : (
               <div className="flex items-center justify-center h-full text-[#8888aa] text-sm">
-                暂无K线数据
+                {t.common.no_data}
               </div>
             )}
           </div>
@@ -315,7 +317,7 @@ export default function Dashboard() {
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-sm font-medium text-[#e0e0ff]">
               <BarChart3 size={16} className="inline mr-1.5 text-gold" />
-              成交量
+              {t.dashboard.volume}
             </h3>
             <Badge variant="gold">Volume</Badge>
           </div>
@@ -345,7 +347,7 @@ export default function Dashboard() {
               </ResponsiveContainer>
             ) : (
               <div className="flex items-center justify-center h-full text-[#8888aa] text-sm">
-                暂无成交量数据
+                {t.common.no_data}
               </div>
             )}
           </div>

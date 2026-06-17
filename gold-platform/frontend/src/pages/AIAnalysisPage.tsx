@@ -12,6 +12,7 @@ import Input from '../components/ui/Input'
 import { aiApi, pushApi } from '../lib/api'
 import { extractApiData } from '../lib/utils'
 import { toast } from 'sonner'
+import { useTranslation } from '../contexts/LanguageContext'
 
 interface AnalysisResult {
   content?: string
@@ -131,6 +132,7 @@ export default function AIAnalysisPage() {
   const [activeModule, setActiveModule] = useState<string | null>(null)
   const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null)
   const [loading, setLoading] = useState(false)
+  const tr = useTranslation()
 
   // Push config
   const [pushToken, setPushToken] = useState('')
@@ -164,15 +166,15 @@ export default function AIAnalysisPage() {
       const data = extractApiData(res) as AnalysisResult
       setAnalysisResult(data)
     } catch (err: unknown) {
-      const errorData = err instanceof Error ? err.message : '未知错误'
-      let errorMessage = 'AI 分析请求失败，请稍后重试'
+      const errorData = err instanceof Error ? err.message : 'Unknown error'
+      let errorMessage = tr.ai_analysis.request_failed
       let description = ''
       
       try {
         const parsed = JSON.parse(errorData)
         if (parsed.error === '会员等级不足') {
-          errorMessage = '会员等级不足'
-          description = `当前等级: ${parsed.data?.currentLevel || 'free'}，需要: ${parsed.data?.requiredLevel || 'basic'}\n升级会员以解锁更多 AI 分析功能`
+          errorMessage = tr.ai_analysis.insufficient_level
+          description = `${tr.ai_analysis.current_level}: ${parsed.data?.currentLevel || 'free'}，${tr.ai_analysis.required_level}: ${parsed.data?.requiredLevel || 'basic'}\n${tr.ai_analysis.upgrade_hint}`
         } else {
           description = parsed.message || parsed.error || ''
         }
@@ -188,17 +190,17 @@ export default function AIAnalysisPage() {
 
   const handleSubscribe = async () => {
     if (!pushToken.trim()) {
-      toast.error('请输入 PushPlus Token')
+      toast.error(tr.ai_analysis.push_token_required)
       return
     }
     setPushLoading(true)
     try {
       await pushApi.subscribe(pushToken, pushType)
       setSubscribed(true)
-      toast.success('订阅成功！将按时推送分析报告')
+      toast.success(tr.ai_analysis.subscribe_success)
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : '未知错误'
-      toast.error('订阅失败', { description: message })
+      const message = err instanceof Error ? err.message : 'Unknown error'
+      toast.error(tr.ai_analysis.subscribe_failed, { description: message })
     } finally {
       setPushLoading(false)
     }
@@ -209,10 +211,10 @@ export default function AIAnalysisPage() {
     try {
       await pushApi.unsubscribe()
       setSubscribed(false)
-      toast.success('已取消订阅')
+      toast.success(tr.ai_analysis.unsubscribe_success)
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : '未知错误'
-      toast.error('取消订阅失败', { description: message })
+      const message = err instanceof Error ? err.message : 'Unknown error'
+      toast.error(tr.ai_analysis.unsubscribe_failed, { description: message })
     } finally {
       setPushLoading(false)
     }
@@ -220,16 +222,16 @@ export default function AIAnalysisPage() {
 
   const handleTestPush = async () => {
     if (!pushToken.trim()) {
-      toast.error('请输入 PushPlus Token')
+      toast.error(tr.ai_analysis.push_token_required)
       return
     }
     setPushLoading(true)
     try {
-      await pushApi.testPush({ message: '黄金分析平台 - 推送测试' })
-      toast.success('测试推送已发送，请检查微信')
+      await pushApi.testPush({ message: tr.ai_analysis.test_message })
+      toast.success(tr.ai_analysis.test_push_sent)
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : '未知错误'
-      toast.error('测试推送失败', { description: message })
+      const message = err instanceof Error ? err.message : 'Unknown error'
+      toast.error(tr.ai_analysis.test_push_failed, { description: message })
     } finally {
       setPushLoading(false)
     }
@@ -240,9 +242,9 @@ export default function AIAnalysisPage() {
       {/* Header */}
       <div>
         <h1 className="text-2xl font-bold text-[#e0e0ff]">
-          <HolographicText as="span" color="mixed">AI 分析</HolographicText>报告
+          <HolographicText as="span" color="mixed">{tr.ai_analysis.title}</HolographicText>{tr.ai_analysis.title_suffix}
         </h1>
-        <p className="text-sm text-[#8888aa] mt-1">AI 驱动的黄金市场深度分析与微信推送</p>
+        <p className="text-sm text-[#8888aa] mt-1">{tr.ai_analysis.subtitle}</p>
       </div>
 
       {/* Analysis Module Buttons */}
@@ -278,7 +280,7 @@ export default function AIAnalysisPage() {
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-sm font-medium text-[#e0e0ff] flex items-center gap-2">
               <FileText size={16} className="text-cyan-glow" />
-              {analysisModules.find(m => m.key === activeModule)?.title ?? '分析结果'}
+              {analysisModules.find(m => m.key === activeModule)?.title ?? tr.ai_analysis.analysis_result}
             </h3>
             {activeModule && (
               <Badge variant={analysisModules.find(m => m.key === activeModule)?.color ?? 'cyan'}>
@@ -294,8 +296,8 @@ export default function AIAnalysisPage() {
                 <Brain size={24} className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-cyan-glow animate-pulse" />
               </div>
               <div className="text-center">
-                <p className="text-sm text-[#e0e0ff] animate-pulse">AI 正在分析中...</p>
-                <p className="text-xs text-[#8888aa] mt-1">请稍候，分析可能需要数秒</p>
+                <p className="text-sm text-[#e0e0ff] animate-pulse">{tr.ai_analysis.analyzing}</p>
+                <p className="text-xs text-[#8888aa] mt-1">{tr.ai_analysis.analyzing_hint}</p>
               </div>
             </div>
           ) : analysisResult ? (
@@ -303,11 +305,11 @@ export default function AIAnalysisPage() {
               {analysisResult.title && (
                 <h4 className="text-lg font-bold text-[#e0e0ff] mb-3">{analysisResult.title}</h4>
               )}
-              <MarkdownRenderer content={analysisResult.content || '暂无分析内容'} />
+              <MarkdownRenderer content={analysisResult.content || tr.common.no_data} />
             </div>
           ) : (
             <div className="text-center py-8">
-              <p className="text-sm text-[#8888aa]">点击上方模块开始 AI 分析</p>
+              <p className="text-sm text-[#8888aa]">{tr.ai_analysis.click_to_analyze}</p>
             </div>
           )}
         </GlowCard>
@@ -318,18 +320,18 @@ export default function AIAnalysisPage() {
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-sm font-medium text-[#e0e0ff] flex items-center gap-2">
             <Bell size={16} className="text-gold" />
-            微信推送配置
+            {tr.ai_analysis.push_config}
           </h3>
           {subscribed && (
-            <Badge variant="green" size="md">已订阅</Badge>
+            <Badge variant="green" size="md">{tr.ai_analysis.subscribed}</Badge>
           )}
         </div>
 
         <div className="space-y-4">
           {/* Token Input */}
           <Input
-            label="PushPlus Token"
-            placeholder="请输入您的 PushPlus Token"
+            label={tr.ai_analysis.pushplus_token}
+            placeholder={tr.ai_analysis.pushplus_token_placeholder}
             value={pushToken}
             onChange={(e) => setPushToken(e.target.value)}
             icon={<Send size={14} />}
@@ -338,12 +340,12 @@ export default function AIAnalysisPage() {
 
           {/* Push Type Selection */}
           <div>
-            <label className="block text-sm font-medium text-[#8888aa] mb-2">推送类型</label>
+            <label className="block text-sm font-medium text-[#8888aa] mb-2">{tr.ai_analysis.push_type}</label>
             <div className="flex gap-2">
               {[
-                { key: 'daily' as const, label: '每日摘要', icon: <FileText size={14} /> },
-                { key: 'alert' as const, label: '异动提醒', icon: <Zap size={14} /> },
-                { key: 'all' as const, label: '全部', icon: <Bell size={14} /> },
+                { key: 'daily' as const, label: tr.ai_analysis.daily_summary, icon: <FileText size={14} /> },
+                { key: 'alert' as const, label: tr.ai_analysis.alert_notification, icon: <Zap size={14} /> },
+                { key: 'all' as const, label: tr.ai_analysis.all, icon: <Bell size={14} /> },
               ].map((type) => (
                 <button
                   key={type.key}
@@ -371,7 +373,7 @@ export default function AIAnalysisPage() {
                 glow
               >
                 {pushLoading ? <Loader2 size={14} className="animate-spin" /> : <Bell size={14} />}
-                订阅推送
+                {tr.ai_analysis.subscribe}
               </Button>
             ) : (
               <Button
@@ -381,7 +383,7 @@ export default function AIAnalysisPage() {
                 disabled={pushLoading}
               >
                 {pushLoading ? <Loader2 size={14} className="animate-spin" /> : <BellOff size={14} />}
-                取消订阅
+                {tr.ai_analysis.unsubscribe}
               </Button>
             )}
             <Button
@@ -391,7 +393,7 @@ export default function AIAnalysisPage() {
               disabled={pushLoading || !pushToken.trim()}
             >
               {pushLoading ? <Loader2 size={14} className="animate-spin" /> : <Send size={14} />}
-              测试推送
+              {tr.ai_analysis.test_push}
             </Button>
           </div>
 
@@ -400,10 +402,10 @@ export default function AIAnalysisPage() {
             <div className="flex items-start gap-2">
               <MessageSquare size={14} className="text-[#8888aa] shrink-0 mt-0.5" />
               <div className="text-xs text-[#8888aa] leading-relaxed">
-                <p>PushPlus 是一个免费的微信推送服务。关注 PushPlus 公众号后，在菜单中获取您的 Token。</p>
-                <p className="mt-1">• 每日摘要：每天定时推送市场分析报告</p>
-                <p>• 异动提醒：金价出现大幅波动时即时推送</p>
-                <p>• 全部：同时接收以上两种推送</p>
+                <p>{tr.ai_analysis.push_service_desc}</p>
+                <p className="mt-1">• {tr.ai_analysis.daily_summary_desc}</p>
+                <p>• {tr.ai_analysis.alert_notification_desc}</p>
+                <p>• {tr.ai_analysis.all_desc}</p>
               </div>
             </div>
           </div>

@@ -23,7 +23,7 @@ export default function Layout({ showSidebar = true, sidebarVariant = 'main' }: 
           <footer className="border-t border-[rgba(0,240,255,0.08)] bg-dark-950">
             <div className="w-full px-4 sm:px-6 lg:px-8 py-4">
               <div className="p-3 rounded-lg bg-gold/5 border border-gold/15 text-xs text-[#aaa89a] leading-relaxed text-center">
-                <span className="text-gold font-medium">Risk Warning: </span>{t.common.risk_warning}
+                <span className="text-gold font-medium">{t.common.risk_warning_short}</span>{t.common.risk_warning}
               </div>
             </div>
           </footer>

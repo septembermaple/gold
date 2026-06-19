@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { BarChart3, TrendingUp, Building2, Lightbulb, User, Settings, Users, Shield, CreditCard, Server, Globe, Zap, Heart, Star, ShieldAlert, Brain, ChevronLeft, ChevronRight } from 'lucide-react'
+import { BarChart3, TrendingUp, Building2, Lightbulb, User, Settings, Users, Shield, CreditCard, Server, Globe, Zap, Heart, Star, ShieldAlert, Brain, ChevronLeft, ChevronRight, Calendar } from 'lucide-react'
 import { useTranslation } from '../../contexts/LanguageContext'
 import { cn } from '../../lib/utils'
 
@@ -32,6 +32,7 @@ export default function Sidebar({ variant = 'main' }: SidebarProps) {
     { path: '/sentiment', label: t.common.sentiment, icon: Heart },
     { path: '/scoring', label: t.common.scoring, icon: Star },
     { path: '/risk', label: t.common.risk, icon: ShieldAlert },
+    { path: '/calendar', label: t.common.calendar, icon: Calendar },
     { path: '/ai-analysis', label: t.common.ai_analysis, icon: Brain },
     { path: '/analysis', label: t.common.analysis, icon: TrendingUp },
     { path: '/institution-views', label: t.common.institution_views, icon: Building2 },

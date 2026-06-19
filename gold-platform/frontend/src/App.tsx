@@ -24,6 +24,7 @@ import SentimentPage from './pages/SentimentPage'
 import ScoringPage from './pages/ScoringPage'
 import RiskPage from './pages/RiskPage'
 import AIAnalysisPage from './pages/AIAnalysisPage'
+import EconomicCalendar from './pages/EconomicCalendar'
 
 export default function App() {
   return (
@@ -62,6 +63,7 @@ export default function App() {
               <Route path="/scoring" element={<ScoringPage />} />
               <Route path="/risk" element={<RiskPage />} />
               <Route path="/ai-analysis" element={<AIAnalysisPage />} />
+              <Route path="/calendar" element={<EconomicCalendar />} />
             </Route>
 
             {/* Admin routes */}

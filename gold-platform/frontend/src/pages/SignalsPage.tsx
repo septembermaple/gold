@@ -46,9 +46,9 @@ const SignalIcon = ({ direction }: { direction?: string }) => {
 
 const SignalLabel = ({ direction, label }: { direction?: string; label?: string }) => {
   const t = useTranslation()
-  if (direction === 'bullish') return <span className="text-neon-green glow-text">{label || t.signals.bullish}</span>
-  if (direction === 'bearish') return <span className="text-neon-red glow-text">{label || t.signals.bearish}</span>
-  return <span className="text-[#8888aa]">{label || t.signals.neutral}</span>
+  if (direction === 'bullish') return <span className="text-neon-green glow-text">{label === 'Bullish' ? t.signals.bullish : label || t.signals.bullish}</span>
+  if (direction === 'bearish') return <span className="text-neon-red glow-text">{label === 'Bearish' ? t.signals.bearish : label || t.signals.bearish}</span>
+  return <span className="text-[#8888aa]">{label === 'Neutral' ? t.signals.neutral : label || t.signals.neutral}</span>
 }
 
 const StrengthStars = ({ strength }: { strength?: number }) => {

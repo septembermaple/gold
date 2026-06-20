@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { TrendingUp, TrendingDown, Brain, Activity, DollarSign, BarChart3, RefreshCw } from 'lucide-react'
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts'
@@ -18,6 +18,12 @@ export default function Dashboard() {
   const [klineLoading, setKlineLoading] = useState(false)
   const t = useTranslation()
   const { language } = useLanguage()
+
+  // 使用后端返回的市场状态
+  const marketStatus = useMemo(() => {
+    const isOpen = stats?.marketOpen ?? false
+    return isOpen ? t.dashboard.trading : t.dashboard.market_closed
+  }, [t, stats])
 
   const PERIOD_OPTIONS = [
     { key: '1h', label: t.dashboard.hour_1 },
@@ -207,7 +213,7 @@ export default function Dashboard() {
           { label: t.dashboard.open_price, value: stats?.openPrice ? `$${formatPrice(stats.openPrice)}` : '--' },
           { label: t.dashboard.volume24h, value: stats?.volume ? stats.volume.toLocaleString() : '--' },
           { label: t.dashboard.data_update, value: stats?.updatedAt ? new Date(stats.updatedAt).toLocaleTimeString(language === 'zh-CN' ? 'zh-CN' : 'en-US') : '--' },
-          { label: t.dashboard.market_status, value: t.dashboard.trading },
+          { label: t.dashboard.market_status, value: marketStatus },
         ].map((item) => (
           <div key={item.label} className="glass-dark p-4 text-center min-w-0 min-h-[88px]">
             <p className="text-xs text-[#8888aa] mb-1">{item.label}</p>

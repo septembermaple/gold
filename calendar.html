@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="dns-prefetch" href="https://c.mql5.com">
+  <meta name="description" content="Economic Calendar – forex calendar with real-time forex news and reports, schedule of forthcoming world economy events. Economic calendar includes most important economic indicators and events from ministries and agencies of different countries. The Calendar is useful for traders in the forex market, stock exchanges and other financial markets.">
+  <meta property="og:url" content="https://www.mql5.com/en/economic-calendar">
+  <meta property="og:title" content="Economic Calendar | Financial &amp; Forex News | World Economy Events in Real-Time">
+  <meta property="og:description" content="Economic Calendar – forex calendar with real-time forex news and reports, schedule of forthcoming world economy events. Economic calendar includes most important economic indicators and events from ministries and agencies of different countries. The Calendar is useful for traders in the forex market, stock exchanges and other financial markets.">
+      <meta property="og:image" content="https://c.mql5.com/i/og/mql5-calendar-3.png">
+      <meta property="og:image:secure_url" content="https://c.mql5.com/i/og/mql5-calendar-3.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:site" content="@mql5com">
+  <meta name="twitter:image" content="https://c.mql5.com/i/og/mql5-calendar-3.png">
+  <meta name="theme-color" content="#4a76b8">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="manifest" href="https://www.mql5.com/manifest.json">
+  <link rel="apple-touch-icon" sizes="57x57" href="https://www.mql5.com/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://www.mql5.com/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="https://www.mql5.com/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="https://www.mql5.com/apple-touch-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="167x167" href="https://www.mql5.com/apple-touch-icon-167x167.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://www.mql5.com/apple-touch-icon-180x180.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="https://www.mql5.com/apple-touch-icon-192x192.png">
+  <link rel="icon" sizes="192x192" href="https://www.mql5.com/android-touch-icon-192x192.png">
+  <link rel="icon" sizes="128x128" href="https://www.mql5.com/android-touch-icon-128x128.png">
+  <link rel="shortcut icon" href="https://c.mql5.com/i/favicon4.ico">
+  <meta name="msapplication-config" content="none"/>
+  <meta name="referrer" content="no-referrer-when-downgrade">
+  <meta property="qc:admins" content="36367170677651456375"/>
+  <meta property="wb:webmaster" content="073d7690269bcd81"/>
+  <link href="https://c.mql5.com/styles/core.5b5ab91b0f7fd239de15ec3a0d9cd256.css" type="text/css" rel="stylesheet" media="all">
+  <link href="https://c.mql5.com/styles/all.9574692a716b7cf22f786a0ef4c3ff13.css" type="text/css" rel="stylesheet" media="all">
+  <link href="https://c.mql5.com/styles/calendar.f56f3f0523c7e031e1346493101a518c.css" type="text/css" rel="stylesheet" media="all">
+  <link rel="canonical" href="https://www.mql5.com/en/economic-calendar">
+  <link rel="alternate" hreflang="en" href="https://www.mql5.com/en/economic-calendar">
+  <link rel="alternate" hreflang="ru" href="https://www.mql5.com/ru/economic-calendar">
+  <link rel="alternate" hreflang="zh" href="https://www.mql5.com/zh/economic-calendar">
+  <link rel="alternate" hreflang="es" href="https://www.mql5.com/es/economic-calendar">
+  <link rel="alternate" hreflang="pt" href="https://www.mql5.com/pt/economic-calendar">
+  <link rel="alternate" hreflang="ja" href="https://www.mql5.com/ja/economic-calendar">
+  <link rel="alternate" hreflang="de" href="https://www.mql5.com/de/economic-calendar">
+  <link rel="alternate" hreflang="ko" href="https://www.mql5.com/ko/economic-calendar">
+  <link rel="alternate" hreflang="fr" href="https://www.mql5.com/fr/economic-calendar">
+  <link rel="alternate" hreflang="it" href="https://www.mql5.com/it/economic-calendar">
+  <link rel="alternate" hreflang="tr" href="https://www.mql5.com/tr/economic-calendar">
+  <title>Economic Calendar | Financial &amp; Forex News | World Economy Events in Real-Time</title>
+  <script type='text/javascript'>
+  (function(a,e,f,g,b,c,d){a[b]||(a.FintezaCoreObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=!0,c.defer=!0,c.src=g,d&&d.parentNode&&d.parentNode.insertBefore(c,d))})
+      (window, document, "script", "/ff/core.js", "fz");
+  window.fz("register", "website", {
+      id: "sqjxkxkswybhifrohpyooonwgbvsfzmayq",
+    trackLinks: true,
+    sendEventsByBeacon: true,
+  });
+  </script>
+
+
+<script type="text/javascript">
+  !function(){window.mqGlobal={};var t=!1,n=!1,e=[],o=[],i=[];function d(t){var n;for(n=0;n<t.length;n+=1)t[n]()}function c(){t||(t=!0,d(e),d(o),o=[],e=[])}function a(){c(),n||(n=!0,d(i),i=[])}if(mqGlobal.AddOnReady=function(n,i){t?n(document):i?e.push(n):o.push(n)},mqGlobal.AddOnLoad=function(t){n?t(document):i.push(t)},mqGlobal.AddOnActiveWindowChange=function(t){this._onvisibility||(this._onvisibility=[]),this._onvisibility[this._onvisibility.length]=t},document.addEventListener)document.addEventListener("DOMContentLoaded",c,!1),window.addEventListener("load",a,!1);else if(document.attachEvent&&(document.attachEvent("onreadystatechange",(function(){switch(document.readyState){case"interactive":c();break;case"complete":a()}})),window.attachEvent("onload",a),document.documentElement.doScroll&&window==window.top)){!function n(){if(!t&&document.body)try{document.documentElement.doScroll("left"),c()}catch(t){setTimeout(n,0)}}()}}();
+  mqGlobal.CookieDomain = ".mql5.com";
+  mqGlobal.Language = 'en';
+  mqGlobal.IsMobile = false;
+  mqGlobal.ClearRteStorage = function (e) { if (window.GStorage || (window.GStorage = globalStorage()), window.GStorage.supported) try { var o = e; window.GStorage.getItem("rte_autosave_uid", function (e, t) { t == o && (window.GStorage.removeItem("rte_autosave_text"), window.GStorage.removeItem("rte_autosave_date"), window.GStorage.removeItem("rte_autosave_uid")) }) } catch (e) { } };
+</script>
+  
+
+
+    <script src="https://c.mql5.com/js/all.3eb8e88953debf76bad0c3181b44206a.js" type="text/javascript" defer="defer"></script>
+  <script src="https://c.mql5.com/js/vendor.1be6e9a4a90b28525f93c4c69a5058a1.js" type="text/javascript" defer="defer"></script>
+  <script src="https://c.mql5.com/js/calendar.6eb4eaf20ad18a13e2c63e224e2e5bcc.js" type="text/javascript" defer="defer"></script>
+
+
+</head>
+
+<body>
+
+<div class="cover" id="cover">
+
+    <header class="head">
+      <a href="https://www.mql5.com" class="head__logo" title="MQL5 - Language of trade strategies built-in the MetaTrader 5 client terminal"></a>
+        <div class="head__content">
+          <nav class="main-menu" id="mainmenu">
+            
+                    <ul class="main-menu__top-level" id="menuTopLevel">
+                    <li><a href="/en/forum" data-fz-event="MQL5+Menu+Forum">Forum</a></li>
+                    <li><a href="/en/market" data-fz-event="MQL5+Menu+Market">Market</a></li>
+                    <li><a href="/en/signals" data-fz-event="MQL5+Menu+Signals">Signals</a></li>
+                    <li><a href="/en/job" data-fz-event="MQL5+Menu+Job">Freelance</a></li>
+                    <li><a href="/en/vps" data-fz-event="MQL5+Menu+VPS">VPS</a></li>
+                    <li><a href="/en/quotes/overview" data-fz-event="MQL5+Menu+Overview">Quotes</a></li>
+                    <li><a href="https://www.metatrader.com" target="_blank" rel="noopener" data-fz-event="MQL5+Menu+MetaTrader">MetaTrader</a></li>
+                  </ul><ul class="main-menu__second-level" id="menuSecondLevel">
+                    <li><a href="/en/articles" data-fz-event="MQL5+Menu+Articles"><img src="https://c.mql5.com/i/menu/icon-articles4.svg" alt="" width="16" height="16"/>Articles</a></li>
+                    <li><a href="/en/code" data-fz-event="MQL5+Menu+CodeBase"><img src="https://c.mql5.com/i/menu/icon-code4.svg" alt="" width="16" height="16"/>CodeBase</a></li>
+                    <li><a href="https://forge.mql5.io/?lang=en" target="_blank" rel="noopener" data-fz-event="MQL5+Menu+AlgoForge"><img src="https://c.mql5.com/i/menu/icon-algoforge4.svg" alt="" width="16" height="16"/>Algo Forge</a></li>
+                    <li><a href="/en/docs" data-fz-event="MQL5+Menu+Docs"><img src="https://c.mql5.com/i/menu/icon-docs4.svg" alt="" width="16" height="16"/>Documentation</a></li>
+                    <li><a href="/en/book" data-fz-event="MQL5+Menu+Book"><img src="https://c.mql5.com/i/menu/icon-book4.svg" alt="" width="16" height="16"/>AlgoBook</a></li>
+                    <li><a href="/en/neurobook" data-fz-event="MQL5+Menu+Neurobook"><img src="https://c.mql5.com/i/menu/icon-neurobook4.svg" alt="" width="16" height="16"/>NeuroBook</a></li>
+                    <li class="main-menu__selected"><a href="/en/economic-calendar" data-fz-event="MQL5+Menu+Economic+Calendar"><img src="https://c.mql5.com/i/menu/icon-economic-calendar4.svg" alt="" width="16" height="16"/>Calendar</a></li>
+                    <li><a href="https://web.metatrader.app/terminal?mode=demo&lang=en" target="_blank" rel="nofollow noopener" data-fz-event="MQL5+Menu+Trading"><img src="https://c.mql5.com/i/menu/icon-trading4.svg" alt="" width="16" height="16"/>WebTerminal</a></li>
+                    <li class="main-menu__mobile"><a href="/en/about">About</a></li>
+                    <li class="main-menu__second-tools"><a rel="noopener" href="https://download.terminal.free/cdn/web/metaquotes.ltd/mt5/mt5setup.exe?utm_source=www.mql5.com&utm_campaign=download" title="Get the latest version of the trading platform for free" class="button-mt" data-vars-fz="MetaTrader+5+Desktop+Download+Submenu"><img width="18" height="18" src="https://c.mql5.com/i/sidebar/download.svg" alt="" loading="lazy">Download MetaTrader 5</a></li>
+                    </ul>
+          </nav>
+            <div class="main-menu__active">
+              <a id="mainMenuSelected" href="#">
+                <span class="main-menu__primary">Calendar</span><span class="main-menu__secondary">Sections</span>
+              </a>
+            </div>
+<form action="https://www.mql5.com/en/search" onsubmit="return false;" autocomplete="off" id="headerSearchForm" class="header-search" method="post">
+<button type="button" id="headerSearchButton" title="Search" class="header-search__button"></button><div class="header-search__input"><input name="keyword" type="text" enterkeyhint="search" title="Enter search text" placeholder="Search" id="headerSearchKeyword"/><label for="headerSearchKeyword" class="header-search__placeholder">Type <span>/</span> to search:  @user, $symbol, ...</label><button id="headerSearchSubmit" class="header-search__submit"></button></div><button type="button" id="headerSearchClean" title="Close" class="header-search__clean"></button></form>          <input class="blurHandler" id="mainMenuBlurHandler" type="checkbox">
+        </div>
+        <div class="head__toolbar" id="headerToolbar">
+            <div class="container loginRegister">
+              <nav>
+                <ul id="loginRegisterButtons"><li><a class="login" title="Please sign in. OpenID supported" href="https://www.mql5.com/en/auth_login" rel="nofollow" data-fz-event="MQL5+Menu+Siginin">Log in</a></li><li><a class="registration en" title="Please register" href="https://www.mql5.com/en/auth_register" rel="nofollow" data-fz-event="MQL5+Menu+Register" onclick="window.fpush('MQL5+Button+Click');">Create an account</a></li></ul>
+              </nav>
+            </div>
+          <div class="container">
+            <div class="toggle-button" id="sidebarToggleButton">
+              <i></i>
+            </div>
+          </div>
+
+          <div class="group-menu" id="groupMenu">
+
+
+            <div class="container lang-menu-container">
+              <div id="langMenuContainer" class="lang-menu">
+                <input class="blurHandler" id="langmenuBlurHandler" type="checkbox">
+                <nav>
+                  <ul class="lang-menu__list" id="langmenu">
+                    <li class="lang-menu__list-item lang-menu__list-item_selected"><a href="/en/economic-calendar" aria-label="English (English)"><i class="icons-languages icons-languages_en"></i><span>English</span></a></li>
+<li class="lang-menu__list-item"><a href="/ru/economic-calendar" aria-label="Русский (Russian)"><i class="icons-languages icons-languages_ru"></i><span>Русский</span></a></li>
+<li class="lang-menu__list-item"><a href="/zh/economic-calendar" aria-label="中文 (Chinese)"><i class="icons-languages icons-languages_zh"></i><span>中文</span></a></li>
+<li class="lang-menu__list-item"><a href="/es/economic-calendar" aria-label="Español (Spanish)"><i class="icons-languages icons-languages_es"></i><span>Español</span></a></li>
+<li class="lang-menu__list-item"><a href="/pt/economic-calendar" aria-label="Português (Portuguese)"><i class="icons-languages icons-languages_pt"></i><span>Português</span></a></li>
+<li class="lang-menu__list-item"><a href="/ja/economic-calendar" aria-label="日本語 (Japanese)"><i class="icons-languages icons-languages_ja"></i><span>日本語</span></a></li>
+<li class="lang-menu__list-item"><a href="/de/economic-calendar" aria-label="Deutsch (German)"><i class="icons-languages icons-languages_de"></i><span>Deutsch</span></a></li>
+<li class="lang-menu__list-item"><a href="/ko/economic-calendar" aria-label="한국어 (Korean)"><i class="icons-languages icons-languages_ko"></i><span>한국어</span></a></li>
+<li class="lang-menu__list-item"><a href="/fr/economic-calendar" aria-label="Français (French)"><i class="icons-languages icons-languages_fr"></i><span>Français</span></a></li>
+<li class="lang-menu__list-item"><a href="/it/economic-calendar" aria-label="Italiano (Italian)"><i class="icons-languages icons-languages_it"></i><span>Italiano</span></a></li>
+<li class="lang-menu__list-item"><a href="/tr/economic-calendar" aria-label="Türkçe (Turkish)"><i class="icons-languages icons-languages_tr"></i><span>Türkçe</span></a></li>
+
+                  </ul>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+    </header>
+
+  <main>
+<div id='bfogggabsofabcpxuzmgaibarmaxasdrj' class="rn8dez79p206972ax g9617zzjt"></div>
+    <article class="body" id="bodyContent">
+      <header class="top-band">
+        
+      </header>
+
+      
+<div id="calendarContainer" class="economic-calendar__body">
+  <div class="economic-calendar__control-panel" id="calendarControlPanel">
+    
+<div class="economic-calendar__filter ui" id="economicCalendarFilter">
+  <div class="economic-calendar__panel-header"><span class="economic-calendar__icon-calendar"></span>Economic Calendar</div>
+  <div class="economic-calendar__filter-date-input">
+    <input type="text" id="filterDateInput" />
+  </div>
+  <ul class="economic-calendar__filter-date" id="economicCalendarFilterDate">
+      <li><input type="radio" id="filterDate1" checked="checked" name="date_mode" value="1"> <label class="checked" for="filterDate1"><span></span>Current week</label></li>
+      <li><input type="radio" id="filterDate2" name="date_mode" value="2"> <label  for="filterDate2"><span></span>Previous week</label></li>
+      <li><input type="radio" id="filterDate3" name="date_mode" value="3"> <label  for="filterDate3"><span></span>Next week</label></li>
+      <li><input type="radio" id="filterDate4" name="date_mode" value="4"> <label  for="filterDate4"><span></span>Current month</label></li>
+      <li><input type="radio" id="filterDate5" name="date_mode" value="5"> <label  for="filterDate5"><span></span>Previous month</label></li>
+      <li><input type="radio" id="filterDate6" name="date_mode" value="6"> <label  for="filterDate6"><span></span>Next month</label></li>
+  </ul>
+  <h4>Event importance</h4>
+  <ul class="economic-calendar__filter-importance" id="economicCalendarFilterImportance">
+      <li><input type="checkbox" class="checkbox" id="filterImportance1" name="importance" value="1"><label for="filterImportance1"><span class="economic-calendar__importance none"></span>Holidays</label></li>
+      <li><input type="checkbox" class="checkbox" id="filterImportance2" checked="checked" name="importance" value="2"><label for="filterImportance2"><span class="economic-calendar__importance low"></span>Low</label></li>
+      <li><input type="checkbox" class="checkbox" id="filterImportance4" checked="checked" name="importance" value="4"><label for="filterImportance4"><span class="economic-calendar__importance medium"></span>Medium</label></li>
+      <li><input type="checkbox" class="checkbox" id="filterImportance8" checked="checked" name="importance" value="8"><label for="filterImportance8"><span class="economic-calendar__importance high"></span>High</label></li>
+  </ul>
+  <h4>Currencies</h4>
+  <ul class="economic-calendar__filter-currency" id="economicCalendarFilterCurrency">
+      <li><input type="checkbox" class="checkbox" id="filterCurrency32" checked="checked" name="currencies" value="32"><label for="filterCurrency32">AUD - Australian Dollar</label></li>
+      <li><input type="checkbox" class="checkbox" id="filterCurrency1024" checked="checked" name="currencies" value="1024"><label for="filterCurrency1024">BRL - Brazilian real</label></li>
+      <li><input type="checkbox" class="checkbox" id="filterCurrency16" checked="checked" name="currencies" value="16"><label for="filterCurrency16">CAD - Canadian dollar</label></li>
+      <li><input type="checkbox" class="checkbox" id="filterCurrency64" checked="checked" name="currencies" value="64"><label for="filterCurrency64">CHF - Swiss frank</label></li>
+      <li><input type="checkbox" class="checkbox" id="filterCurrency128" checked="checked" name="currencies" value="128"><label for="filterCurrency128">CNY - Chinese yuan</label></li>
+      <li><input type="checkbox" class="checkbox" id="filterCurrency2" checked="checked" name="currencies" value="2"><label for="filterCurrency2">EUR - Euro</label></li>
+      <li><input type="checkbox" class="checkbox" id="filterCurrency8" checked="checked" name="currencies" value="8"><label for="filterCurrency8">GBP - Pound sterling</label></li>
+      <li><input type="checkbox" class="checkbox" id="filterCurrency4096" checked="checked" name="currencies" value="4096"><label for="filterCurrency4096">HKD - Hong Kong dollar</label></li>
+      <li><input type="checkbox" class="checkbox" id="filterCurrency65536" checked="checked" name="currencies" value="65536"><label for="filterCurrency65536">INR - Indian rupee</label></li>
+      <li><input type="checkbox" class="checkbox" id="filterCurrency4" checked="checked" name="currencies" value="4"><label for="filterCurrency4">JPY - Japanese yen</label></li>
+      <li><input type="checkbox" class="checkbox" id="filterCurrency2048" checked="checked" name="currencies" value="2048"><label for="filterCurrency2048">KRW - South Korean won</label></li>
+      <li><input type="checkbox" class="checkbox" id="filterCurrency16384" checked="checked" name="currencies" value="16384"><label for="filterCurrency16384">MXN - Mexican peso</label></li>
+      <li><input type="checkbox" class="checkbox" id="filterCurrency131072" checked="checked" name="currencies" value="131072"><label for="filterCurrency131072">NOK - Norwegian Krone</label></li>
+      <li><input type="checkbox" class="checkbox" id="filterCurrency256" checked="checked" name="currencies" value="256"><label for="filterCurrency256">NZD - New Zealand dollar</label></li>
+      <li><input type="checkbox" class="checkbox" id="filterCurrency512" checked="checked" name="currencies" value="512"><label for="filterCurrency512">SEK - Swedish krona</label></li>
+      <li><input type="checkbox" class="checkbox" id="filterCurrency8192" checked="checked" name="currencies" value="8192"><label for="filterCurrency8192">SGD - Singapore dollar</label></li>
+      <li><input type="checkbox" class="checkbox" id="filterCurrency1" checked="checked" name="currencies" value="1"><label for="filterCurrency1">USD - US dollar</label></li>
+      <li><input type="checkbox" class="checkbox" id="filterCurrency32768" checked="checked" name="currencies" value="32768"><label for="filterCurrency32768">ZAR - South African rand</label></li>
+    <li><input type="checkbox" class="checkbox" id="selectAllCurrencies" name="selectAllCurrencies" /><label for="selectAllCurrencies">Select all</label></li>
+  </ul>
+</div>
+  
+
+    
+<div class="economic-calendar__country-list">
+  <div class="economic-calendar__panel-header"><span class="economic-calendar__country-list-icon"></span>Countries</div>
+  <ul>
+      <li class=""><a href="/en/economic-calendar/australia" data-fz-event="Tradays+MQL5.com+Filter"><span class="economic-calendar__country-icon australia"></span>Australia</a></li>
+      <li class=""><a href="/en/economic-calendar/brazil" data-fz-event="Tradays+MQL5.com+Filter"><span class="economic-calendar__country-icon brazil"></span>Brazil</a></li>
+      <li class=""><a href="/en/economic-calendar/canada" data-fz-event="Tradays+MQL5.com+Filter"><span class="economic-calendar__country-icon canada"></span>Canada</a></li>
+      <li class=""><a href="/en/economic-calendar/china" data-fz-event="Tradays+MQL5.com+Filter"><span class="economic-calendar__country-icon china"></span>China</a></li>
+      <li class=""><a href="/en/economic-calendar/european-union" data-fz-event="Tradays+MQL5.com+Filter"><span class="economic-calendar__country-icon european-union"></span>European Union</a></li>
+      <li class=""><a href="/en/economic-calendar/france" data-fz-event="Tradays+MQL5.com+Filter"><span class="economic-calendar__country-icon france"></span>France</a></li>
+      <li class=""><a href="/en/economic-calendar/germany" data-fz-event="Tradays+MQL5.com+Filter"><span class="economic-calendar__country-icon germany"></span>Germany</a></li>
+      <li class=""><a href="/en/economic-calendar/hong-kong" data-fz-event="Tradays+MQL5.com+Filter"><span class="economic-calendar__country-icon hong-kong"></span>Hong Kong</a></li>
+      <li class=""><a href="/en/economic-calendar/india" data-fz-event="Tradays+MQL5.com+Filter"><span class="economic-calendar__country-icon india"></span>India</a></li>
+      <li class=""><a href="/en/economic-calendar/italy" data-fz-event="Tradays+MQL5.com+Filter"><span class="economic-calendar__country-icon italy"></span>Italy</a></li>
+      <li class=""><a href="/en/economic-calendar/japan" data-fz-event="Tradays+MQL5.com+Filter"><span class="economic-calendar__country-icon japan"></span>Japan</a></li>
+      <li class=""><a href="/en/economic-calendar/mexico" data-fz-event="Tradays+MQL5.com+Filter"><span class="economic-calendar__country-icon mexico"></span>Mexico</a></li>
+      <li class=""><a href="/en/economic-calendar/new-zealand" data-fz-event="Tradays+MQL5.com+Filter"><span class="economic-calendar__country-icon new-zealand"></span>New Zealand</a></li>
+      <li class=""><a href="/en/economic-calendar/norway" data-fz-event="Tradays+MQL5.com+Filter"><span class="economic-calendar__country-icon norway"></span>Norway</a></li>
+      <li class=""><a href="/en/economic-calendar/singapore" data-fz-event="Tradays+MQL5.com+Filter"><span class="economic-calendar__country-icon singapore"></span>Singapore</a></li>
+      <li class=""><a href="/en/economic-calendar/south-africa" data-fz-event="Tradays+MQL5.com+Filter"><span class="economic-calendar__country-icon south-africa"></span>South Africa</a></li>
+      <li class=""><a href="/en/economic-calendar/south-korea" data-fz-event="Tradays+MQL5.com+Filter"><span class="economic-calendar__country-icon south-korea"></span>South Korea</a></li>
+      <li class=""><a href="/en/economic-calendar/spain" data-fz-event="Tradays+MQL5.com+Filter"><span class="economic-calendar__country-icon spain"></span>Spain</a></li>
+      <li class=""><a href="/en/economic-calendar/sweden" data-fz-event="Tradays+MQL5.com+Filter"><span class="economic-calendar__country-icon sweden"></span>Sweden</a></li>
+      <li class=""><a href="/en/economic-calendar/switzerland" data-fz-event="Tradays+MQL5.com+Filter"><span class="economic-calendar__country-icon switzerland"></span>Switzerland</a></li>
+      <li class=""><a href="/en/economic-calendar/united-kingdom" data-fz-event="Tradays+MQL5.com+Filter"><span class="economic-calendar__country-icon united-kingdom"></span>United Kingdom</a></li>
+      <li class=""><a href="/en/economic-calendar/united-states" data-fz-event="Tradays+MQL5.com+Filter"><span class="economic-calendar__country-icon united-states"></span>United States</a></li>
+  </ul>
+</div>
+
+    <div class="economic-calendar__widget-link">
+      <a href="/en/economic-calendar/widgets">
+        <span class="icon"></span>
+        Add widget to your website
+      </a>
+    </div>
+    
+    
+    
+<div id='vgckrufggwxdtfscpyalmenexmvhljduja' class="r0uodf2zhoqslpfnv g9617zzjt"></div>  </div>
+  
+
+  <div class="economic-calendar__content" id="calendarContentPanel">
+    <div class="ec__header">
+      <h1 class="ec__header__title">Economic Calendar</h1>
+      <div class="ec__header__sub-text">This is an indispensable tool for fundamental analysis of financial markets based on economic news. More than 900 indexes of the world's largest economies are based on real-time data collected from public sources.</div>
+      <div class="ec__header__right-part ui">
+        <a href="https://www.tradays.com/en/download?utm_source=www.mql5.com&utm_campaign=metaquotes.mql5.com&utm_medium=cpc&utm_term=follow.news&utm_content=visit.tradays.com" target="_blank" class="tradays-button">
+          <span class="tradays-button__text">
+            Follow news in the
+            <span class="tradays-button__two-line">Economic Calendar</span>
+          </span>
+        </a>
+        <a href="/en/economic-calendar/widgets" class="button button_green button_with-icon">
+          <i class="icons-buttons icons-buttons_add-to-site"></i>
+          Add to website
+        </a>
+      </div>
+    </div>
+    
+<div class="ec-table">
+  <div class="ec-table__header">
+    <div class="ec-table__group-left">
+      <div class="ec-table__col ec-table__col_time">
+        Time, <span id="economicCalendarTableColumnTime"></span>
+      </div>
+      <div class="ec-table__col ec-table__col_currency">Currency</div>
+    </div>
+    <div class="ec-table__group">
+      <div class="ec-table__col ec-table__col_event">
+        Event
+      </div>
+      <div class="ec-table__group-right">
+        <div class="ec-table__col ec-table__col_actual">Actual</div>
+        <div class="ec-table__col ec-table__col_forecast">Forecast</div>
+        <div class="ec-table__col ec-table__col_previous">Previous</div>
+      </div>
+    </div>
+  </div>
+  <div class="ec-table__body" id="economicCalendarTable">
+        <div class="ec-table__item ec-table__item_inline">2026.06.14 22:30, NZD, <a href="/en/economic-calendar/new-zealand/businessnz-services-index">BusinessNZ Services Index</a>, Actual: 47.5, Previous: 48.7</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.14 22:45, NZD, <a href="/en/economic-calendar/new-zealand/electronic-card-retail-sales-mm">Electronic Card Retail Sales m/m</a>, Actual: 1.7%, Forecast: -0.2%, Previous: -1.2%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.14 22:45, NZD, <a href="/en/economic-calendar/new-zealand/electronic-card-retail-sales-yy">Electronic Card Retail Sales y/y</a>, Actual: 3.3%, Forecast: 2.1%, Previous: 2.0%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.15 02:00, KRW, <a href="/en/economic-calendar/south-korea/exports-yy">Exports y/y</a>, Actual: 53.4%, Forecast: 53.2%, Previous: 53.2%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.15 02:00, KRW, <a href="/en/economic-calendar/south-korea/imports-yy">Imports y/y</a>, Actual: 20.7%, Forecast: 20.8%, Previous: 20.8%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.15 02:00, KRW, <a href="/en/economic-calendar/south-korea/trade-balance">Trade Balance</a>, Actual: $​27.036&#xA0;B, Forecast: $​26.949&#xA0;B, Previous: $​26.949&#xA0;B</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.15 02:30, SGD, <a href="/en/economic-calendar/singapore/unemployment-rate">Unemployment Rate</a>, Actual: 2.1%, Forecast: 2.1%, Previous: 2.1%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.15 04:30, JPY, <a href="/en/economic-calendar/japan/tertiary-industry-activity-index-mm">Tertiary Industry Activity Index m/m</a>, Actual: 1.3%, Forecast: -0.4%, Previous: -0.2%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.15 06:00, EUR, <a href="/en/economic-calendar/germany/wpi-mm">Wholesale Price Index m/m</a>, Actual: -0.6%, Forecast: 0.8%, Previous: 2.0%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.15 06:00, EUR, <a href="/en/economic-calendar/germany/wpi-yy">Wholesale Price Index y/y</a>, Actual: 5.9%, Forecast: 8.8%, Previous: 7.3%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.15 06:00, NOK, <a href="/en/economic-calendar/norway/goods-trade-balance">Goods Trade Balance</a>, Actual: Kr​62.602&#xA0;B, Forecast: Kr​84.848&#xA0;B, Previous: Kr​83.636&#xA0;B</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.15 06:00, SEK, <a href="/en/economic-calendar/sweden/unemployment-rate">Unemployment Rate</a>, Actual: 9.4%, Forecast: 9.4%, Previous: 8.7%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.15 06:30, INR, <a href="/en/economic-calendar/india/wpi-yy">WPI y/y</a>, Forecast: 7.82%, Previous: 8.30%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.15 06:30, INR, <a href="/en/economic-calendar/india/wpi-manufactured-products-yy">WPI Manufactured Products y/y</a>, Forecast: 5.67%, Previous: 4.62%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.15 06:30, INR, <a href="/en/economic-calendar/india/wpi-food-yy">WPI Food y/y</a>, Forecast: 5.15%, Previous: 1.98%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.15 06:30, INR, <a href="/en/economic-calendar/india/wpi-fuel-energy-yy">WPI Fuel &amp; Energy y/y</a>, Forecast: 27.16%, Previous: 24.71%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.15 06:30, CHF, <a href="/en/economic-calendar/switzerland/ppi-mm">PPI m/m</a>, Actual: -0.4%, Forecast: 0.5%, Previous: 0.8%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.15 06:30, CHF, <a href="/en/economic-calendar/switzerland/ppi-yy">PPI y/y</a>, Actual: -1.8%, Forecast: -1.7%, Previous: -2.0%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.15 07:30, EUR, <a href="/en/economic-calendar/european-union/ecb-president-lagarde-speech">ECB President Lagarde Speech</a></div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.15 08:00, EUR, <a href="/en/economic-calendar/italy/trade-balance">Trade Balance</a>, Actual: €​4.293&#xA0;B, Forecast: €​1.866&#xA0;B, Previous: €​4.813&#xA0;B</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.15 08:00, EUR, <a href="/en/economic-calendar/italy/trade-balance-eu">Trade Balance EU</a>, Actual: €​0.316&#xA0;B, Previous: €​-0.977&#xA0;B</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.15 09:00, EUR, <a href="/en/economic-calendar/european-union/industrial-production-mm">Industrial Production m/m</a>, Actual: 0.1%, Forecast: -0.1%, Previous: 0.4%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.15 09:00, EUR, <a href="/en/economic-calendar/european-union/industrial-production-yy">Industrial Production y/y</a>, Actual: 0.3%, Forecast: 0.4%, Previous: -2.8%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.15 09:00, EUR, <a href="/en/economic-calendar/european-union/trade-balance">Trade Balance</a>, Actual: €​1.3&#xA0;B, Forecast: €​7.4&#xA0;B, Previous: €​0.6&#xA0;B</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.15 09:00, EUR, <a href="/en/economic-calendar/european-union/trade-balance-nsa">Trade Balance n.s.a.</a>, Actual: €​-1.0&#xA0;B, Forecast: €​12.0&#xA0;B, Previous: €​4.9&#xA0;B</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.15 10:00, EUR, <a href="/en/economic-calendar/european-union/official-reserve-assets">Official Reserve Assets</a>, Actual: €​1872.820&#xA0;B, Previous: €​1888.230&#xA0;B</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.15 11:00, INR, <a href="/en/economic-calendar/india/trade-balance">Trade Balance</a>, Actual: $​-28.21&#xA0;B, Forecast: $​-22.99&#xA0;B, Previous: $​-28.38&#xA0;B</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.15 11:00, INR, <a href="/en/economic-calendar/india/exports">Exports</a>, Actual: $​45.20&#xA0;B, Forecast: $​39.44&#xA0;B, Previous: $​43.56&#xA0;B</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.15 11:00, INR, <a href="/en/economic-calendar/india/imports">Imports</a>, Actual: $​73.41&#xA0;B, Forecast: $​66.13&#xA0;B, Previous: $​71.94&#xA0;B</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.15 11:30, BRL, <a href="/en/economic-calendar/brazil/bcb-focus-market-report">BCB Focus Market Report</a></div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.15 12:15, CAD, <a href="/en/economic-calendar/canada/cmhc-housing-starts">CMHC Housing Starts</a>, Actual: 261.377&#xA0;K, Forecast: 258.257&#xA0;K, Previous: 278.380&#xA0;K</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.15 12:30, CAD, <a href="/en/economic-calendar/canada/manufacturing-sales-mm">Manufacturing Sales m/m</a>, Actual: 4.2%, Forecast: -0.2%, Previous: 3.4%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.15 12:30, CAD, <a href="/en/economic-calendar/canada/wholesale-trade-mm">Wholesale Trade m/m</a>, Actual: 0.6%, Forecast: -0.8%, Previous: 1.6%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.15 12:30, USD, <a href="/en/economic-calendar/united-states/ny-empire-state-manufacturing-index">NY Fed Empire State Manufacturing Index</a>, Actual: 5.7, Forecast: 16.0, Previous: 19.6</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.15 12:55, EUR, <a href="/en/economic-calendar/france/3-month-btf-auction">3-Month BTF Auction</a>, Actual: 2.352%, Previous: 2.361%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.15 12:55, EUR, <a href="/en/economic-calendar/france/6-month-btf-auction">6-Month BTF Auction</a>, Actual: 2.465%, Previous: 2.507%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.15 12:55, EUR, <a href="/en/economic-calendar/france/12-month-btf-auction">12-Month BTF Auction</a>, Actual: 2.602%, Previous: 2.667%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.15 13:15, USD, <a href="/en/economic-calendar/united-states/industrial-production-mm">Fed Industrial Production m/m</a>, Actual: 0.1%, Forecast: 0.1%, Previous: 0.9%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.15 13:15, USD, <a href="/en/economic-calendar/united-states/capacity-utilization">Fed Capacity Utilization Rate</a>, Actual: 76.2%, Forecast: 76.1%, Previous: 76.1%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.15 13:15, USD, <a href="/en/economic-calendar/united-states/manufacturing-production-mm">Fed Manufacturing Production m/m</a>, Actual: 0.0%, Forecast: -0.1%, Previous: 0.7%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.15 13:15, USD, <a href="/en/economic-calendar/united-states/industrial-production-yy">Fed Industrial Production y/y</a>, Actual: 1.7%, Forecast: 0.3%, Previous: 1.4%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.15 14:00, USD, <a href="/en/economic-calendar/united-states/nahb-housing-market-index">NAHB Housing Market Index</a>, Actual: 35, Forecast: 34, Previous: 37</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.15 15:30, USD, <a href="/en/economic-calendar/united-states/3-month-bill-auction">3-Month Bill Auction</a>, Actual: 3.640%, Previous: 3.640%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.15 15:30, USD, <a href="/en/economic-calendar/united-states/6-month-bill-auction">6-Month Bill Auction</a>, Actual: 3.680%, Previous: 3.690%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.15 21:00, KRW, <a href="/en/economic-calendar/south-korea/export-price-index-yy">Export Price Index y/y</a>, Actual: 46.9%, Forecast: 48.1%, Previous: 41.3%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.15 21:00, KRW, <a href="/en/economic-calendar/south-korea/import-price-index-yy">Import Price Index y/y</a>, Actual: 24.8%, Forecast: 24.9%, Previous: 20.5%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.15 21:00, NZD, <a href="/en/economic-calendar/new-zealand/westpac-mcdermott-miller-consumer-confidence">Westpac McDermott Miller Consumer Confidence</a>, Actual: 80.4, Forecast: 91.2, Previous: 94.7</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.15 22:45, NZD, <a href="/en/economic-calendar/new-zealand/food-price-index-mm">Food Price Index m/m</a>, Actual: 1.0%, Forecast: 0.5%, Previous: 0.0%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 00:00, ZAR, Youth Day</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 02:00, CNY, <a href="/en/economic-calendar/china/retail-sales-yy">Retail Sales y/y</a>, Actual: -0.6%, Forecast: 1.0%, Previous: 0.2%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 02:00, CNY, <a href="/en/economic-calendar/china/industrial-production-yy">Industrial Production y/y</a>, Actual: 4.5%, Forecast: 5.3%, Previous: 4.1%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 02:00, CNY, <a href="/en/economic-calendar/china/fixed-asset-investment-yy">Fixed Asset Investment y/y</a>, Actual: -4.1%, Forecast: -3.8%, Previous: -1.6%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 02:00, CNY, <a href="/en/economic-calendar/china/nbs-press-conference-on-economic-situation">NBS Press Conference on Economic Situation</a></div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 02:00, CNY, <a href="/en/economic-calendar/china/unemployment-rate">Unemployment Rate</a>, Actual: 5.1%, Forecast: 5.2%, Previous: 5.2%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 02:00, CNY, <a href="/en/economic-calendar/china/industrial-production-ytd-yy">Industrial Production YTD y/y</a>, Actual: 5.4%, Previous: 5.6%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 02:00, CNY, <a href="/en/economic-calendar/china/retail-sales-ytd-yy">Retail Sales YTD y/y</a>, Actual: 1.4%, Previous: 1.9%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 03:00, KRW, <a href="/en/economic-calendar/south-korea/bok-m2-money-supply">BOK M2 Money Supply y/y</a>, Actual: 8.1%, Forecast: 7.3%, Previous: 7.0%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 03:19, JPY, <a href="/en/economic-calendar/japan/boj-monetary-policy-statement">BoJ Monetary Policy Statement</a></div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 03:19, JPY, <a href="/en/economic-calendar/japan/boj-interest-rate-decision">BoJ Interest Rate Decision</a>, Actual: 1.0%, Previous: 0.8%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 04:30, AUD, <a href="/en/economic-calendar/australia/rba-rate-statement">RBA Rate Statement</a></div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 04:30, AUD, <a href="/en/economic-calendar/australia/rba-interest-rate-decision">RBA Interest Rate Decision</a>, Actual: 4.35%, Previous: 4.35%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 06:30, JPY, <a href="/en/economic-calendar/japan/boj-press-conference">BoJ Press Conference</a></div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 08:00, EUR, <a href="/en/economic-calendar/italy/cpi-mm">CPI m/m</a>, Actual: 0.4%, Forecast: 0.4%, Previous: 0.4%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 08:00, EUR, <a href="/en/economic-calendar/italy/cpi-yy">CPI y/y</a>, Actual: 3.2%, Forecast: 3.2%, Previous: 3.2%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 08:00, EUR, <a href="/en/economic-calendar/italy/hicp-mm">HICP m/m</a>, Actual: 0.3%, Forecast: 0.4%, Previous: 0.4%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 08:00, EUR, <a href="/en/economic-calendar/italy/hicp-yy">HICP y/y</a>, Actual: 3.2%, Forecast: 3.3%, Previous: 3.3%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 08:00, EUR, <a href="/en/economic-calendar/italy/cpi-foi-ex-tobacco-mm">CPI FOI excl. Tobacco m/m</a>, Actual: 0.3%, Forecast: 0.5%, Previous: 1.0%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 08:00, EUR, <a href="/en/economic-calendar/italy/cpi-foi-ex-tobacco-yy">CPI FOI excl. Tobacco y/y</a>, Actual: 3.0%, Forecast: 2.7%, Previous: 2.6%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 08:30, HKD, <a href="/en/economic-calendar/hong-kong/unemployment-rate-3-months">Unemployment Rate 3-Months</a>, Actual: 3.7%, Forecast: 3.6%, Previous: 3.7%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 09:00, EUR, <a href="/en/economic-calendar/european-union/labor-cost-index">Labour Cost Index</a>, Actual: 3.2%, Forecast: 3.7%, Previous: 3.4%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 09:00, EUR, <a href="/en/economic-calendar/european-union/wage-costs-yy">Wage Costs y/y</a>, Actual: 3.4%, Forecast: 3.2%, Previous: 3.0%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 09:30, EUR, <a href="/en/economic-calendar/germany/5-year-note-auction">5-Year Note Auction</a>, Actual: 2.64%, Previous: 2.85%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 10:30, GBP, <a href="/en/economic-calendar/united-kingdom/10-year-treasury-gilt-auction">10-Year Treasury Gilt Auction</a>, Actual: 4.858%, Previous: 5.026%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 12:00, BRL, <a href="/en/economic-calendar/brazil/retail-sales-mm">Retail Sales m/m</a>, Actual: -1.5%, Forecast: -0.4%, Previous: 0.7%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 12:00, BRL, <a href="/en/economic-calendar/brazil/retail-sales-yy">Retail Sales y/y</a>, Actual: 1.0%, Forecast: 1.3%, Previous: 4.0%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 12:30, CAD, <a href="/en/economic-calendar/canada/foreign-securities-purchases">Foreign Securities Purchases</a>, Actual: $​46.913&#xA0;B, Previous: $​4.402&#xA0;B</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 12:30, CAD, <a href="/en/economic-calendar/canada/foreign-securities-purchases-by-canadians">Foreign Securities Purchases by Canadians</a>, Actual: $​-11.364&#xA0;B, Previous: $​3.863&#xA0;B</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 12:30, USD, <a href="/en/economic-calendar/united-states/housing-starts">Housing Starts</a>, Actual: 1.177&#xA0;M, Forecast: 1.530&#xA0;M, Previous: 1.392&#xA0;M</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 12:30, USD, <a href="/en/economic-calendar/united-states/building-permits">Building Permits</a>, Actual: 1.413&#xA0;M, Forecast: 1.420&#xA0;M, Previous: 1.423&#xA0;M</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 12:30, USD, <a href="/en/economic-calendar/united-states/housing-starts-mm">Housing Starts m/m</a>, Actual: -15.4%, Forecast: 1.8%, Previous: -8.5%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 12:30, USD, <a href="/en/economic-calendar/united-states/building-permits-mm">Building Permits m/m</a>, Actual: -0.7%, Forecast: -5.4%, Previous: 4.4%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 12:30, USD, <a href="/en/economic-calendar/united-states/import-price-index-mm">Import Price Index m/m</a>, Actual: 1.9%, Forecast: 1.1%, Previous: 2.0%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 12:30, USD, <a href="/en/economic-calendar/united-states/import-price-index-yy">Import Price Index y/y</a>, Actual: 6.7%, Forecast: 5.5%, Previous: 4.2%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 12:30, USD, <a href="/en/economic-calendar/united-states/export-price-index-mm">Export Price Index m/m</a>, Actual: 1.3%, Forecast: 2.2%, Previous: 3.5%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 12:30, USD, <a href="/en/economic-calendar/united-states/export-price-index-yy">Export Price Index y/y</a>, Actual: 11.2%, Forecast: 7.5%, Previous: 8.8%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 12:30, USD, <a href="/en/economic-calendar/united-states/import-price-index-ex-petroleum-mm">Import Price Index excl. Petroleum m/m</a>, Actual: 0.8%, Forecast: 0.6%, Previous: 0.5%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 13:10, EUR, <a href="/en/economic-calendar/european-union/ecb-executive-board-member-lane-speech">ECB Executive Board Member Lane Speech</a></div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 15:14, NZD, <a href="/en/economic-calendar/new-zealand/gdt-price-index">GDT Price Index</a>, Actual: -2.8%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 17:00, USD, <a href="/en/economic-calendar/united-states/20-year-bond-auction">20-Year Bond Auction</a>, Actual: 4.927%, Previous: 5.122%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 22:45, NZD, <a href="/en/economic-calendar/new-zealand/current-account">Current Account</a>, Actual: $​-1.008&#xA0;B, Forecast: $​-3.484&#xA0;B, Previous: $​-5.639&#xA0;B</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 22:45, NZD, <a href="/en/economic-calendar/new-zealand/current-account-12-months">Current Account 12-Months</a>, Actual: $​-16.300&#xA0;B, Forecast: $​-11.548&#xA0;B, Previous: $​-16.002&#xA0;B</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 22:45, NZD, <a href="/en/economic-calendar/new-zealand/current-account-gdp-ratio">Current Account - GDP Ratio</a>, Actual: -3.6%, Forecast: -2.6%, Previous: -3.6%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 23:50, JPY, <a href="/en/economic-calendar/japan/core-machinery-orders-mm">Core Machinery Orders m/m</a>, Actual: 8.7%, Forecast: 1.9%, Previous: -9.4%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 23:50, JPY, <a href="/en/economic-calendar/japan/core-machinery-orders-yy">Core Machinery Orders y/y</a>, Actual: 15.6%, Forecast: 15.1%, Previous: 5.9%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 23:50, JPY, <a href="/en/economic-calendar/japan/adjusted-trade-balance">Adjusted Trade Balance</a>, Actual: ¥​-90.4&#xA0;B, Forecast: ¥​-183.2&#xA0;B, Previous: ¥​198.6&#xA0;B</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 23:50, JPY, <a href="/en/economic-calendar/japan/trade-balance">Trade Balance</a>, Actual: ¥​-378.7&#xA0;B, Forecast: ¥​-154.7&#xA0;B, Previous: ¥​299.3&#xA0;B</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 23:50, JPY, <a href="/en/economic-calendar/japan/imports-yy">Imports y/y</a>, Actual: 12.5%, Forecast: 0.6%, Previous: 9.8%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.16 23:50, JPY, <a href="/en/economic-calendar/japan/exports-yy">Exports y/y</a>, Actual: 17.0%, Forecast: 15.4%, Previous: 14.8%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 00:30, SGD, <a href="/en/economic-calendar/singapore/trade-balance">Trade Balance</a>, Actual: S$​5.574&#xA0;B, Forecast: S$​6.812&#xA0;B, Previous: S$​13.133&#xA0;B</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 00:30, SGD, <a href="/en/economic-calendar/singapore/non-oil-domestic-exports-mm">Non-Oil Domestic Exports m/m</a>, Actual: 7.7%, Forecast: -5.2%, Previous: 11.0%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 00:30, SGD, <a href="/en/economic-calendar/singapore/non-oil-domestic-exports-yy">Non-Oil Domestic Exports y/y</a>, Actual: 38.4%, Forecast: 18.4%, Previous: 24.4%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 01:30, AUD, <a href="/en/economic-calendar/australia/rba-chart-pack">RBA Chart Pack</a></div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 03:00, NZD, <a href="/en/economic-calendar/new-zealand/rbnz-non-resident-debt-holdings">RBNZ Non-Resident Debt Holdings</a>, Actual: 57.5%, Forecast: 56.5%, Previous: 57.1%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 06:00, GBP, <a href="/en/economic-calendar/united-kingdom/cpih-yy">CPIH y/y</a>, Actual: 3.0%, Forecast: 3.0%, Previous: 3.0%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 06:00, GBP, <a href="/en/economic-calendar/united-kingdom/cpih-mm">CPIH m/m</a>, Actual: 0.2%, Forecast: 0.6%, Previous: 0.8%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 06:00, GBP, <a href="/en/economic-calendar/united-kingdom/cpih">CPIH</a>, Actual: 142.1, Previous: 141.8</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 07:30, SEK, <a href="/en/economic-calendar/sweden/riksbank-interest-rate-decision">Riksbank Interest Rate Decision</a>, Actual: 1.75%, Previous: 1.75%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 07:30, SEK, <a href="/en/economic-calendar/sweden/riksbank-monetary-policy-report">Riksbank Monetary Policy Report</a></div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 08:00, EUR, <a href="/en/economic-calendar/germany/bbk-vice-president-balz-speech">Bbk Executive Board Member Balz Speech</a></div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 08:00, ZAR, <a href="/en/economic-calendar/south-africa/cpi-mm">CPI m/m</a>, Actual: 0.7%, Forecast: 1.1%, Previous: 1.1%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 08:00, ZAR, <a href="/en/economic-calendar/south-africa/cpi-yy">CPI y/y</a>, Actual: 4.5%, Forecast: 3.2%, Previous: 4.0%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 08:00, ZAR, <a href="/en/economic-calendar/south-africa/core-cpi-mm">Core CPI m/m</a>, Actual: 0.2%, Forecast: 0.4%, Previous: 0.5%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 08:00, ZAR, <a href="/en/economic-calendar/south-africa/core-cpi-yy">Core CPI y/y</a>, Actual: 3.8%, Forecast: 3.5%, Previous: 3.6%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 08:00, ALL, <a href="/en/economic-calendar/worldwide/iea-monthly-oil-market-report">IEA Monthly Oil Market Report</a></div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 09:00, EUR, <a href="/en/economic-calendar/european-union/consumer-price-index-ex-food-energy-mm">Core CPI m/m</a>, Actual: 0.3%, Forecast: 0.3%, Previous: 0.3%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 09:00, EUR, <a href="/en/economic-calendar/european-union/consumer-price-index-mm">CPI m/m</a>, Actual: 0.1%, Forecast: 3.0%, Previous: 3.0%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 09:00, EUR, <a href="/en/economic-calendar/european-union/consumer-price-index-ex-food-energy-yy">Core CPI y/y</a>, Actual: 2.6%, Forecast: 2.5%, Previous: 2.5%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 09:00, EUR, <a href="/en/economic-calendar/european-union/consumer-price-index-yy">CPI y/y</a>, Actual: 3.2%, Forecast: 2.6%, Previous: 2.6%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 09:00, EUR, <a href="/en/economic-calendar/european-union/consumer-price-index-ex-tobacco-mm">CPI excl. Tobacco m/m</a>, Actual: 0.1%, Forecast: 0.4%, Previous: 1.0%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 09:00, EUR, <a href="/en/economic-calendar/european-union/consumer-price-index-ex-tobacco-yy">CPI excl. Tobacco y/y</a>, Actual: 3.1%, Forecast: 2.5%, Previous: 3.0%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 09:00, EUR, <a href="/en/economic-calendar/european-union/consumer-price-index-ex-energy-unprocessed-food-mm">CPI excl. Energy and Unprocessed Food m/m</a>, Actual: 0.3%, Forecast: 0.3%, Previous: 0.3%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 09:00, EUR, <a href="/en/economic-calendar/european-union/consumer-price-index-ex-energy-unprocessed-food-yy">CPI excl. Energy and Unprocessed Food y/y</a>, Actual: 2.3%, Forecast: 2.3%, Previous: 2.3%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 09:00, EUR, <a href="/en/economic-calendar/european-union/consumer-price-index">CPI</a>, Actual: 103.13, Previous: 103.15</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 09:00, EUR, <a href="/en/economic-calendar/european-union/core-consumer-price-index">Core CPI</a>, Actual: 102.68, Previous: 102.67</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 09:30, EUR, <a href="/en/economic-calendar/germany/30-year-bond-auction">30-Year Bond Auction</a>, Actual: 3.49%, Previous: 3.57%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 10:50, EUR, <a href="/en/economic-calendar/european-union/ecb-president-lagarde-speech">ECB President Lagarde Speech</a></div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 11:00, ZAR, <a href="/en/economic-calendar/south-africa/retail-sales-mm">Retail Sales m/m</a>, Actual: 0.9%, Forecast: 1.3%, Previous: 0.1%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 11:00, ZAR, <a href="/en/economic-calendar/south-africa/retail-sales-yy">Retail Sales y/y</a>, Actual: 1.3%, Forecast: 2.3%, Previous: 2.5%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 12:00, BRL, <a href="/en/economic-calendar/brazil/bcb-ibc-br-economic-activity">BCB IBC-Br Economic Activity</a>, Actual: 0.51%, Forecast: -0.50%, Previous: -0.18%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 12:30, CAD, <a href="/en/economic-calendar/canada/new-housing-price-index-mm">New Housing Price Index m/m</a>, Actual: -0.3%, Forecast: -0.1%, Previous: -0.4%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 12:30, USD, <a href="/en/economic-calendar/united-states/retail-sales-mm">Retail Sales m/m</a>, Actual: 0.9%, Forecast: -0.1%, Previous: 0.4%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 12:30, USD, <a href="/en/economic-calendar/united-states/retail-sales-ex-autos-mm">Core Retail Sales m/m</a>, Actual: 0.8%, Forecast: 0.3%, Previous: 0.7%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 12:30, USD, <a href="/en/economic-calendar/united-states/retail-control-mm">Retail Control m/m</a>, Actual: 0.7%, Forecast: -0.2%, Previous: 0.5%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 12:30, USD, <a href="/en/economic-calendar/united-states/retail-sales-ex-autos-gas-mm">Retail Sales excl. Autos and Gas m/m</a>, Actual: 0.5%, Forecast: 0.3%, Previous: 0.5%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 12:30, USD, <a href="/en/economic-calendar/united-states/retail-sales-yy">Retail Sales y/y</a>, Actual: 6.9%, Forecast: 3.9%, Previous: 4.8%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 14:00, USD, <a href="/en/economic-calendar/united-states/business-inventories-mm">Business Inventories m/m</a>, Actual: 0.5%, Forecast: 0.6%, Previous: 1.0%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 14:00, USD, <a href="/en/economic-calendar/united-states/retail-inventories-mm">Retail Inventories m/m</a>, Actual: 0.7%, Forecast: 0.7%, Previous: 0.7%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 14:00, USD, <a href="/en/economic-calendar/united-states/retail-inventories-ex-autos-mm">Retail Inventories excl. Autos m/m</a>, Actual: 0.6%, Previous: 0.6%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 14:00, USD, <a href="/en/economic-calendar/united-states/pending-home-sales-mm">Pending Home Sales m/m</a>, Actual: 3.8%, Forecast: -1.0%, Previous: 0.3%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 14:00, USD, <a href="/en/economic-calendar/united-states/pending-home-sales-yy">Pending Home Sales y/y</a>, Actual: 4.8%, Forecast: 0.2%, Previous: 3.2%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 14:00, USD, <a href="/en/economic-calendar/united-states/pending-home-sales-index">Pending Home Sales Index</a>, Actual: 76.8, Previous: 74.0</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 14:30, USD, <a href="/en/economic-calendar/united-states/eia-crude-oil-stocks-change">EIA Crude Oil Stocks Change</a>, Actual: -8.263&#xA0;M, Forecast: -5.391&#xA0;M, Previous: -7.227&#xA0;M</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 14:30, USD, <a href="/en/economic-calendar/united-states/eia-cushing-crude-oil-stocks-change">EIA Cushing Crude Oil Stocks Change</a>, Actual: -1.606&#xA0;M, Forecast: -0.879&#xA0;M, Previous: -0.801&#xA0;M</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 14:30, USD, <a href="/en/economic-calendar/united-states/eia-crude-oil-imports-change">EIA Crude Oil Imports Change</a>, Actual: -0.241&#xA0;M, Forecast: -0.292&#xA0;M, Previous: 0.525&#xA0;M</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 14:30, USD, <a href="/en/economic-calendar/united-states/eia-distillate-fuel-production-change">EIA Distillate Fuel Production Change</a>, Actual: -0.029&#xA0;M, Forecast: -0.022&#xA0;M, Previous: 0.024&#xA0;M</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 14:30, USD, <a href="/en/economic-calendar/united-states/eia-distillates-stocks-change">EIA Distillates Stocks Change</a>, Actual: 0.951&#xA0;M, Forecast: -0.909&#xA0;M, Previous: -0.200&#xA0;M</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 14:30, USD, <a href="/en/economic-calendar/united-states/eia-gasoline-production-change">EIA Gasoline Production Change</a>, Actual: 0.356&#xA0;M, Forecast: -0.065&#xA0;M, Previous: 0.296&#xA0;M</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 14:30, USD, <a href="/en/economic-calendar/united-states/eia-heating-oil-stocks-change">EIA Heating Oil Stocks Change</a>, Actual: -0.204&#xA0;M, Forecast: -0.001&#xA0;M, Previous: -0.246&#xA0;M</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 14:30, USD, <a href="/en/economic-calendar/united-states/eia-gasoline-stocks-change">EIA Gasoline Stocks Change</a>, Actual: -0.906&#xA0;M, Forecast: 2.919&#xA0;M, Previous: 0.186&#xA0;M</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 14:30, USD, <a href="/en/economic-calendar/united-states/eia-refinery-crude-oil-daily-inputs-change">EIA Refinery Crude Oil Daily Inputs Change</a>, Actual: 0.230&#xA0;M, Previous: 0.081&#xA0;M</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 14:30, USD, <a href="/en/economic-calendar/united-states/eia-refinery-utilization-rate-change">EIA Refinery Utilization Rate Change</a>, Actual: 1.4%, Previous: 0.6%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 17:30, BRL, <a href="/en/economic-calendar/brazil/foreign-exchange-flows">Foreign Exchange Flows</a>, Actual: $​1.542&#xA0;B, Forecast: $​-0.149&#xA0;B, Previous: $​2.588&#xA0;B</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 18:00, USD, <a href="/en/economic-calendar/united-states/fomc-meeting-statement">FOMC Statement</a></div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 18:00, USD, <a href="/en/economic-calendar/united-states/fomc-economic-projections">FOMC Economic Projections</a></div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 18:00, USD, <a href="/en/economic-calendar/united-states/fed-interest-rate-decision">Fed Interest Rate Decision</a>, Actual: 3.75%, Previous: 3.75%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 18:30, USD, <a href="/en/economic-calendar/united-states/fomc-press-conference">FOMC Press Conference</a></div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 21:00, BRL, <a href="/en/economic-calendar/brazil/bcb-interest-rate-decision">BCB Interest Rate Decision</a>, Actual: 14.25%, Previous: 14.50%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 22:45, NZD, <a href="/en/economic-calendar/new-zealand/gdp-qq">GDP q/q</a>, Actual: 0.8%, Forecast: 0.0%, Previous: 0.5%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 22:45, NZD, <a href="/en/economic-calendar/new-zealand/gdp-yy">GDP y/y</a>, Actual: 1.5%, Forecast: 0.1%, Previous: 1.5%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 22:45, NZD, <a href="/en/economic-calendar/new-zealand/gdp-expenditures-qq">GDP Expenditures q/q</a>, Actual: 1.0%, Forecast: -0.6%, Previous: 0.4%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 22:45, NZD, <a href="/en/economic-calendar/new-zealand/gdp-annual-change">GDP Annual Change</a>, Actual: 0.8%, Forecast: 0.6%, Previous: 0.2%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 23:50, JPY, <a href="/en/economic-calendar/japan/foreign-bond-investment">Foreign Bond Investment</a>, Actual: ¥​382.6&#xA0;B, Previous: ¥​212.1&#xA0;B</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.17 23:50, JPY, <a href="/en/economic-calendar/japan/foreign-investment-in-japan-stocks">Foreign Investment in Japan Stocks</a>, Actual: ¥​-785.1&#xA0;B, Previous: ¥​-700.6&#xA0;B</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 06:00, CHF, <a href="/en/economic-calendar/switzerland/exports">Exports</a>, Actual: ₣​25.129&#xA0;B, Previous: ₣​22.302&#xA0;B</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 06:00, CHF, <a href="/en/economic-calendar/switzerland/imports">Imports</a>, Actual: ₣​19.018&#xA0;B, Previous: ₣​19.253&#xA0;B</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 06:00, CHF, <a href="/en/economic-calendar/switzerland/trade-balance">Trade Balance</a></div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 06:00, GBP, <a href="/en/economic-calendar/united-kingdom/average-weekly-earnings-regular-pay">Average Weekly Earnings, Regular Pay y/y</a>, Actual: 3.4%, Forecast: 2.9%, Previous: 3.4%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 06:00, GBP, <a href="/en/economic-calendar/united-kingdom/average-weekly-earnings-total-pay">Average Weekly Earnings, Total Pay y/y</a>, Actual: 4.4%, Forecast: 4.5%, Previous: 4.4%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 06:00, GBP, <a href="/en/economic-calendar/united-kingdom/unemployment-rate">Unemployment Rate</a>, Actual: 4.9%, Forecast: 5.3%, Previous: 5.0%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 06:00, GBP, <a href="/en/economic-calendar/united-kingdom/claimant-count-change">Claimant Count Change</a>, Actual: 31.3&#xA0;K, Forecast: 23.2&#xA0;K, Previous: 8.2&#xA0;K</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 06:00, GBP, <a href="/en/economic-calendar/united-kingdom/employment-change-3-months">Employment Change 3-months</a>, Actual: 100&#xA0;K, Forecast: 239&#xA0;K, Previous: 148&#xA0;K</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 07:30, CHF, <a href="/en/economic-calendar/switzerland/snb-interest-rate-decision">SNB Interest Rate Decision</a>, Previous: 0.00%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 07:30, CHF, <a href="/en/economic-calendar/switzerland/snb-monetary-policy-assessment">SNB Monetary Policy Assessment</a></div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 08:00, CHF, <a href="/en/economic-calendar/switzerland/snb-interest-rate-decision">SNB Interest Rate Decision</a></div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 08:00, CHF, <a href="/en/economic-calendar/switzerland/snb-monetary-policy-assessment">SNB Monetary Policy Assessment</a></div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 08:00, EUR, <a href="/en/economic-calendar/european-union/current-account">Current Account</a>, Actual: €​15.7&#xA0;B, Forecast: €​25.8&#xA0;B, Previous: €​14.9&#xA0;B</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 08:00, EUR, <a href="/en/economic-calendar/european-union/current-account-nsa">Current Account n.s.a.</a>, Actual: €​14.9&#xA0;B, Forecast: €​10.1&#xA0;B, Previous: €​24.1&#xA0;B</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 08:30, CHF, <a href="/en/economic-calendar/switzerland/snb-news-conference">SNB News Conference</a></div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 08:59, EUR, <a href="/en/economic-calendar/france/3-year-oat-auction">3-Year OAT Auction</a>, Actual: 2.850%, Previous: 2.940%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 08:59, EUR, <a href="/en/economic-calendar/france/5-year-oat-auction">5-Year OAT Auction</a>, Actual: 3.130%, Previous: 3.250%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 09:00, EUR, <a href="/en/economic-calendar/european-union/construction-output-mm">Construction Output m/m</a>, Actual: 0.6%, Forecast: 0.1%, Previous: 1.7%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 09:00, EUR, <a href="/en/economic-calendar/european-union/construction-output-yy">Construction Output y/y</a>, Actual: 0.9%, Forecast: -1.5%, Previous: 0.2%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 09:04, EUR, <a href="/en/economic-calendar/spain/10-year-obligacion-auction">10-Year Obligacion Auction</a>, Actual: 3.383%, Previous: 3.392%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 10:00, EUR, <a href="/en/economic-calendar/germany/bbk-monthly-report">Bbk Monthly Report</a></div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 10:10, EUR, <a href="/en/economic-calendar/european-union/ecb-executive-board-member-elderson-speech">ECB Executive Board Member Elderson Speech</a></div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 11:00, GBP, <a href="/en/economic-calendar/united-kingdom/boe-mpc-meeting-minutes">BoE MPC Meeting Minutes</a></div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 11:00, GBP, <a href="/en/economic-calendar/united-kingdom/boe-interest-rate-decision">BoE Interest Rate Decision</a>, Actual: 3.75%, Previous: 3.75%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 11:00, GBP, <a href="/en/economic-calendar/united-kingdom/boe-mpc-vote-cut">BoE MPC Vote Cut</a>, Actual: 0, Previous: 0</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 11:00, GBP, <a href="/en/economic-calendar/united-kingdom/boe-mpc-vote-hike">BoE MPC Vote Hike</a>, Actual: 2, Previous: 1</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 11:00, GBP, <a href="/en/economic-calendar/united-kingdom/boe-mpc-vote-unchanged">BoE MPC Vote Unchanged</a>, Actual: 7, Previous: 8</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 12:00, MXN, <a href="/en/economic-calendar/mexico/aggregate-demand-qq">Aggregate Demand q/q</a>, Actual: 0.3%, Forecast: 0.1%, Previous: 2.4%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 12:00, MXN, <a href="/en/economic-calendar/mexico/aggregate-demand-nsa-yy">Aggregate Demand n.s.a. y/y</a>, Actual: 5.0%, Forecast: 2.0%, Previous: 4.5%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 12:00, MXN, <a href="/en/economic-calendar/mexico/private-spending-qq">Private Spending q/q</a>, Actual: -0.8%, Forecast: 0.4%, Previous: 1.0%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 12:00, MXN, <a href="/en/economic-calendar/mexico/private-spending-nsa-yy">Private Spending n.s.a. y/y</a>, Actual: 2.2%, Forecast: 1.2%, Previous: 4.0%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 12:15, EUR, <a href="/en/economic-calendar/european-union/ecb-executive-board-member-lane-speech">ECB Executive Board Member Lane Speech</a></div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 12:30, CAD, <a href="/en/economic-calendar/canada/ippi-mm">IPPI m/m</a>, Actual: 1.2%, Forecast: 1.0%, Previous: 1.6%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 12:30, CAD, <a href="/en/economic-calendar/canada/ippi-yy">IPPI y/y</a>, Actual: 13.6%, Forecast: 12.9%, Previous: 11.1%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 12:30, CAD, <a href="/en/economic-calendar/canada/rmpi-mm">RMPI m/m</a>, Actual: 0.7%, Forecast: -1.5%, Previous: 2.6%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 12:30, CAD, <a href="/en/economic-calendar/canada/rmpi-yy">RMPI y/y</a>, Actual: 33.4%, Forecast: 36.3%, Previous: 31.5%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 12:30, ZAR, <a href="/en/economic-calendar/south-africa/building-permits-mm">Building Permits m/m</a>, Actual: 4.9%, Forecast: -2.2%, Previous: 10.8%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 12:30, ZAR, <a href="/en/economic-calendar/south-africa/building-permits-yy">Building Permits y/y</a>, Actual: 16.9%, Forecast: -0.3%, Previous: 17.2%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 12:30, USD, <a href="/en/economic-calendar/united-states/philadelphia-fed-manufacturing-index">Philadelphia Fed Manufacturing Index</a>, Actual: 10.3, Forecast: 3.0, Previous: -0.4</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 12:30, USD, <a href="/en/economic-calendar/united-states/philadelphia-fed-employment">Philadelphia Fed Employment</a>, Actual: 7.9, Forecast: -8.3, Previous: -2.8</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 12:30, USD, <a href="/en/economic-calendar/united-states/philadelphia-fed-business-conditions">Philadelphia Fed Business Conditions</a>, Actual: 50.2, Forecast: 31.7, Previous: 53.2</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 12:30, USD, <a href="/en/economic-calendar/united-states/philadelphia-fed-prices-paid">Philadelphia Fed Prices Paid</a>, Actual: 53.2, Forecast: 45.2, Previous: 47.9</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 12:30, USD, <a href="/en/economic-calendar/united-states/philadelphia-fed-new-orders">Philadelphia Fed New Orders</a>, Actual: 27.3, Forecast: 6.0, Previous: -1.7</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 12:30, USD, <a href="/en/economic-calendar/united-states/philadelphia-fed-capex-index">Philadelphia Fed Capex Index</a>, Actual: 41.2, Forecast: 30.4, Previous: 30.9</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 12:30, USD, <a href="/en/economic-calendar/united-states/initial-jobless-claims">Initial Jobless Claims</a>, Actual: 226&#xA0;K, Forecast: 237&#xA0;K, Previous: 230&#xA0;K</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 12:30, USD, <a href="/en/economic-calendar/united-states/continuing-jobless-claims">Continuing Jobless Claims</a>, Actual: 1.810&#xA0;M, Forecast: 1.799&#xA0;M, Previous: 1.786&#xA0;M</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 12:30, USD, <a href="/en/economic-calendar/united-states/initial-jobless-claims-4-week-average">Initial Jobless Claims 4-Week Average</a>, Actual: 223.250&#xA0;K, Forecast: 219.865&#xA0;K, Previous: 219.250&#xA0;K</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 14:00, USD, <a href="/en/economic-calendar/united-states/leading-economic-index">CB Leading Economic Index m/m</a>, Actual: 0.1%, Forecast: -0.3%, Previous: -0.1%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 14:30, USD, <a href="/en/economic-calendar/united-states/eia-natural-gas-storage-change">EIA Natural Gas Storage Change</a>, Actual: 73&#xA0;B, Forecast: 91&#xA0;B, Previous: 108&#xA0;B</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 15:30, USD, <a href="/en/economic-calendar/united-states/4-week-bill-auction">4-Week Bill Auction</a>, Actual: 3.580%, Previous: 3.595%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 15:30, USD, <a href="/en/economic-calendar/united-states/8-week-bill-auction">8-Week Bill Auction</a>, Actual: 3.640%, Previous: 3.610%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 17:00, USD, <a href="/en/economic-calendar/united-states/baker-hughes-us-oil-rig-count">Baker Hughes US Oil Rig Count</a>, Actual: 433, Previous: 433</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 17:00, USD, <a href="/en/economic-calendar/united-states/baker-hughes-us-total-rig-count">Baker Hughes US Total Rig Count</a>, Actual: 563, Previous: 562</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 17:00, USD, <a href="/en/economic-calendar/united-states/5-year-tips-auction">5-Year TIPS Auction</a>, Actual: 1.955%, Previous: 1.367%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 20:00, USD, <a href="/en/economic-calendar/united-states/tic-net-long-term-transactions">TIC Net Long-Term Transactions</a>, Actual: $​103.1&#xA0;B, Forecast: $​88.3&#xA0;B, Previous: $​79.9&#xA0;B</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 20:00, USD, <a href="/en/economic-calendar/united-states/tic-net-long-term-transactions-incl-swaps">TIC Net Long-Term Transactions incl. Swaps</a>, Actual: $​103.1&#xA0;B, Forecast: $​74.8&#xA0;B, Previous: $​79.9&#xA0;B</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 20:00, USD, <a href="/en/economic-calendar/united-states/overall-net-capital-flow">TIC Overall Net Capital Flow</a>, Actual: $​26.1&#xA0;B, Forecast: $​184.9&#xA0;B, Previous: $​149.3&#xA0;B</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 20:00, USD, <a href="/en/economic-calendar/united-states/tic-net-foreign-purchases-of-domestic-treasury-bonds-notes">TIC Net Foreign Purchases of Domestic Treasury Bonds &amp; Notes</a>, Actual: $​50.5&#xA0;B, Forecast: $​30.7&#xA0;B, Previous: $​13.6&#xA0;B</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 21:00, KRW, <a href="/en/economic-calendar/south-korea/ppi-mm">PPI m/m</a>, Actual: 0.8%, Forecast: 1.8%, Previous: 2.7%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 21:00, KRW, <a href="/en/economic-calendar/south-korea/ppi-yy">PPI y/y</a>, Actual: 8.5%, Forecast: 7.8%, Previous: 7.2%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 22:45, NZD, <a href="/en/economic-calendar/new-zealand/exports">Exports</a>, Actual: $​8.877&#xA0;B, Previous: $​8.268&#xA0;B</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 22:45, NZD, <a href="/en/economic-calendar/new-zealand/imports">Imports</a>, Actual: $​8.077&#xA0;B, Previous: $​6.670&#xA0;B</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 22:45, NZD, <a href="/en/economic-calendar/new-zealand/trade-balance">Trade Balance</a>, Actual: $​0.800&#xA0;B, Forecast: $​1.435&#xA0;B, Previous: $​1.598&#xA0;B</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 22:45, NZD, <a href="/en/economic-calendar/new-zealand/trade-balance-12-months">Trade Balance 12-Months</a>, Actual: $​-3.367&#xA0;B, Forecast: $​-1.834&#xA0;B, Previous: $​-3.065&#xA0;B</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 23:01, GBP, <a href="/en/economic-calendar/united-kingdom/gfk-consumer-confidence">GfK Consumer Confidence</a>, Actual: -23, Forecast: -18, Previous: -23</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 23:30, JPY, <a href="/en/economic-calendar/japan/national-consumer-price-index-yy">CPI y/y</a>, Actual: 1.5%, Forecast: 1.3%, Previous: 1.4%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 23:30, JPY, <a href="/en/economic-calendar/japan/national-consumer-price-index-ex-food-energy-yy">CPI excl. Food and Energy y/y</a>, Actual: 1.8%, Forecast: 1.8%, Previous: 1.9%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 23:30, JPY, <a href="/en/economic-calendar/japan/national-consumer-price-index-ex-fresh-food-yy">Core CPI y/y</a>, Actual: 1.4%, Forecast: 1.2%, Previous: 1.4%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 23:30, JPY, <a href="/en/economic-calendar/japan/national-consumer-price-index-sa-mm">CPI s.a. m/m</a>, Actual: 0.4%, Previous: 0.1%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.18 23:50, JPY, <a href="/en/economic-calendar/japan/boj-monetary-policy-meeting-minutes">BoJ Monetary Policy Meeting Minutes</a></div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.19 00:00, CNY, Dragon Boat Festival</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.19 00:00, HKD, Tuen Ng Festival</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.19 00:00, SEK, Midsummer Eve</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.19 00:00, USD, Juneteenth National Independence Day</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.19 07:00, EUR, <a href="/en/economic-calendar/european-union/ecb-executive-board-member-lane-speech">ECB Executive Board Member Lane Speech</a></div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.19 10:30, EUR, <a href="/en/economic-calendar/european-union/ecb-executive-board-member-elderson-speech">ECB Executive Board Member Elderson Speech</a></div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.19 11:30, INR, <a href="/en/economic-calendar/india/foreign-exchange-reserves">Foreign Exchange Reserves</a>, Actual: $​671.625&#xA0;B, Forecast: $​694.090&#xA0;B, Previous: $​681.610&#xA0;B</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.19 11:30, INR, <a href="/en/economic-calendar/india/rbi-mpc-meeting-minutes">RBI MPC Meeting Minutes</a></div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.19 12:30, CAD, <a href="/en/economic-calendar/canada/retail-sales-mm">Retail Sales m/m</a>, Actual: 0.5%, Forecast: -0.2%, Previous: 0.9%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.19 12:30, CAD, <a href="/en/economic-calendar/canada/core-retail-sales-mm">Core Retail Sales m/m</a>, Actual: 0.1%, Forecast: -0.1%, Previous: 1.2%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.19 14:30, EUR, <a href="/en/economic-calendar/european-union/ecb-executive-board-member-lane-speech">ECB Executive Board Member Lane Speech</a></div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.20 00:00, CNY, Dragon Boat Festival</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.20 00:00, SEK, Midsummer Day</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.21 00:00, CNY, Dragon Boat Festival</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.22 01:00, CNY, <a href="/en/economic-calendar/china/foreign-direct-investment-ytd-yy">Foreign Direct Investment YTD y/y</a></div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.22 03:00, NZD, <a href="/en/economic-calendar/new-zealand/rbnz-credit-card-spending-yy">RBNZ Credit Card Spending y/y</a>, Forecast: -0.2%, Previous: 2.9%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.22 06:00, NOK, <a href="/en/economic-calendar/norway/general-public-domestic-loan-debt-yy">General Public Domestic Loan Debt y/y</a>, Forecast: 4.2%, Previous: 4.4%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.22 10:00, EUR, <a href="/en/economic-calendar/european-union/ecb-president-lagarde-speech">ECB President Lagarde Speech</a></div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.22 11:30, BRL, <a href="/en/economic-calendar/brazil/bcb-focus-market-report">BCB Focus Market Report</a></div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.22 12:30, CAD, <a href="/en/economic-calendar/canada/cpi-mm">CPI m/m</a>, Forecast: 0.2%, Previous: 0.4%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.22 12:30, CAD, <a href="/en/economic-calendar/canada/cpi-yy">CPI y/y</a>, Forecast: 2.4%, Previous: 2.8%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.22 12:30, CAD, <a href="/en/economic-calendar/canada/core-cpi-mm">Core CPI m/m</a>, Forecast: 0.4%, Previous: 0.2%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.22 12:30, CAD, <a href="/en/economic-calendar/canada/core-cpi-yy">Core CPI y/y</a>, Forecast: 2.0%, Previous: 2.1%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.22 12:30, CAD, <a href="/en/economic-calendar/canada/common-cpi-yy">Common CPI y/y</a>, Forecast: 2.4%, Previous: 2.5%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.22 12:30, CAD, <a href="/en/economic-calendar/canada/median-cpi-yy">Median CPI y/y</a>, Forecast: 2.2%, Previous: 2.1%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.22 12:30, CAD, <a href="/en/economic-calendar/canada/trimmed-cpi-yy">Trimmed CPI y/y</a>, Forecast: 1.9%, Previous: 2.0%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.22 12:50, EUR, <a href="/en/economic-calendar/france/3-month-btf-auction">3-Month BTF Auction</a>, Previous: 2.352%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.22 12:50, EUR, <a href="/en/economic-calendar/france/6-month-btf-auction">6-Month BTF Auction</a>, Previous: 2.465%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.22 12:50, EUR, <a href="/en/economic-calendar/france/12-month-btf-auction">12-Month BTF Auction</a>, Previous: 2.602%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.22 13:00, USD, <a href="/en/economic-calendar/united-states/fed-governor-waller-speech">Fed Governor Waller Speech</a></div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.22 13:00, EUR, <a href="/en/economic-calendar/european-union/ecb-president-lagarde-speech">ECB President Lagarde Speech</a></div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.22 14:00, EUR, <a href="/en/economic-calendar/european-union/consumer-confidence-indicator">Consumer Confidence Index</a>, Forecast: -19.5, Previous: -19.0</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.22 14:10, EUR, <a href="/en/economic-calendar/european-union/ecb-executive-board-member-lane-speech">ECB Executive Board Member Lane Speech</a></div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.22 15:15, EUR, <a href="/en/economic-calendar/european-union/ecb-president-lagarde-speech">ECB President Lagarde Speech</a></div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.22 15:30, USD, <a href="/en/economic-calendar/united-states/3-month-bill-auction">3-Month Bill Auction</a>, Previous: 3.640%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.22 15:30, USD, <a href="/en/economic-calendar/united-states/6-month-bill-auction">6-Month Bill Auction</a>, Previous: 3.680%</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.22 19:30, AUD, <a href="/en/economic-calendar/australia/cftc-aud-non-commercial-net-positions">CFTC AUD Non-Commercial Net Positions</a>, Previous: 18.2&#xA0;K</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.22 19:30, BRL, <a href="/en/economic-calendar/brazil/cftc-brl-non-commercial-net-positions">CFTC BRL Non-Commercial Net Positions</a>, Previous: 43.8&#xA0;K</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.22 19:30, CAD, <a href="/en/economic-calendar/canada/cftc-cad-non-commercial-net-positions">CFTC CAD Non-Commercial Net Positions</a>, Previous: -120.0&#xA0;K</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.22 19:30, JPY, <a href="/en/economic-calendar/japan/cftc-jpy-non-commercial-net-positions">CFTC JPY Non-Commercial Net Positions</a>, Previous: -145.8&#xA0;K</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.22 19:30, MXN, <a href="/en/economic-calendar/mexico/cftc-mxn-non-commercial-net-positions">CFTC MXN Non-Commercial Net Positions</a>, Previous: 63.8&#xA0;K</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.22 19:30, NZD, <a href="/en/economic-calendar/new-zealand/cftc-nzd-non-commercial-net-positions">CFTC NZD Non-Commercial Net Positions</a>, Previous: -31.6&#xA0;K</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.22 19:30, ZAR, <a href="/en/economic-calendar/south-africa/cftc-zar-non-commercial-net-positions">CFTC ZAR Non-Commercial Net Positions</a>, Previous: 6.5&#xA0;K</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.22 19:30, CHF, <a href="/en/economic-calendar/switzerland/cftc-chf-non-commercial-net-positions">CFTC CHF Non-Commercial Net Positions</a>, Previous: -36.7&#xA0;K</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.22 19:30, GBP, <a href="/en/economic-calendar/united-kingdom/cftc-gbp-non-commercial-net-positions">CFTC GBP Non-Commercial Net Positions</a>, Previous: -64.2&#xA0;K</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.22 19:30, USD, <a href="/en/economic-calendar/united-states/cftc-copper-non-commercial-net-positions">CFTC Copper Non-Commercial Net Positions</a>, Previous: 74.5&#xA0;K</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.22 19:30, USD, <a href="/en/economic-calendar/united-states/cftc-silver-non-commercial-net-positions">CFTC Silver Non-Commercial Net Positions</a>, Previous: 22.2&#xA0;K</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.22 19:30, USD, <a href="/en/economic-calendar/united-states/cftc-gold-non-commercial-net-positions">CFTC Gold Non-Commercial Net Positions</a>, Previous: 173.8&#xA0;K</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.22 19:30, USD, <a href="/en/economic-calendar/united-states/cftc-crude-oil-non-commercial-net-positions">CFTC Crude Oil Non-Commercial Net Positions</a>, Previous: 130.3&#xA0;K</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.22 19:30, USD, <a href="/en/economic-calendar/united-states/cftc-sp-500-non-commercial-net-positions">CFTC S&amp;P 500 Non-Commercial Net Positions</a>, Previous: -205.6&#xA0;K</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.22 19:30, USD, <a href="/en/economic-calendar/united-states/cftc-aluminium-non-commercial-net-positions">CFTC Aluminium Non-Commercial Net Positions</a>, Previous: 0.4&#xA0;K</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.22 19:30, USD, <a href="/en/economic-calendar/united-states/cftc-corn-non-commercial-net-positions">CFTC Corn Non-Commercial Net Positions</a>, Previous: 103.6&#xA0;K</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.22 19:30, USD, <a href="/en/economic-calendar/united-states/cftc-natural-gas-non-commercial-net-positions">CFTC Natural Gas Non-Commercial Net Positions</a>, Previous: -194.0&#xA0;K</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.22 19:30, USD, <a href="/en/economic-calendar/united-states/cftc-soybeans-non-commercial-net-positions">CFTC Soybeans Non-Commercial Net Positions</a>, Previous: 150.5&#xA0;K</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.22 19:30, USD, <a href="/en/economic-calendar/united-states/cftc-wheat-non-commercial-net-positions">CFTC Wheat Non-Commercial Net Positions</a>, Previous: -57.9&#xA0;K</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.22 19:30, USD, <a href="/en/economic-calendar/united-states/cftc-nasdaq-100-non-commercial-net-positions">CFTC Nasdaq 100 Non-Commercial Net Positions</a>, Previous: -1.3&#xA0;K</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.22 19:30, EUR, <a href="/en/economic-calendar/european-union/cftc-eur-non-commercial-net-positions">CFTC EUR Non-Commercial Net Positions</a>, Previous: 13.9&#xA0;K</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.22 21:00, KRW, <a href="/en/economic-calendar/south-korea/consumer-confidence">Consumer Confidence</a>, Forecast: 113.7, Previous: 106.1</div>
+        <div class="ec-table__item ec-table__item_inline">2026.06.22 22:00, EUR, <a href="/en/economic-calendar/spain/trade-balance">Trade Balance</a>, Forecast: €​-4.863&#xA0;B, Previous: €​-4.372&#xA0;B</div>
+  </div>
+</div>
+  
+
+    <div class="section__faq" id="ec_faq" itemscope itemtype="https://schema.org/FAQPage">
+  <h2 class="section__faq__title" itemprop="name">Frequently Asked Questions</h2>
+  <div class="section__faq__list">
+    <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+      <h3 itemprop="name">What is the Economic Calendar?</h3>
+      <p itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+        <span itemprop="text">The Economic Calendar is a schedule of important economic events and publications that affect financial markets. It includes information on interest rates, employment reports, inflation and other key indicators. With the built-in calendar and a <a href="https://www.mql5.com/en/economic-calendar/widgets" target="_blank">special widget</a> for MetaTrader 5, you can always stay up to date with current news and quickly make informed trading decisions.</span>
+      </p>
+    </div>
+    <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+      <h3 itemprop="name">How to read the Forex Economic Calendar?</h3>
+      <p itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+        <span itemprop="text">The Economic Calendar shows the time, date and significance of economic news and statistics that affect the foreign exchange market. Make sure to pay attention to forecast and actual vales, as well as the event importance (low, medium or high). The built-in MetaTrader 5 calendar and the <a href="https://www.mql5.com/en/economic-calendar/widgets" target="_blank">convenient widget</a> allow traders to easily track such events directly in the trading terminal or on their websites.</span>
+      </p>
+    </div>
+    <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+      <h3 itemprop="name">How to trade using the Economic Calendar?</h3>
+      <p itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+        <span itemprop="text">The Economic Calendar is used to trade on news or to avoid risks associated with market volatility at the time of data release. For example, if actual values differ greatly from forecast ones, the market may react sharply, which opens up opportunities for short-term trading. Install the convenient <a href="https://www.mql5.com/en/economic-calendar/widgets" target="_blank">economic calendar widget</a> for MetaTrader 5 to always respond to important events in a timely manner.</span>
+      </p>
+    </div>
+  </div>
+</div>
+  
+
+  </div>
+</div>
+  
+
+
+    </article>
+  </main>
+
+    <footer aria-hidden="true">
+
+
+<div aria-hidden="true" class="footer  desktop" id="footer">
+  <ul class="links  links_desktop">
+      <li id="navFooterCommunity">
+        <nav>
+          <ul>
+            <li><a href="https://web.metatrader.app/terminal?mode=demo&amp;lang=en" target="_blank" rel="nofollow noopener" data-fz-event="MQL5+Footer+Trading">Online trading / WebTerminal</a></li>
+            <li><a href="/en/code" data-fz-event="MQL5+Footer+CodeBase">Free technical indicators and robots</a></li>
+            <li><a href="/en/articles" data-fz-event="MQL5+Footer+Articles">Articles about programming and trading</a></li>
+            <li><a href="/en/job" data-fz-event="MQL5+Footer+Job">Order trading robots on the Freelance</a></li>
+            <li><a href="/en/market" data-fz-event="MQL5+Footer+Market">Market of Expert Advisors and applications&#x9;</a></li>
+            <li><a href="/en/signals" data-fz-event="MQL5+Footer+Signals">Follow forex signals</a></li>
+            <li><a href="/en/vps" data-fz-event="MQL5+Footer+VPS">Low latency forex VPS</a></li>
+            <li><a href="/en/forum" data-fz-event="MQL5+Footer+Forum">Traders forum</a></li>
+            <li><a href="/en/blogs" data-fz-event="MQL5+Footer+Blogs">Trading blogs</a></li>
+            <li><a rel="nofollow" href="/en/charts" data-fz-event="MQL5+Footer+Charts">Charts</a></li>
+            <li><a href="/en/widgets" data-fz-event="MQL5+Footer+Widgets">Free widgets</a></li>
+          </ul>
+        </nav>
+      </li>
+      <li id="navFooterMt5">
+        <nav>
+          <ul>
+            <li><a rel="nofollow noopener" href="https://www.metatrader5.com" data-fz-event="MQL5+Footer+MetaTrader+5"><span class="nobr">MetaTrader 5</span> Trading Platform</a></li>
+            <li><a rel="nofollow noopener" href="https://www.metatrader5.com/en/releasenotes" data-fz-event="MQL5+Footer+MetaTrader+5"><span class="nobr">MetaTrader 5</span> latest updates</a></li>
+            <li><a rel="nofollow noopener" href="https://www.metatrader5.com/en/news" data-fz-event="MQL5+Footer+MetaTrader+5">News, implementations and technology</a></li>
+            <li><a rel="nofollow noopener" href="https://www.metatrader5.com/en/terminal/help" data-fz-event="MQL5+Footer+MetaTrader+5"><span class="nobr">MetaTrader 5</span> User Manual</a></li>
+            <li><a href="/en/docs" data-fz-event="MQL5+Footer+Docs">MQL5 language of trading strategies</a></li>
+            <li><a rel="nofollow noopener" href="https://cloud.mql5.com" data-fz-event="MQL5+Footer+Cloud">MQL5 Cloud Network</a></li>
+            <li><a rel="noopener" href="https://forge.mql5.io/?lang=en" data-fz-event="MQL5+Footer+Forge" target="_blank">MQL5 Algo Forge</a></li>
+              <li><a rel="nofollow noopener" href="https://download.terminal.free/cdn/web/metaquotes.ltd/mt5/mt5setup.exe?utm_source=www.mql5.com&amp;utm_campaign=download" data-fz-event="MetaTrader+5+Desktop+Download+Footer">Download <span class="nobr">MetaTrader 5</span></a></li>
+              <li><a rel="nofollow noopener" href="https://www.metatrader5.com/en/terminal/help/start_advanced/installation" data-fz-event="MQL5+Footer+MetaTrader+5">Install Platform</a></li>
+              <li><a rel="nofollow noopener" href="https://www.metatrader5.com/en/terminal/help/start_advanced/deinstallation" data-fz-event="MQL5+Footer+MetaTrader+5">Uninstall Platform</a></li>
+          </ul>
+        </nav>
+
+      </li>
+    <li id="navFooterWebsite">
+        <nav>
+          <ul>
+            <li><a rel="nofollow" href="/en/about" data-fz-event="MQL5+Footer+About">About</a></li>
+              <li><a href="/en/wall" data-fz-event="MQL5+Footer+Wall">Timeline</a></li>
+            <li><a rel="nofollow" href="/en/about/terms" data-fz-event="MQL5+Footer+About">Terms and Conditions</a></li>
+            <li><a rel="nofollow" href="/en/about/autopayments" data-fz-event="MQL5+Footer+About">Recurring Payment Agreement</a></li>
+            <li><a rel="nofollow" href="/en/about/agencyagreement" data-fz-event="MQL5+Footer+About">Agency Agreement – Offer</a></li>
+            <li><a rel="nofollow" href="/en/about/privacy" data-fz-event="MQL5+Footer+About">Privacy and Data Protection Policy</a></li>
+            <li><a rel="nofollow" href="/en/about/cookies" data-fz-event="MQL5+Footer+About">Cookies Policy</a></li>
+            <li>
+                <a rel="nofollow" href="/en/contact" data-fz-event="MQL5+Footer+Contacts">Contacts and requests</a>
+            </li>
+          </ul>
+        </nav>
+    </li>
+
+      <li>
+        <div class="footer__products">
+          <div class="footer__product">
+            <a target="_blank" rel="nofollow noopener" href="https://www.metatrader5.com" class="footer__product-name">MetaTrader 5</a>
+            <div class="footer__product-links">
+            <a rel="nofollow noopener" href="https://download.terminal.free/cdn/web/metaquotes.ltd/mt5/mt5setup.exe?utm_source=www.mql5.com&amp;utm_campaign=download" class="icon windows" data-fz-event="MetaTrader+5+Desktop+Download+Footer"><div class="footer__product-link-hint footer__product-link-hint-short">Download MetaTrader 5 for Windows</div></a>
+            <a rel="nofollow noopener" href="https://download.terminal.free/cdn/web/metaquotes.ltd/mt5/MetaTrader5.pkg.zip?utm_source=www.mql5.com&amp;utm_campaign=download" class="icon macos" data-fz-event="MetaTrader+5+Desktop+Download+Footer"><div class="footer__product-link-hint footer__product-link-hint-short">Download MetaTrader 5 for MacOS</div></a>
+            <a rel="nofollow noopener" href="https://www.mql5.com/en/articles/625?utm_source=www.mql5.com&amp;utm_campaign=download" class="icon linux" data-fz-event="MetaTrader+5+Desktop+Download+Footer"><div class="footer__product-link-hint footer__product-link-hint-short">Download MetaTrader 5 for Linux</div></a>
+            <a rel="nofollow noopener" href="https://web.metatrader.app/terminal?mode=demo&amp;lang=en" class="icon web"><div  class="footer__product-link-hint footer__product-link-hint-short">Open MetaTrader 5 WebTerminal</div></a>
+            <a rel="nofollow noopener" href="https://download.terminal.free/cdn/mobile/mt5/ios?utm_source=www.mql5.com&amp;utm_campaign=install.metaquotes&amp;hl=en" class="icon ios" data-fz-event="MetaTrader+5+iOS+Download+Footer"><div class="footer__product-link-hint" style="background-image: url(https://c.mql5.com/qr/jhZn8Ed1I1d.png)">Scan to install from App Store</div></a>
+            <a rel="nofollow noopener" href="https://download.terminal.free/cdn/mobile/mt5/android?utm_source=www.mql5.com&amp;utm_campaign=install.metaquotes&amp;hl=en" class="icon android" data-fz-event="MetaTrader+5+Android+Download+Footer"><div class="footer__product-link-hint" style="background-image: url(https://c.mql5.com/qr/kiF2Io6W-9d.png)">Scan to install from Google Play</div></a>
+            <a rel="nofollow noopener" href="https://download.terminal.free/cdn/mobile/mt5/android/app-gallery?utm_source=www.mql5.com&amp;utm_campaign=install.metaquotes" class="icon huawei" data-fz-event="MetaTrader+5+Android+Download+Footer"><div class="footer__product-link-hint" style="background-image: url(https://c.mql5.com/qr/ZRt&#x2B;zI1l&#x2B;8O.png)">Scan to install from Huawei AppGallery</div></a>
+            <a rel="nofollow noopener" href="https://download.terminal.free/cdn/web/metaquotes.software.corp/mt5/metatrader5.apk?utm_source=www.mql5.com&amp;utm_campaign=install.metaquotes" class="icon ark" data-fz-event="MetaTrader+5+Android+Download+Footer"><div class="footer__product-link-hint" style="background-image: url(https://c.mql5.com/qr/L0Q9oag&#x2B;3eE.png)">Scan to get Android APK file</div></a>
+            </div>
+          </div>
+          <div>
+            <div class="footer__product">
+              <a target="_blank" rel="nofollow noopener" href="https://www.metatrader5.com/en/news/2270" class="footer__product-name">MQL5 Channels</a>
+              <div class="footer__product-links">
+              <a rel="nofollow noopener" href="https://download.terminal.free/cdn/mobile/mql5.channels/ios?utm_source=www.mql5.com&amp;utm_campaign=download&amp;hl=en" class="icon ios" data-fz-event="MQL5+Channels+iOS+Download+Footer"><div class="footer__product-link-hint" style="background-image: url(https://c.mql5.com/qr/bZVfOJnYpcO.png)">Scan to install from App Store</div></a>
+              <a rel="nofollow noopener" href="https://download.terminal.free/cdn/mobile/mql5.channels/android?utm_source=www.mql5.com&amp;utm_campaign=download&amp;hl=en" class="icon android" data-fz-event="MQL5+Channels+Android+Download+Footer"><div class="footer__product-link-hint" style="background-image: url(https://c.mql5.com/qr/32MJFgw7BVs.png)">Scan to install from Google Play</div></a>
+              <a rel="nofollow noopener" href="https://download.terminal.free/cdn/mobile/mql5.channels/android/app-gallery?utm_source=www.mql5.com&amp;utm_campaign=download" class="icon huawei" data-fz-event="MQL5+Channels+Android+Download+Footer"><div class="footer__product-link-hint" style="background-image: url(https://c.mql5.com/qr/Su&#x2B;fe4n374e.png)">Scan to install from Huawei AppGallery</div></a>
+              <a rel="nofollow noopener" href="https://download.terminal.free/cdn/web/metaquotes.software.corp/mql5channels/mql5channels.apk?utm_source=www.mql5.com&amp;utm_campaign=download" class="icon ark" data-fz-event="MQL5+Channels+Android+Download+Footer"><div class="footer__product-link-hint" style="background-image: url(https://c.mql5.com/qr/G6Mg4NfCPzO.png)">Scan to get Android APK file</div></a>
+              </div>
+            </div>
+            <div class="footer__product">
+              <a target="_blank" rel="nofollow noopener" href="https://www.tradays.com/en/download?utm_source=www.mql5.com&amp;utm_campaign=download" data-fz-event="MQL5+Footer+Download+Tradays" class="footer__product-name">Economic Calendar</a>
+              <div class="footer__product-links">
+              <a rel="nofollow noopener" href="https://download.terminal.free/cdn/mobile/tradays/ios?utm_source=www.mql5.com&amp;utm_campaign=download&amp;hl=en" class="icon ios" data-fz-event="Tradays+iOS+Download+Footer"><div class="footer__product-link-hint" style="background-image: url(https://c.mql5.com/qr/CpD&#x2B;mhIw-1E.png)">Scan to install from App Store</div></a>
+              <a rel="nofollow noopener" href="https://download.terminal.free/cdn/mobile/tradays/android?utm_source=www.mql5.com&amp;utm_campaign=download&amp;hl=en" class="icon android" data-fz-event="Tradays+Android+Download+Footer"><div class="footer__product-link-hint" style="background-image: url(https://c.mql5.com/qr/Bgyx8UcmYap.png)">Scan to install from Google Play</div></a>
+              <a rel="nofollow noopener" href="https://download.terminal.free/cdn/mobile/tradays/android/app-gallery?utm_source=www.mql5.com&amp;utm_campaign=download" class="icon huawei" data-fz-event="Tradays+Android+Download+Footer"><div class="footer__product-link-hint" style="background-image: url(https://c.mql5.com/qr/CrS7bbDAdAO.png)">Scan to install from Huawei AppGallery</div></a>
+              <a rel="nofollow noopener" href="https://download.terminal.free/cdn/web/metaquotes.software.corp/tradays/tradays.apk?utm_source=www.mql5.com&amp;utm_campaign=download" class="icon ark" data-fz-event="Tradays+Android+Download+Footer"><div class="footer__product-link-hint" style="background-image: url(https://c.mql5.com/qr/VZi8YPIb2op.png)">Scan to get Android APK file</div></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer__networks">
+          <a href="https://www.facebook.com/mql5.community/" target="_blank" rel="nofollow" title="Facebook"><i class="icons-networks icons-networks_fb"></i></a>
+          <a href="https://t.me/mql5dev" target="_blank" rel="nofollow" title="Telegram"><i class="icons-networks icons-networks_tg"></i></a>
+          <a href="https://x.com/mql5com" target="_blank" rel="nofollow" title="X (Twitter)"><i class="icons-networks icons-networks_tw"></i></a>
+          <a href="https://www.youtube.com/@MetaQuotesOfficial" target="_blank" rel="nofollow" title="YouTube"><i class="icons-networks icons-networks_yt"></i></a>
+          <a href="https://www.linkedin.com/company/mql5" target="_blank" rel="nofollow" title="LinkedIn"><i class="icons-networks icons-networks_linkedin"></i></a>
+          <span>Subscribe to algotrading news</span>
+        </div>
+  
+        <div class="footer__other">
+          <div class="footer__not-a-broker">Not a broker, no real trading accounts</div>
+          <div class="copyright">35 Dodekanisou str, Germasogeia, 4043,&nbsp;Limassol,&nbsp;Cyprus</div>
+          <div class="copyright">Copyright 2000-2026, <span class="nobr">MetaQuotes Ltd</span></div>
+        </div>
+      </li>
+  </ul>
+</div>
+
+
+    </footer>
+
+  <div class="shadow-layer" id="layer"></div>
+      
+</div>
+
+<script type="text/javascript">
+           mqGlobal.AddOnReady(function () { Mql5Cookie.init('mql5.com','5148897809458642097'); });
+mqGlobal.AddOnReady(function(){Calendar.enableCheckedLast('economicCalendarFilterCurrency');Calendar.enableCheckedLast('economicCalendarFilterImportance');Calendar.loadFiltersFromLocalStorage();Calendar.filterDateChecked();Calendar.addEventGetCalendar("economicCalendarFilterImportance",false,Calendar.saveImportanceFilterToLocalStorage);Calendar.addEventGetCalendar("economicCalendarFilterCurrency",false,Calendar.saveCurrencyFilterToLocalStorage);Calendar.addEventGetCalendar("economicCalendarFilterDate",true);Calendar.DatePickerFilter=new calendarDatePicker('filterDateInput',{month:["January","February","March","April","May","June","July","August","September","October","November","December"],monthGenitive:["January","February","March","April","May","June","July","August","September","October","November","December"],monthShort:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],begin:"Begin date:",end:"End date:",cancel:"Cancel",apply:"Save",errorMaxRange:"Max range: {0} days",daysWeek:["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],errorInvalidRange:"Invalid range"},90,Calendar.makeCurrentDateAsDefaultLocalDate,Calendar.getCalendarForCustomPeriod);});window.fz("show","vgckrufggwxdtfscpyalmenexmvhljduja");mqGlobal.AddOnReady(function(){Calendar.zones=[{"code":"DEFAULT","name":"Browser Time Zone","offset":0},{"code":"GMT-12","name":"(GMT - 12:00) Eniwetok, Kwajalein","offset":-720},{"code":"GMT-11","name":"(GMT - 11:00) Midway Island","offset":-660},{"code":"GMT-10","name":"(GMT - 10:00) Hawaii","offset":-600},{"code":"GMT-9-30","name":"(GMT - 9:30) Marquesas Islands","offset":-570},{"code":"GMT-9","name":"(GMT - 9:00) Alaska","offset":-540},{"code":"GMT-8","name":"(GMT - 8:00) Pacific Time (US & Canada)","offset":-480},{"code":"GMT-7","name":"(GMT - 7:00) Mountain Time (US & Canada)","offset":-420},{"code":"GMT-6","name":"(GMT - 6:00) Central Time (US & Canada), Mexico City","offset":-360},{"code":"GMT-5","name":"(GMT - 5:00) Eastern Time (US & Canada), Bogota, Lima","offset":-300},{"code":"GMT-4","name":"(GMT - 4:00) Atlantic Time (Canada), La Paz, Santiago, Caracas","offset":-240},{"code":"GMT-3-30","name":"(GMT - 3:30) Newfoundland","offset":-210},{"code":"GMT-3","name":"(GMT - 3:00) Brazil, Buenos Aires, Georgetown","offset":-180},{"code":"GMT-2","name":"(GMT - 2:00) Mid-Atlantic","offset":-120},{"code":"GMT-1","name":"(GMT - 1:00) Azores, Cape Verde Islands","offset":-60},{"code":"GMT-0","name":"(GMT) Western Europe Time, London, Lisbon, Casablanca","offset":0},{"code":"GMT+1","name":"(GMT + 1:00) Brussels, Copenhagen, Madrid, Paris","offset":60},{"code":"GMT+2","name":"(GMT + 2:00) South Africa, Jerusalem, Kaliningrad","offset":120},{"code":"GMT+3","name":"(GMT + 3:00) Baghdad, Riyadh, Moscow","offset":180},{"code":"GMT+3-30","name":"(GMT + 3:30) Tehran","offset":210},{"code":"GMT+4","name":"(GMT + 4:00) Abu Dhabi, Muscat, Baku, Tbilisi","offset":240},{"code":"GMT+4-30","name":"(GMT + 4:30) Kabul","offset":270},{"code":"GMT+5","name":"(GMT + 5:00) Islamabad, Karachi, Tashkent, Yekaterinburg","offset":300},{"code":"GMT+5-30","name":"(GMT + 5:30) Mumbai, Kolkata, Colombo, New Delhi","offset":330},{"code":"GMT+5-45","name":"(GMT + 5:45) Kathmandu","offset":345},{"code":"GMT+6","name":"(GMT + 6:00) Almaty, Dhaka","offset":360},{"code":"GMT+6-30","name":"(GMT + 6:30) Yangon, Cocos Islands","offset":390},{"code":"GMT+7","name":"(GMT + 7:00) Bangkok, Hanoi, Jakarta","offset":420},{"code":"GMT+8","name":"(GMT + 8:00) Beijing, Perth, Singapore, Hong Kong","offset":480},{"code":"GMT+8-30","name":"(GMT + 8:30) Pyongyang","offset":510},{"code":"GMT+8-45","name":"(GMT + 8:45) Eucla","offset":525},{"code":"GMT+9","name":"(GMT + 9:00) Tokyo, Seoul, Osaka, Sapporo, Yakutsk","offset":540},{"code":"GMT+9-30","name":"(GMT + 9:30) Adelaide, Darwin","offset":570},{"code":"GMT+10","name":"(GMT + 10:00) Eastern Australia, Guam, Vladivostok","offset":600},{"code":"GMT+10-30","name":"(GMT + 10:30) Lord Howe Island","offset":630},{"code":"GMT+11","name":"(GMT + 11:00) Solomon Islands","offset":660},{"code":"GMT+12","name":"(GMT + 12:00) Auckland, Wellington, Fiji, Kamchatka","offset":720},{"code":"GMT+12-45","name":"(GMT + 12:45) Chatham Islands","offset":765},{"code":"GMT+13","name":"(GMT + 13:00) Samoa, Nuku'alofa","offset":780},{"code":"GMT+14","name":"(GMT + 14:00) Kiritimati Island","offset":840}];Calendar.phrases.EventTitle="Events for";Calendar.phrases.WidgetTitle="Place on website";Calendar.phrases.NoEventsLabel="No events";Calendar.phrases.RevisedFromLabel="Revised from";Calendar.phrases.Months=["January","February","March","April","May","June","July","August","September","October","November","December"];Calendar.phrases.MonthsShort=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];Calendar.phrases.Days=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];Calendar.phrases.TimeModes=["","All day","Unknown","tent."];Calendar.phrases.ActualTooltipMore="Exceeds the forecast by";Calendar.phrases.ActualTooltipLess="Less than the forecast by";Calendar.phrases.low="Low";Calendar.phrases.medium="Medium";Calendar.phrases.high="High";Calendar.phrases.none="Holidays";if(Calendar.zones.length>0){Calendar.zones[0].name+=" ("+DatesCore.getDefaultLocalOffset()+")";}Calendar.restoreTimeZone();Calendar.displayCurrentTime("economicCalendarTableColumnTime");Calendar.TimeZoneSettings=new Calendar.blockSettingsDate("economicCalendarTableColumnTime",Calendar.setTimeZone,Calendar.currentTime,{currentTime:"Current time:",timeZone:"Time zone:",timeFormat:"Time format:",cancel:"Cancel",save:"Save",timeMode:["am/pm","24 hours"]},function(){if(Calendar.DatePickerFilter)Calendar.DatePickerFilter.hide();});Calendar.TimeZoneSettings.set(Calendar.date.timeZone);Calendar.DataUrl="/en/economic-calendar/content";Calendar.SettingsUrl="/en/economic-calendar/timezone";setInterval(function(){Calendar.displayCurrentTime("economicCalendarTableColumnTime")},1000);});document.querySelectorAll("#ec_faq h3").forEach(e=>e.onclick=toggle);function toggle(e){e.target.classList.toggle('on');};mqGlobal.AddOnReady(function(){Calendar.setInitialDateRange(1,1781481600000,1782086399000,true);Calendar.getCalendar();Calendar.UpdaterUrl="/en/economic-calendar/value";Calendar.tooltip($('economicCalendarTable'),function(element){return element.id&&(element.id.indexOf('actualValue')>=0||element.id.indexOf('prevValue')>=0);},null,'data-tooltip');});mqGlobal.AddOnReady(function(){{window.initHeaderSearch('','https://www.mql5.com/en/search');}});</script><script type="text/javascript">mqGlobal.AddOnReady(function(){window.initSuggestions("headerSearchKeyword","en","https://search.mql5.com/api/query","https://www.mql5.com/en/users_search/suggestion");});window.fz("show","bfogggabsofabcpxuzmgaibarmaxasdrj");mqGlobal.AddOnReady(function(){window.floatVerticalPanelNode=FloatVerticalPanel('This website uses cookies. Learn more about our <a href="/en/about/cookies">Cookies Policy</a>.','cookie_accept');});      if (typeof Attach !== "undefined")
+        Attach.setAcceptFilter(".zip, .txt, .log, .mqh, .ex5, .mq5, .mq4, .mqproj, .ex4, .mt5, .set, .tpl, .cl, .py, .sqlite, .csv, .ini, .ipynb, .onnx, .gif, .png, .jpg, .jpeg, .mp4, .webm");
+  </script>
+
+  <div class="b-fixed-mt" id="bFixedMt" style="display: none;">
+    
+  </div>
+
+  <script type="application/ld&#x2B;json">
+  [{"@context":"https://schema.org","@type":"ItemList","itemListElement":[{"@type":"SiteNavigationElement","position":1,"name":"Forum","description":"Discussions of trading strategies and algorithmic trading. MQL5.community  the largest forex forum","url":"https://www.mql5.com/en/forum","children":[]},{"@type":"SiteNavigationElement","position":2,"name":"Market","description":"MetaTrader Market - a Market of trading robots, indicators, trading books and magazines","url":"https://www.mql5.com/en/market","children":[]},{"@type":"SiteNavigationElement","position":3,"name":"Signals","description":"Social trading, copy trading and account monitoring with MetaTrader - Trading Signals on MQL5.com","url":"https://www.mql5.com/en/signals","children":[]},{"@type":"SiteNavigationElement","position":4,"name":"Freelance","description":"Order trading robots, technical indicators and algorithmic trading applications. Forex jobs. Freelance on MQL5.com. Hire MetaTrader experts and specialists","url":"https://www.mql5.com/en/job","children":[]},{"@type":"SiteNavigationElement","position":5,"name":"Quotes","description":"","url":"https://www.mql5.com/en/quotes/overview","children":[]},{"@type":"SiteNavigationElement","position":6,"name":"MetaTrader","description":"","url":"https://www.metatrader.com","children":[]},{"@type":"SiteNavigationElement","position":7,"name":"WebTerminal","description":"WebTerminal for the MetaTrader trading platform. Online forex trading.","url":"https://web.metatrader.app/terminal?mode=demo","children":[]},{"@type":"SiteNavigationElement","position":8,"name":"Calendar","description":"","url":"https://www.mql5.com/en/economic-calendar","children":[]},{"@type":"SiteNavigationElement","position":9,"name":"VPS","description":"","url":"https://www.mql5.com/en/vps","children":[]},{"@type":"SiteNavigationElement","position":10,"name":"Articles","description":"","url":"https://www.mql5.com/en/articles","children":[]},{"@type":"SiteNavigationElement","position":11,"name":"CodeBase","description":"Download trading robots, technical indicators and scripts with source code - MQL5 Code Base for MetaTrader 5","url":"https://www.mql5.com/en/code","children":[]},{"@type":"SiteNavigationElement","position":12,"name":"Algo Forge","description":"","url":"https://forge.mql5.io","children":[]},{"@type":"SiteNavigationElement","position":13,"name":"Documentation","description":"MetaQuotes Language 5 (MQL5) Reference - Documentation on MQL5.com","url":"https://www.mql5.com/en/docs","children":[]}]}  
+  ]
+</script>
+</body>
+</html>

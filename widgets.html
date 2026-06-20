@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="dns-prefetch" href="https://c.mql5.com">
+  <meta name="description" content="Set (customize) and place the economic calendar widget on your website with automatic updates in real time.">
+  <meta property="og:url" content="https://www.mql5.com/en/economic-calendar/widgets">
+  <meta property="og:title" content="Economic calendar widget">
+  <meta property="og:description" content="Set (customize) and place the economic calendar widget on your website with automatic updates in real time.">
+      <meta property="og:image" content="https://c.mql5.com/i/og/mql5-calendar-3.png">
+      <meta property="og:image:secure_url" content="https://c.mql5.com/i/og/mql5-calendar-3.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:site" content="@mql5com">
+  <meta name="twitter:image" content="https://c.mql5.com/i/og/mql5-calendar-3.png">
+  <meta name="theme-color" content="#4a76b8">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="manifest" href="https://www.mql5.com/manifest.json">
+  <link rel="apple-touch-icon" sizes="57x57" href="https://www.mql5.com/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://www.mql5.com/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="https://www.mql5.com/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="https://www.mql5.com/apple-touch-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="167x167" href="https://www.mql5.com/apple-touch-icon-167x167.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://www.mql5.com/apple-touch-icon-180x180.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="https://www.mql5.com/apple-touch-icon-192x192.png">
+  <link rel="icon" sizes="192x192" href="https://www.mql5.com/android-touch-icon-192x192.png">
+  <link rel="icon" sizes="128x128" href="https://www.mql5.com/android-touch-icon-128x128.png">
+  <link rel="shortcut icon" href="https://c.mql5.com/i/favicon4.ico">
+  <meta name="msapplication-config" content="none"/>
+  <meta name="referrer" content="no-referrer-when-downgrade">
+  <meta property="qc:admins" content="36367170677651456375"/>
+  <meta property="wb:webmaster" content="073d7690269bcd81"/>
+  <link href="https://c.mql5.com/styles/core.5b5ab91b0f7fd239de15ec3a0d9cd256.css" type="text/css" rel="stylesheet" media="all">
+  <link href="https://c.mql5.com/styles/all.9574692a716b7cf22f786a0ef4c3ff13.css" type="text/css" rel="stylesheet" media="all">
+  <link href="https://c.mql5.com/styles/calendar.f56f3f0523c7e031e1346493101a518c.css" type="text/css" rel="stylesheet" media="all">
+  <link rel="canonical" href="https://www.mql5.com/en/economic-calendar/widgets">
+  <link rel="alternate" hreflang="en" href="https://www.mql5.com/en/economic-calendar/widgets">
+  <link rel="alternate" hreflang="ru" href="https://www.mql5.com/ru/economic-calendar/widgets">
+  <link rel="alternate" hreflang="zh" href="https://www.mql5.com/zh/economic-calendar/widgets">
+  <link rel="alternate" hreflang="es" href="https://www.mql5.com/es/economic-calendar/widgets">
+  <link rel="alternate" hreflang="pt" href="https://www.mql5.com/pt/economic-calendar/widgets">
+  <link rel="alternate" hreflang="ja" href="https://www.mql5.com/ja/economic-calendar/widgets">
+  <link rel="alternate" hreflang="de" href="https://www.mql5.com/de/economic-calendar/widgets">
+  <link rel="alternate" hreflang="ko" href="https://www.mql5.com/ko/economic-calendar/widgets">
+  <link rel="alternate" hreflang="fr" href="https://www.mql5.com/fr/economic-calendar/widgets">
+  <link rel="alternate" hreflang="it" href="https://www.mql5.com/it/economic-calendar/widgets">
+  <link rel="alternate" hreflang="tr" href="https://www.mql5.com/tr/economic-calendar/widgets">
+  <title>Economic calendar widget</title>
+  <script type='text/javascript'>
+  (function(a,e,f,g,b,c,d){a[b]||(a.FintezaCoreObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=!0,c.defer=!0,c.src=g,d&&d.parentNode&&d.parentNode.insertBefore(c,d))})
+      (window, document, "script", "/ff/core.js", "fz");
+  window.fz("register", "website", {
+      id: "sqjxkxkswybhifrohpyooonwgbvsfzmayq",
+    trackLinks: true,
+    sendEventsByBeacon: true,
+  });
+  </script>
+
+
+<script type="text/javascript">
+  !function(){window.mqGlobal={};var t=!1,n=!1,e=[],o=[],i=[];function d(t){var n;for(n=0;n<t.length;n+=1)t[n]()}function c(){t||(t=!0,d(e),d(o),o=[],e=[])}function a(){c(),n||(n=!0,d(i),i=[])}if(mqGlobal.AddOnReady=function(n,i){t?n(document):i?e.push(n):o.push(n)},mqGlobal.AddOnLoad=function(t){n?t(document):i.push(t)},mqGlobal.AddOnActiveWindowChange=function(t){this._onvisibility||(this._onvisibility=[]),this._onvisibility[this._onvisibility.length]=t},document.addEventListener)document.addEventListener("DOMContentLoaded",c,!1),window.addEventListener("load",a,!1);else if(document.attachEvent&&(document.attachEvent("onreadystatechange",(function(){switch(document.readyState){case"interactive":c();break;case"complete":a()}})),window.attachEvent("onload",a),document.documentElement.doScroll&&window==window.top)){!function n(){if(!t&&document.body)try{document.documentElement.doScroll("left"),c()}catch(t){setTimeout(n,0)}}()}}();
+  mqGlobal.CookieDomain = ".mql5.com";
+  mqGlobal.Language = 'en';
+  mqGlobal.IsMobile = false;
+  mqGlobal.ClearRteStorage = function (e) { if (window.GStorage || (window.GStorage = globalStorage()), window.GStorage.supported) try { var o = e; window.GStorage.getItem("rte_autosave_uid", function (e, t) { t == o && (window.GStorage.removeItem("rte_autosave_text"), window.GStorage.removeItem("rte_autosave_date"), window.GStorage.removeItem("rte_autosave_uid")) }) } catch (e) { } };
+</script>
+  
+
+
+    <script src="https://c.mql5.com/js/all.3eb8e88953debf76bad0c3181b44206a.js" type="text/javascript" defer="defer"></script>
+  <script src="https://c.mql5.com/js/vendor.1be6e9a4a90b28525f93c4c69a5058a1.js" type="text/javascript" defer="defer"></script>
+  <script src="https://c.mql5.com/js/calendar.6eb4eaf20ad18a13e2c63e224e2e5bcc.js" type="text/javascript" defer="defer"></script>
+
+
+</head>
+
+<body>
+
+<div class="cover" id="cover">
+
+    <header class="head">
+      <a href="https://www.mql5.com" class="head__logo" title="MQL5 - Language of trade strategies built-in the MetaTrader 5 client terminal"></a>
+        <div class="head__content">
+          <nav class="main-menu" id="mainmenu">
+            
+                    <ul class="main-menu__top-level" id="menuTopLevel">
+                    <li><a href="/en/forum" data-fz-event="MQL5+Menu+Forum">Forum</a></li>
+                    <li><a href="/en/market" data-fz-event="MQL5+Menu+Market">Market</a></li>
+                    <li><a href="/en/signals" data-fz-event="MQL5+Menu+Signals">Signals</a></li>
+                    <li><a href="/en/job" data-fz-event="MQL5+Menu+Job">Freelance</a></li>
+                    <li><a href="/en/vps" data-fz-event="MQL5+Menu+VPS">VPS</a></li>
+                    <li><a href="/en/quotes/overview" data-fz-event="MQL5+Menu+Overview">Quotes</a></li>
+                    <li><a href="https://www.metatrader.com" target="_blank" rel="noopener" data-fz-event="MQL5+Menu+MetaTrader">MetaTrader</a></li>
+                  </ul><ul class="main-menu__second-level" id="menuSecondLevel">
+                    <li><a href="/en/articles" data-fz-event="MQL5+Menu+Articles"><img src="https://c.mql5.com/i/menu/icon-articles4.svg" alt="" width="16" height="16"/>Articles</a></li>
+                    <li><a href="/en/code" data-fz-event="MQL5+Menu+CodeBase"><img src="https://c.mql5.com/i/menu/icon-code4.svg" alt="" width="16" height="16"/>CodeBase</a></li>
+                    <li><a href="https://forge.mql5.io/?lang=en" target="_blank" rel="noopener" data-fz-event="MQL5+Menu+AlgoForge"><img src="https://c.mql5.com/i/menu/icon-algoforge4.svg" alt="" width="16" height="16"/>Algo Forge</a></li>
+                    <li><a href="/en/docs" data-fz-event="MQL5+Menu+Docs"><img src="https://c.mql5.com/i/menu/icon-docs4.svg" alt="" width="16" height="16"/>Documentation</a></li>
+                    <li><a href="/en/book" data-fz-event="MQL5+Menu+Book"><img src="https://c.mql5.com/i/menu/icon-book4.svg" alt="" width="16" height="16"/>AlgoBook</a></li>
+                    <li><a href="/en/neurobook" data-fz-event="MQL5+Menu+Neurobook"><img src="https://c.mql5.com/i/menu/icon-neurobook4.svg" alt="" width="16" height="16"/>NeuroBook</a></li>
+                    <li class="main-menu__selected"><a href="/en/economic-calendar" data-fz-event="MQL5+Menu+Economic+Calendar"><img src="https://c.mql5.com/i/menu/icon-economic-calendar4.svg" alt="" width="16" height="16"/>Calendar</a></li>
+                    <li><a href="https://web.metatrader.app/terminal?mode=demo&lang=en" target="_blank" rel="nofollow noopener" data-fz-event="MQL5+Menu+Trading"><img src="https://c.mql5.com/i/menu/icon-trading4.svg" alt="" width="16" height="16"/>WebTerminal</a></li>
+                    <li class="main-menu__mobile"><a href="/en/about">About</a></li>
+                    <li class="main-menu__second-tools"><a rel="noopener" href="/en/vps" title="Reliable trader hosting for uninterrupted operation of robots and instant copying of trades" class="button-mt" data-vars-fz="Start+VPS+Trial+Submenu"><img width="18" height="18" src="https://c.mql5.com/i/sidebar/vpstrial2.svg" alt="" loading="lazy">Start VPS Trial</a></li>
+                    </ul>
+          </nav>
+            <div class="main-menu__active">
+              <a id="mainMenuSelected" href="#">
+                <span class="main-menu__primary">Calendar</span><span class="main-menu__secondary">Sections</span>
+              </a>
+            </div>
+<form action="https://www.mql5.com/en/search" onsubmit="return false;" autocomplete="off" id="headerSearchForm" class="header-search" method="post">
+<button type="button" id="headerSearchButton" title="Search" class="header-search__button"></button><div class="header-search__input"><input name="keyword" type="text" enterkeyhint="search" title="Enter search text" placeholder="Search" id="headerSearchKeyword"/><label for="headerSearchKeyword" class="header-search__placeholder">Type <span>/</span> to search:  @user, $symbol, ...</label><button id="headerSearchSubmit" class="header-search__submit"></button></div><button type="button" id="headerSearchClean" title="Close" class="header-search__clean"></button></form>          <input class="blurHandler" id="mainMenuBlurHandler" type="checkbox">
+        </div>
+        <div class="head__toolbar" id="headerToolbar">
+            <div class="container loginRegister">
+              <nav>
+                <ul id="loginRegisterButtons"><li><a class="login" title="Please sign in. OpenID supported" href="https://www.mql5.com/en/auth_login" rel="nofollow" data-fz-event="MQL5+Menu+Siginin">Log in</a></li><li><a class="registration en" title="Please register" href="https://www.mql5.com/en/auth_register" rel="nofollow" data-fz-event="MQL5+Menu+Register" onclick="window.fpush('MQL5+Button+Click');">Create an account</a></li></ul>
+              </nav>
+            </div>
+          <div class="container">
+            <div class="toggle-button" id="sidebarToggleButton">
+              <i></i>
+            </div>
+          </div>
+
+          <div class="group-menu" id="groupMenu">
+
+
+            <div class="container lang-menu-container">
+              <div id="langMenuContainer" class="lang-menu">
+                <input class="blurHandler" id="langmenuBlurHandler" type="checkbox">
+                <nav>
+                  <ul class="lang-menu__list" id="langmenu">
+                    <li class="lang-menu__list-item lang-menu__list-item_selected"><a href="/en/economic-calendar/widgets" aria-label="English (English)"><i class="icons-languages icons-languages_en"></i><span>English</span></a></li>
+<li class="lang-menu__list-item"><a href="/ru/economic-calendar/widgets" aria-label="Русский (Russian)"><i class="icons-languages icons-languages_ru"></i><span>Русский</span></a></li>
+<li class="lang-menu__list-item"><a href="/zh/economic-calendar/widgets" aria-label="中文 (Chinese)"><i class="icons-languages icons-languages_zh"></i><span>中文</span></a></li>
+<li class="lang-menu__list-item"><a href="/es/economic-calendar/widgets" aria-label="Español (Spanish)"><i class="icons-languages icons-languages_es"></i><span>Español</span></a></li>
+<li class="lang-menu__list-item"><a href="/pt/economic-calendar/widgets" aria-label="Português (Portuguese)"><i class="icons-languages icons-languages_pt"></i><span>Português</span></a></li>
+<li class="lang-menu__list-item"><a href="/ja/economic-calendar/widgets" aria-label="日本語 (Japanese)"><i class="icons-languages icons-languages_ja"></i><span>日本語</span></a></li>
+<li class="lang-menu__list-item"><a href="/de/economic-calendar/widgets" aria-label="Deutsch (German)"><i class="icons-languages icons-languages_de"></i><span>Deutsch</span></a></li>
+<li class="lang-menu__list-item"><a href="/ko/economic-calendar/widgets" aria-label="한국어 (Korean)"><i class="icons-languages icons-languages_ko"></i><span>한국어</span></a></li>
+<li class="lang-menu__list-item"><a href="/fr/economic-calendar/widgets" aria-label="Français (French)"><i class="icons-languages icons-languages_fr"></i><span>Français</span></a></li>
+<li class="lang-menu__list-item"><a href="/it/economic-calendar/widgets" aria-label="Italiano (Italian)"><i class="icons-languages icons-languages_it"></i><span>Italiano</span></a></li>
+<li class="lang-menu__list-item"><a href="/tr/economic-calendar/widgets" aria-label="Türkçe (Turkish)"><i class="icons-languages icons-languages_tr"></i><span>Türkçe</span></a></li>
+
+                  </ul>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+    </header>
+
+  <main>
+<div id='bfogggabsofabcpxuzmgaibarmaxasdrj' class="rn8dez79p206972ax g9617zzjt"></div>
+    <article class="body" id="bodyContent">
+      <header class="top-band">
+        
+      </header>
+
+      
+<div id="widgetContainer" class="economic-calendar__body">
+
+    <div id="navigationPanel" class="economic-calendar__control-panel">
+      <h3 class="economic-calendar__control-panel-title">
+        <a href="/en/economic-calendar">
+          <span
+            class="economic-calendar__icon-calendar"></span>Economic Calendar
+        </a>
+      </h3>
+      
+<div class="economic-calendar__country-list">
+  <div class="economic-calendar__panel-header"><span class="economic-calendar__country-list-icon"></span>Countries</div>
+  <ul>
+      <li class=""><a href="/en/economic-calendar/australia" data-fz-event="Tradays+MQL5.com+Filter"><span class="economic-calendar__country-icon australia"></span>Australia</a></li>
+      <li class=""><a href="/en/economic-calendar/brazil" data-fz-event="Tradays+MQL5.com+Filter"><span class="economic-calendar__country-icon brazil"></span>Brazil</a></li>
+      <li class=""><a href="/en/economic-calendar/canada" data-fz-event="Tradays+MQL5.com+Filter"><span class="economic-calendar__country-icon canada"></span>Canada</a></li>
+      <li class=""><a href="/en/economic-calendar/china" data-fz-event="Tradays+MQL5.com+Filter"><span class="economic-calendar__country-icon china"></span>China</a></li>
+      <li class=""><a href="/en/economic-calendar/european-union" data-fz-event="Tradays+MQL5.com+Filter"><span class="economic-calendar__country-icon european-union"></span>European Union</a></li>
+      <li class=""><a href="/en/economic-calendar/france" data-fz-event="Tradays+MQL5.com+Filter"><span class="economic-calendar__country-icon france"></span>France</a></li>
+      <li class=""><a href="/en/economic-calendar/germany" data-fz-event="Tradays+MQL5.com+Filter"><span class="economic-calendar__country-icon germany"></span>Germany</a></li>
+      <li class=""><a href="/en/economic-calendar/hong-kong" data-fz-event="Tradays+MQL5.com+Filter"><span class="economic-calendar__country-icon hong-kong"></span>Hong Kong</a></li>
+      <li class=""><a href="/en/economic-calendar/india" data-fz-event="Tradays+MQL5.com+Filter"><span class="economic-calendar__country-icon india"></span>India</a></li>
+      <li class=""><a href="/en/economic-calendar/italy" data-fz-event="Tradays+MQL5.com+Filter"><span class="economic-calendar__country-icon italy"></span>Italy</a></li>
+      <li class=""><a href="/en/economic-calendar/japan" data-fz-event="Tradays+MQL5.com+Filter"><span class="economic-calendar__country-icon japan"></span>Japan</a></li>
+      <li class=""><a href="/en/economic-calendar/mexico" data-fz-event="Tradays+MQL5.com+Filter"><span class="economic-calendar__country-icon mexico"></span>Mexico</a></li>
+      <li class=""><a href="/en/economic-calendar/new-zealand" data-fz-event="Tradays+MQL5.com+Filter"><span class="economic-calendar__country-icon new-zealand"></span>New Zealand</a></li>
+      <li class=""><a href="/en/economic-calendar/norway" data-fz-event="Tradays+MQL5.com+Filter"><span class="economic-calendar__country-icon norway"></span>Norway</a></li>
+      <li class=""><a href="/en/economic-calendar/singapore" data-fz-event="Tradays+MQL5.com+Filter"><span class="economic-calendar__country-icon singapore"></span>Singapore</a></li>
+      <li class=""><a href="/en/economic-calendar/south-africa" data-fz-event="Tradays+MQL5.com+Filter"><span class="economic-calendar__country-icon south-africa"></span>South Africa</a></li>
+      <li class=""><a href="/en/economic-calendar/south-korea" data-fz-event="Tradays+MQL5.com+Filter"><span class="economic-calendar__country-icon south-korea"></span>South Korea</a></li>
+      <li class=""><a href="/en/economic-calendar/spain" data-fz-event="Tradays+MQL5.com+Filter"><span class="economic-calendar__country-icon spain"></span>Spain</a></li>
+      <li class=""><a href="/en/economic-calendar/sweden" data-fz-event="Tradays+MQL5.com+Filter"><span class="economic-calendar__country-icon sweden"></span>Sweden</a></li>
+      <li class=""><a href="/en/economic-calendar/switzerland" data-fz-event="Tradays+MQL5.com+Filter"><span class="economic-calendar__country-icon switzerland"></span>Switzerland</a></li>
+      <li class=""><a href="/en/economic-calendar/united-kingdom" data-fz-event="Tradays+MQL5.com+Filter"><span class="economic-calendar__country-icon united-kingdom"></span>United Kingdom</a></li>
+      <li class=""><a href="/en/economic-calendar/united-states" data-fz-event="Tradays+MQL5.com+Filter"><span class="economic-calendar__country-icon united-states"></span>United States</a></li>
+  </ul>
+</div>
+
+      <div class="ui box-tradays-button">
+        <a
+          href="https://www.tradays.com/en/download?utm_source=www.mql5.com&utm_campaign=metaquotes.mql5.com&utm_medium=cpc&utm_term=download.mobile.apps&utm_content=download.mobile.apps"
+          target="_blank" rel="noopener" class="tradays-button">
+          <span class="tradays-button__text">
+            Follow news in the
+            <span class="tradays-button__two-line">Economic Calendar</span>
+          </span>
+        </a>
+      </div>
+    </div>
+  <div id="widgetPanel"
+       class="economic-calendar__content widget-config ui">
+    <div class="ec-widget__intro">
+      <h1>Economic calendar widget for your website</h1>
+      <div class="ec-widget__desc">
+        <p>
+Create your own calendar of economic events. To do this, simply specify its size and display period. You can freely use this widget on your websites. In return, we ask you to keep the provided code unchanged.
+</p>
+<p>
+The Calendar data are provided as is. The economic news release frequency and schedule, as well as the economic parameters&apos; values may change without our knowledge. You can use the provided information, but you accept all the risks associated with making trade decisions based on the Calendar data.
+</p>
+      </div>
+        <div class="wordpress-block">
+          <img src="https://c.mql5.com/i/calendar/wordpress-logo1.png"
+               srcset="https://c.mql5.com/i/calendar/wordpress-logo1_2x.png 1.33x"
+               alt="Use official plugin for WordPress websites" title="Use official plugin for WordPress websites"
+               loading="lazy" width="60" height="60">
+          <div class="wordpress-block__text">
+            <p>Use official plugin for WordPress websites</p>
+          </div>
+          <a href="https://wordpress.org/plugins/tradays-economic-calendar/" target="_blank" rel="noopener"
+             class="button button_white"> Download</a>
+        </div>
+    </div>
+    <div class="ec-widget__preview">
+      <iframe
+        src="https://www.tradays.com/en/economic-calendar/widget?mode=2&dateFormat=DMY"
+        width="800" height="600" id="widgetPreview" title="Economic calendar widget"></iframe>
+      <div class="ecw-copyright"><a
+          href="https://www.metatrader.com/?utm_source=calendar.widget&utm_medium=link&utm_term=economic.calendar&utm_content=visit.mql5.calendar&utm_campaign=202.calendar.widget"
+          rel="noopener nofollow" target="_blank" id="calendarCopyright">MetaTrader World Markets</a></div>
+    </div>
+
+    <form id="widgetForm" class="widget-config-box">
+      <div class="widget-config__row widget-config__row_big-margin">
+        <div class="widget-config__label">Default calendar period</div>
+        <div class="widget-config__control">
+          <input type="radio" value="2" name="period" class="radio" id="currentWeek" checked="checked"/>
+          <label for="currentWeek">Current week</label>
+          <input type="radio" value="1" name="period" class="radio" id="currentDay"/>
+          <label for="currentDay">Current day</label>
+        </div>
+      </div>
+      <div class="widget-config__row">
+        <div class="widget-config__item">
+          <div
+            class="widget-config__label">Language</div>
+          <div class="widget-config__control">
+            <div class="select">
+              <select id="widgetLanguage"
+                      aria-label="Language">
+                <option value="def">Widget language</option>
+                  <option value="en">English</option>
+                  <option value="ru">Русский</option>
+                  <option value="zh">中文</option>
+                  <option value="es">Español</option>
+                  <option value="fr">Français</option>
+                  <option value="it">Italiano</option>
+                  <option value="de">Deutsch</option>
+                  <option value="ar">العربية</option>
+                  <option value="ja">日本語</option>
+                  <option value="pt">Português</option>
+                  <option value="tr">Türkçe</option>
+                  <option value="ko">한국어</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="widget-config__item">
+          <div class="widget-config__label">Color theme</div>
+          <div class="widget-config__control">
+            <div class="select">
+              <select id="widgetColorTheme" aria-label="Color theme">
+                <option value="0">Light</option>
+                <option value="1">Dark</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="widget-config__item">
+          <div class="widget-config__label">Date format</div>
+          <div class="widget-config__control">
+            <div class="select">
+              <select id="widgetDateFormat" aria-label="Date format">
+                <option value="DMY">DD.MM.YYYY</option>
+                <option value="MDY">MM.DD.YYYY</option>
+                <option value="YMD">YYYY.MM.DD</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="widget-config__item">
+          <div
+            class="widget-config__label">Size</div>
+          <div class="widget-config__control">
+            <div class="input-dimensions">
+              <input type="text" value="800" name="width" class="input dimension-width" id="widgetWidth"
+                     autocomplete="off" aria-label="Width">
+              <label for="widgetWidth"
+                     title="Width">W: </label>
+              <span> × </span>
+              <input type="text" value="600" name="height" class="input dimension-height" id="widgetHeight"
+                     autocomplete="off" aria-label="Height">
+              <label for="widgetHeight"
+                     title="Height">H: </label>
+              <input type="checkbox" checked="checked" name="autosize" id="autosize" class="checkbox">
+              <label for="autosize">Autosize</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="widget-config__row widget-config__row-code">
+        <div class="widget-config__label">Your embed code</div>
+        <ul class="radio-tabs" id="widget-code-tabs">
+          <input type="radio" name="code-fw" id="codeFwHtml" checked="checked" value="HTML">
+          <label for="codeFwHtml">HTML</label>
+          <input type="radio" name="code-fw" id="codeFwReact" value="React">
+          <label for="codeFwReact">React</label>
+          <input type="radio" name="code-fw" id="codeFwSvelte" value="Svelte">
+          <label for="codeFwSvelte">Svelte</label>
+          <input type="radio" name="code-fw" id="codeFwVue" value="Vue">
+          <label for="codeFwVue">Vue</label>
+        </ul>
+        <div class="widget-config__code-area">
+          <div class="switch-code-lang hidden" id="switchCodeLang">
+            <input type="radio" name="code-lang" id="codeLangJs" checked="checked" value="js"><label
+              for="codeLangJs">JS</label>
+            <input type="radio" name="code-lang" id="codeLangTs" value="ts"><label for="codeLangTs">TS</label>
+          </div>
+          <textarea class="code code_yellow" id="codeArea" name="widgetCode" readonly="readonly" rows="6" wrap="off"
+                    aria-label="Your embed code"></textarea>
+        </div>
+      </div>
+      <div class="widget-config__row">
+        <button class="button button_yellow button-widget button_inline" id="copyCode">
+          <span class="icon"></span><span
+            class="text1">Copy widget code</span><span
+            class="text2">Copied</span>
+        </button>
+      </div>
+    </form>
+  </div>
+    
+</div>
+    </article>
+  </main>
+
+    <footer aria-hidden="true">
+
+
+<div aria-hidden="true" class="footer  desktop" id="footer">
+  <ul class="links  links_desktop">
+      <li id="navFooterCommunity">
+        <nav>
+          <ul>
+            <li><a href="https://web.metatrader.app/terminal?mode=demo&amp;lang=en" target="_blank" rel="nofollow noopener" data-fz-event="MQL5+Footer+Trading">Online trading / WebTerminal</a></li>
+            <li><a href="/en/code" data-fz-event="MQL5+Footer+CodeBase">Free technical indicators and robots</a></li>
+            <li><a href="/en/articles" data-fz-event="MQL5+Footer+Articles">Articles about programming and trading</a></li>
+            <li><a href="/en/job" data-fz-event="MQL5+Footer+Job">Order trading robots on the Freelance</a></li>
+            <li><a href="/en/market" data-fz-event="MQL5+Footer+Market">Market of Expert Advisors and applications&#x9;</a></li>
+            <li><a href="/en/signals" data-fz-event="MQL5+Footer+Signals">Follow forex signals</a></li>
+            <li><a href="/en/vps" data-fz-event="MQL5+Footer+VPS">Low latency forex VPS</a></li>
+            <li><a href="/en/forum" data-fz-event="MQL5+Footer+Forum">Traders forum</a></li>
+            <li><a href="/en/blogs" data-fz-event="MQL5+Footer+Blogs">Trading blogs</a></li>
+            <li><a rel="nofollow" href="/en/charts" data-fz-event="MQL5+Footer+Charts">Charts</a></li>
+            <li><a href="/en/widgets" data-fz-event="MQL5+Footer+Widgets">Free widgets</a></li>
+          </ul>
+        </nav>
+      </li>
+      <li id="navFooterMt5">
+        <nav>
+          <ul>
+            <li><a rel="nofollow noopener" href="https://www.metatrader5.com" data-fz-event="MQL5+Footer+MetaTrader+5"><span class="nobr">MetaTrader 5</span> Trading Platform</a></li>
+            <li><a rel="nofollow noopener" href="https://www.metatrader5.com/en/releasenotes" data-fz-event="MQL5+Footer+MetaTrader+5"><span class="nobr">MetaTrader 5</span> latest updates</a></li>
+            <li><a rel="nofollow noopener" href="https://www.metatrader5.com/en/news" data-fz-event="MQL5+Footer+MetaTrader+5">News, implementations and technology</a></li>
+            <li><a rel="nofollow noopener" href="https://www.metatrader5.com/en/terminal/help" data-fz-event="MQL5+Footer+MetaTrader+5"><span class="nobr">MetaTrader 5</span> User Manual</a></li>
+            <li><a href="/en/docs" data-fz-event="MQL5+Footer+Docs">MQL5 language of trading strategies</a></li>
+            <li><a rel="nofollow noopener" href="https://cloud.mql5.com" data-fz-event="MQL5+Footer+Cloud">MQL5 Cloud Network</a></li>
+            <li><a rel="noopener" href="https://forge.mql5.io/?lang=en" data-fz-event="MQL5+Footer+Forge" target="_blank">MQL5 Algo Forge</a></li>
+              <li><a rel="nofollow noopener" href="https://download.terminal.free/cdn/web/metaquotes.ltd/mt5/mt5setup.exe?utm_source=www.mql5.com&amp;utm_campaign=download" data-fz-event="MetaTrader+5+Desktop+Download+Footer">Download <span class="nobr">MetaTrader 5</span></a></li>
+              <li><a rel="nofollow noopener" href="https://www.metatrader5.com/en/terminal/help/start_advanced/installation" data-fz-event="MQL5+Footer+MetaTrader+5">Install Platform</a></li>
+              <li><a rel="nofollow noopener" href="https://www.metatrader5.com/en/terminal/help/start_advanced/deinstallation" data-fz-event="MQL5+Footer+MetaTrader+5">Uninstall Platform</a></li>
+          </ul>
+        </nav>
+
+      </li>
+    <li id="navFooterWebsite">
+        <nav>
+          <ul>
+            <li><a rel="nofollow" href="/en/about" data-fz-event="MQL5+Footer+About">About</a></li>
+              <li><a href="/en/wall" data-fz-event="MQL5+Footer+Wall">Timeline</a></li>
+            <li><a rel="nofollow" href="/en/about/terms" data-fz-event="MQL5+Footer+About">Terms and Conditions</a></li>
+            <li><a rel="nofollow" href="/en/about/autopayments" data-fz-event="MQL5+Footer+About">Recurring Payment Agreement</a></li>
+            <li><a rel="nofollow" href="/en/about/agencyagreement" data-fz-event="MQL5+Footer+About">Agency Agreement – Offer</a></li>
+            <li><a rel="nofollow" href="/en/about/privacy" data-fz-event="MQL5+Footer+About">Privacy and Data Protection Policy</a></li>
+            <li><a rel="nofollow" href="/en/about/cookies" data-fz-event="MQL5+Footer+About">Cookies Policy</a></li>
+            <li>
+                <a rel="nofollow" href="/en/contact" data-fz-event="MQL5+Footer+Contacts">Contacts and requests</a>
+            </li>
+          </ul>
+        </nav>
+    </li>
+
+      <li>
+        <div class="footer__products">
+          <div class="footer__product">
+            <a target="_blank" rel="nofollow noopener" href="https://www.metatrader5.com" class="footer__product-name">MetaTrader 5</a>
+            <div class="footer__product-links">
+            <a rel="nofollow noopener" href="https://download.terminal.free/cdn/web/metaquotes.ltd/mt5/mt5setup.exe?utm_source=www.mql5.com&amp;utm_campaign=download" class="icon windows" data-fz-event="MetaTrader+5+Desktop+Download+Footer"><div class="footer__product-link-hint footer__product-link-hint-short">Download MetaTrader 5 for Windows</div></a>
+            <a rel="nofollow noopener" href="https://download.terminal.free/cdn/web/metaquotes.ltd/mt5/MetaTrader5.pkg.zip?utm_source=www.mql5.com&amp;utm_campaign=download" class="icon macos" data-fz-event="MetaTrader+5+Desktop+Download+Footer"><div class="footer__product-link-hint footer__product-link-hint-short">Download MetaTrader 5 for MacOS</div></a>
+            <a rel="nofollow noopener" href="https://www.mql5.com/en/articles/625?utm_source=www.mql5.com&amp;utm_campaign=download" class="icon linux" data-fz-event="MetaTrader+5+Desktop+Download+Footer"><div class="footer__product-link-hint footer__product-link-hint-short">Download MetaTrader 5 for Linux</div></a>
+            <a rel="nofollow noopener" href="https://web.metatrader.app/terminal?mode=demo&amp;lang=en" class="icon web"><div  class="footer__product-link-hint footer__product-link-hint-short">Open MetaTrader 5 WebTerminal</div></a>
+            <a rel="nofollow noopener" href="https://download.terminal.free/cdn/mobile/mt5/ios?utm_source=www.mql5.com&amp;utm_campaign=install.metaquotes&amp;hl=en" class="icon ios" data-fz-event="MetaTrader+5+iOS+Download+Footer"><div class="footer__product-link-hint" style="background-image: url(https://c.mql5.com/qr/jhZn8Ed1I1d.png)">Scan to install from App Store</div></a>
+            <a rel="nofollow noopener" href="https://download.terminal.free/cdn/mobile/mt5/android?utm_source=www.mql5.com&amp;utm_campaign=install.metaquotes&amp;hl=en" class="icon android" data-fz-event="MetaTrader+5+Android+Download+Footer"><div class="footer__product-link-hint" style="background-image: url(https://c.mql5.com/qr/kiF2Io6W-9d.png)">Scan to install from Google Play</div></a>
+            <a rel="nofollow noopener" href="https://download.terminal.free/cdn/mobile/mt5/android/app-gallery?utm_source=www.mql5.com&amp;utm_campaign=install.metaquotes" class="icon huawei" data-fz-event="MetaTrader+5+Android+Download+Footer"><div class="footer__product-link-hint" style="background-image: url(https://c.mql5.com/qr/ZRt&#x2B;zI1l&#x2B;8O.png)">Scan to install from Huawei AppGallery</div></a>
+            <a rel="nofollow noopener" href="https://download.terminal.free/cdn/web/metaquotes.software.corp/mt5/metatrader5.apk?utm_source=www.mql5.com&amp;utm_campaign=install.metaquotes" class="icon ark" data-fz-event="MetaTrader+5+Android+Download+Footer"><div class="footer__product-link-hint" style="background-image: url(https://c.mql5.com/qr/L0Q9oag&#x2B;3eE.png)">Scan to get Android APK file</div></a>
+            </div>
+          </div>
+          <div>
+            <div class="footer__product">
+              <a target="_blank" rel="nofollow noopener" href="https://www.metatrader5.com/en/news/2270" class="footer__product-name">MQL5 Channels</a>
+              <div class="footer__product-links">
+              <a rel="nofollow noopener" href="https://download.terminal.free/cdn/mobile/mql5.channels/ios?utm_source=www.mql5.com&amp;utm_campaign=download&amp;hl=en" class="icon ios" data-fz-event="MQL5+Channels+iOS+Download+Footer"><div class="footer__product-link-hint" style="background-image: url(https://c.mql5.com/qr/bZVfOJnYpcO.png)">Scan to install from App Store</div></a>
+              <a rel="nofollow noopener" href="https://download.terminal.free/cdn/mobile/mql5.channels/android?utm_source=www.mql5.com&amp;utm_campaign=download&amp;hl=en" class="icon android" data-fz-event="MQL5+Channels+Android+Download+Footer"><div class="footer__product-link-hint" style="background-image: url(https://c.mql5.com/qr/32MJFgw7BVs.png)">Scan to install from Google Play</div></a>
+              <a rel="nofollow noopener" href="https://download.terminal.free/cdn/mobile/mql5.channels/android/app-gallery?utm_source=www.mql5.com&amp;utm_campaign=download" class="icon huawei" data-fz-event="MQL5+Channels+Android+Download+Footer"><div class="footer__product-link-hint" style="background-image: url(https://c.mql5.com/qr/Su&#x2B;fe4n374e.png)">Scan to install from Huawei AppGallery</div></a>
+              <a rel="nofollow noopener" href="https://download.terminal.free/cdn/web/metaquotes.software.corp/mql5channels/mql5channels.apk?utm_source=www.mql5.com&amp;utm_campaign=download" class="icon ark" data-fz-event="MQL5+Channels+Android+Download+Footer"><div class="footer__product-link-hint" style="background-image: url(https://c.mql5.com/qr/G6Mg4NfCPzO.png)">Scan to get Android APK file</div></a>
+              </div>
+            </div>
+            <div class="footer__product">
+              <a target="_blank" rel="nofollow noopener" href="https://www.tradays.com/en/download?utm_source=www.mql5.com&amp;utm_campaign=download" data-fz-event="MQL5+Footer+Download+Tradays" class="footer__product-name">Economic Calendar</a>
+              <div class="footer__product-links">
+              <a rel="nofollow noopener" href="https://download.terminal.free/cdn/mobile/tradays/ios?utm_source=www.mql5.com&amp;utm_campaign=download&amp;hl=en" class="icon ios" data-fz-event="Tradays+iOS+Download+Footer"><div class="footer__product-link-hint" style="background-image: url(https://c.mql5.com/qr/CpD&#x2B;mhIw-1E.png)">Scan to install from App Store</div></a>
+              <a rel="nofollow noopener" href="https://download.terminal.free/cdn/mobile/tradays/android?utm_source=www.mql5.com&amp;utm_campaign=download&amp;hl=en" class="icon android" data-fz-event="Tradays+Android+Download+Footer"><div class="footer__product-link-hint" style="background-image: url(https://c.mql5.com/qr/Bgyx8UcmYap.png)">Scan to install from Google Play</div></a>
+              <a rel="nofollow noopener" href="https://download.terminal.free/cdn/mobile/tradays/android/app-gallery?utm_source=www.mql5.com&amp;utm_campaign=download" class="icon huawei" data-fz-event="Tradays+Android+Download+Footer"><div class="footer__product-link-hint" style="background-image: url(https://c.mql5.com/qr/CrS7bbDAdAO.png)">Scan to install from Huawei AppGallery</div></a>
+              <a rel="nofollow noopener" href="https://download.terminal.free/cdn/web/metaquotes.software.corp/tradays/tradays.apk?utm_source=www.mql5.com&amp;utm_campaign=download" class="icon ark" data-fz-event="Tradays+Android+Download+Footer"><div class="footer__product-link-hint" style="background-image: url(https://c.mql5.com/qr/VZi8YPIb2op.png)">Scan to get Android APK file</div></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer__networks">
+          <a href="https://www.facebook.com/mql5.community/" target="_blank" rel="nofollow" title="Facebook"><i class="icons-networks icons-networks_fb"></i></a>
+          <a href="https://t.me/mql5dev" target="_blank" rel="nofollow" title="Telegram"><i class="icons-networks icons-networks_tg"></i></a>
+          <a href="https://x.com/mql5com" target="_blank" rel="nofollow" title="X (Twitter)"><i class="icons-networks icons-networks_tw"></i></a>
+          <a href="https://www.youtube.com/@MetaQuotesOfficial" target="_blank" rel="nofollow" title="YouTube"><i class="icons-networks icons-networks_yt"></i></a>
+          <a href="https://www.linkedin.com/company/mql5" target="_blank" rel="nofollow" title="LinkedIn"><i class="icons-networks icons-networks_linkedin"></i></a>
+          <span>Subscribe to algotrading news</span>
+        </div>
+  
+        <div class="footer__other">
+          <div class="footer__not-a-broker">Not a broker, no real trading accounts</div>
+          <div class="copyright">35 Dodekanisou str, Germasogeia, 4043,&nbsp;Limassol,&nbsp;Cyprus</div>
+          <div class="copyright">Copyright 2000-2026, <span class="nobr">MetaQuotes Ltd</span></div>
+        </div>
+      </li>
+  </ul>
+</div>
+
+
+    </footer>
+
+  <div class="shadow-layer" id="layer"></div>
+      
+</div>
+
+<script type="text/javascript">
+           mqGlobal.AddOnReady(function () { Mql5Cookie.init('mql5.com','5148931134109891858'); });
+mqGlobal.AddOnReady(function(){Calendar.WidgetConfig("https://www.tradays.com","en",{"copyright":{"en":"MetaTrader World Markets","ru":"MetaTrader World Markets","es":"MetaTrader World Markets","pt":"MetaTrader World Markets","ja":"MetaTrader World Markets","zh":"MetaTrader World Markets","de":"MetaTrader World Markets","tr":"MetaTrader World Markets","ar":"MetaTrader World Markets",}});});mqGlobal.AddOnReady(function(){{window.initHeaderSearch('','https://www.mql5.com/en/search');}});</script><script type="text/javascript">mqGlobal.AddOnReady(function(){window.initSuggestions("headerSearchKeyword","en","https://search.mql5.com/api/query","https://www.mql5.com/en/users_search/suggestion");});window.fz("show","bfogggabsofabcpxuzmgaibarmaxasdrj");mqGlobal.AddOnReady(function(){window.floatVerticalPanelNode=FloatVerticalPanel('This website uses cookies. Learn more about our <a href="/en/about/cookies">Cookies Policy</a>.','cookie_accept');});      if (typeof Attach !== "undefined")
+        Attach.setAcceptFilter(".zip, .txt, .log, .mqh, .ex5, .mq5, .mq4, .mqproj, .ex4, .mt5, .set, .tpl, .cl, .py, .sqlite, .csv, .ini, .ipynb, .onnx, .gif, .png, .jpg, .jpeg, .mp4, .webm");
+  </script>
+
+  <div class="b-fixed-mt" id="bFixedMt" style="display: none;">
+    
+  </div>
+
+  <script type="application/ld&#x2B;json">
+  [{"@context":"https://schema.org","@type":"ItemList","itemListElement":[{"@type":"SiteNavigationElement","position":1,"name":"Forum","description":"Discussions of trading strategies and algorithmic trading. MQL5.community  the largest forex forum","url":"https://www.mql5.com/en/forum","children":[]},{"@type":"SiteNavigationElement","position":2,"name":"Market","description":"MetaTrader Market - a Market of trading robots, indicators, trading books and magazines","url":"https://www.mql5.com/en/market","children":[]},{"@type":"SiteNavigationElement","position":3,"name":"Signals","description":"Social trading, copy trading and account monitoring with MetaTrader - Trading Signals on MQL5.com","url":"https://www.mql5.com/en/signals","children":[]},{"@type":"SiteNavigationElement","position":4,"name":"Freelance","description":"Order trading robots, technical indicators and algorithmic trading applications. Forex jobs. Freelance on MQL5.com. Hire MetaTrader experts and specialists","url":"https://www.mql5.com/en/job","children":[]},{"@type":"SiteNavigationElement","position":5,"name":"Quotes","description":"","url":"https://www.mql5.com/en/quotes/overview","children":[]},{"@type":"SiteNavigationElement","position":6,"name":"MetaTrader","description":"","url":"https://www.metatrader.com","children":[]},{"@type":"SiteNavigationElement","position":7,"name":"WebTerminal","description":"WebTerminal for the MetaTrader trading platform. Online forex trading.","url":"https://web.metatrader.app/terminal?mode=demo","children":[]},{"@type":"SiteNavigationElement","position":8,"name":"Calendar","description":"","url":"https://www.mql5.com/en/economic-calendar","children":[]},{"@type":"SiteNavigationElement","position":9,"name":"VPS","description":"","url":"https://www.mql5.com/en/vps","children":[]},{"@type":"SiteNavigationElement","position":10,"name":"Articles","description":"","url":"https://www.mql5.com/en/articles","children":[]},{"@type":"SiteNavigationElement","position":11,"name":"CodeBase","description":"Download trading robots, technical indicators and scripts with source code - MQL5 Code Base for MetaTrader 5","url":"https://www.mql5.com/en/code","children":[]},{"@type":"SiteNavigationElement","position":12,"name":"Algo Forge","description":"","url":"https://forge.mql5.io","children":[]},{"@type":"SiteNavigationElement","position":13,"name":"Documentation","description":"MetaQuotes Language 5 (MQL5) Reference - Documentation on MQL5.com","url":"https://www.mql5.com/en/docs","children":[]}]}  
+  ]
+</script>
+</body>
+</html>

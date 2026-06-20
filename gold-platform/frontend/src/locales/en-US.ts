@@ -82,6 +82,7 @@ export const enUS = {
     data_update: 'Data Update',
     market_status: 'Market Status',
     trading: 'Trading',
+    market_closed: 'Closed',
     ai_analysis: 'AI Intelligence Analysis',
     ai_analysis_desc: 'Let AI interpret current market trends and trading opportunities for you',
     start_analysis: 'Start Analysis',

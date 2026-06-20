@@ -79,7 +79,7 @@ gold.get('/price/all', async (c) => {
 
 /**
  * GET /api/gold/kline?days=30 - 获取K线数据
- * 优先从 gold_kline 表读取，不足时从API获取
+ * 优先从API获取实时数据，API失败时回退到数据库
  */
 gold.get('/kline', async (c) => {
   try {
@@ -88,38 +88,49 @@ gold.get('/kline', async (c) => {
     const clampedDays = Math.min(Math.max(days, 1), 365);
 
     let klineData = [];
-    let source = 'db';
+    let source = 'api';
 
-    // 优先从 gold_kline 表查询
+    // 1. 优先从API获取实时数据（mql5.com chartData，实时更新）
     try {
-      // 根据周期计算需要查询的记录数：1h=24条/天, 4h=6条/天, 1d=1条/天, 1w≈0.2条/天
-      const recordsPerDay = { '1h': 24, '4h': 6, '1d': 1, '1w': 1 };
-      const limit = clampedDays * (recordsPerDay[period] || 1);
-
-      const dbKline = await c.env.DB.prepare(
-        'SELECT * FROM gold_kline WHERE period = ? ORDER BY time DESC LIMIT ?'
-      )
-        .bind(period, limit)
-        .all();
-
-      if (dbKline.results && dbKline.results.length > 5) {
-        klineData = dbKline.results.reverse().map((row) => ({
-          date: row.time,
-          time: row.time,
-          open: row.open_price,
-          high: row.high_price,
-          low: row.low_price,
-          close: row.close_price,
-          volume: row.volume,
-        }));
-        source = 'gold_kline';
+      const realKline = await fetchRealGoldKline(clampedDays, period);
+      if (realKline && realKline.length >= 5) {
+        klineData = realKline;
+        source = 'api-mql5';
       }
     } catch (err) {
-      // gold_kline 表可能不存在（迁移未执行），忽略错误
-      console.error('查询 gold_kline 表失败:', err);
+      console.error('获取实时K线失败，回退到数据库:', err);
     }
 
-    // gold_kline 数据不足，回退到 gold_prices 表
+    // 2. API失败，从 gold_kline 表查询
+    if (klineData.length <= 5) {
+      try {
+        const recordsPerDay = { '1h': 24, '4h': 6, '1d': 1, '1w': 1 };
+        const limit = clampedDays * (recordsPerDay[period] || 1);
+
+        const dbKline = await c.env.DB.prepare(
+          'SELECT * FROM gold_kline WHERE period = ? ORDER BY time DESC LIMIT ?'
+        )
+          .bind(period, limit)
+          .all();
+
+        if (dbKline.results && dbKline.results.length > 5) {
+          klineData = dbKline.results.reverse().map((row) => ({
+            date: row.time,
+            time: row.time,
+            open: row.open_price,
+            high: row.high_price,
+            low: row.low_price,
+            close: row.close_price,
+            volume: row.volume,
+          }));
+          source = 'gold_kline';
+        }
+      } catch (err) {
+        console.error('查询 gold_kline 表失败:', err);
+      }
+    }
+
+    // 3. gold_kline 也没有，回退到 gold_prices 表
     if (klineData.length <= 5) {
       const dbPrices = await c.env.DB.prepare(
         'SELECT * FROM gold_prices ORDER BY date DESC LIMIT ?'
@@ -143,24 +154,11 @@ gold.get('/kline', async (c) => {
       }
     }
 
-    // 数据库数据不足，从API获取
+    // 4. 都没有，生成兜底数据
     if (klineData.length <= 5) {
-      try {
-        const realKline = await fetchRealGoldKline(clampedDays, period);
-        if (realKline && realKline.length > 0) {
-          klineData = realKline;
-          source = 'api';
-        } else {
-          const intlPrice = await fetchInternationalGoldPrice();
-          klineData = generateKlineData(clampedDays, intlPrice.price, period);
-          source = 'generated';
-        }
-      } catch (err) {
-        console.error('获取实时K线失败，使用兜底数据:', err);
-        const intlPrice = await fetchInternationalGoldPrice();
-        klineData = generateKlineData(clampedDays, intlPrice.price, period);
-        source = 'generated';
-      }
+      const intlPrice = await fetchInternationalGoldPrice();
+      klineData = generateKlineData(clampedDays, intlPrice.price, period);
+      source = 'generated';
     }
 
     return c.json({
@@ -191,55 +189,14 @@ gold.get('/chart/kline', async (c) => {
     const period = c.req.query('period') || '1d';
     const clampedDays = Math.min(Math.max(days, 1), 365);
 
-    const dbPrices = await c.env.DB.prepare(
-      'SELECT * FROM gold_prices ORDER BY date DESC LIMIT ?'
-    )
-      .bind(clampedDays)
-      .all();
-
     let klineData = [];
 
-    if (dbPrices.results && dbPrices.results.length > 5) {
-      klineData = dbPrices.results.reverse().map((row) => [
-        row.date,
-        row.open_price,
-        row.close_price,
-        row.low_price,
-        row.high_price,
-        row.volume,
-      ]);
-    } else {
-      // 从东方财富获取真实K线历史数据
-      try {
-        const { fetchRealGoldKline } = await import('../services/goldPrice.js');
-        const realKline = await fetchRealGoldKline(clampedDays, period);
-        if (realKline && realKline.length > 0) {
-          klineData = realKline.map((k) => [
-            k.date,
-            k.open,
-            k.close,
-            k.low,
-            k.high,
-            k.volume,
-          ]);
-        } else {
-          const intlPrice = await fetchInternationalGoldPrice();
-          const generated = generateKlineData(clampedDays, intlPrice.price, period);
-          klineData = generated.map((k) => [
-            k.date,
-            k.open,
-            k.close,
-            k.low,
-            k.high,
-            k.volume,
-          ]);
-        }
-      } catch (err) {
-        console.error('获取图表K线失败，使用兜底数据:', err);
-        const intlPrice = await fetchInternationalGoldPrice();
-        const generated = generateKlineData(clampedDays, intlPrice.price, period);
-        klineData = generated.map((k) => [
-          k.date,
+    // 1. 优先从API获取实时数据（mql5.com chartData，实时更新）
+    try {
+      const realKline = await fetchRealGoldKline(clampedDays, period);
+      if (realKline && realKline.length >= 5) {
+        klineData = realKline.map((k) => [
+          k.time || k.date,
           k.open,
           k.close,
           k.low,
@@ -247,6 +204,42 @@ gold.get('/chart/kline', async (c) => {
           k.volume,
         ]);
       }
+    } catch (err) {
+      console.error('获取图表K线失败，回退到数据库:', err);
+    }
+
+    // 2. API失败，从 gold_prices 表获取
+    if (klineData.length === 0) {
+      const dbPrices = await c.env.DB.prepare(
+        'SELECT * FROM gold_prices ORDER BY date DESC LIMIT ?'
+      )
+        .bind(clampedDays)
+        .all();
+
+      if (dbPrices.results && dbPrices.results.length > 5) {
+        klineData = dbPrices.results.reverse().map((row) => [
+          row.date,
+          row.open_price,
+          row.close_price,
+          row.low_price,
+          row.high_price,
+          row.volume,
+        ]);
+      }
+    }
+
+    // 3. 都没有，生成兜底数据
+    if (klineData.length === 0) {
+      const intlPrice = await fetchInternationalGoldPrice();
+      const generated = generateKlineData(clampedDays, intlPrice.price, period);
+      klineData = generated.map((k) => [
+        k.date,
+        k.open,
+        k.close,
+        k.low,
+        k.high,
+        k.volume,
+      ]);
     }
 
     return c.json({

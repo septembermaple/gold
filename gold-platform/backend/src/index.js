@@ -16,6 +16,7 @@ import analysisRoutes from './routes/analysis.js';
 import pushRoutes from './routes/push.js';
 import adminRoutes from './routes/admin.js';
 import macroRoutes from './routes/macro.js';
+import calendarRoutes from './routes/calendar.js';
 
 // 服务
 import { fetchAllPrices, saveGoldPrice } from './services/goldPrice.js';
@@ -111,6 +112,7 @@ app.get('/', (c) => {
         push: '/api/push',
         admin: '/api/admin',
         macro: '/api/macro',
+        calendar: '/api/calendar',
         health: '/health',
       },
     },
@@ -128,6 +130,7 @@ app.route('/api/analysis', analysisRoutes);
 app.route('/api/push', pushRoutes);
 app.route('/api/admin', adminRoutes);
 app.route('/api/macro', macroRoutes);
+app.route('/api/calendar', calendarRoutes);
 
 // ============================================
 // 404 处理

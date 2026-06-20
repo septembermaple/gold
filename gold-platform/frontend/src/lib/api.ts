@@ -82,6 +82,18 @@ export const macroApi = {
   getDashboard: (lang = 'en-US') => api.get(`/macro/dashboard?lang=${lang}`),
 }
 
+export const calendarApi = {
+  getCalendar: (params?: { lang?: string; from?: string; to?: string }) => {
+    const query = new URLSearchParams()
+    if (params?.lang) query.set('lang', params.lang)
+    if (params?.from) query.set('from', params.from)
+    if (params?.to) query.set('to', params.to)
+    const qs = query.toString()
+    return api.get(`/calendar${qs ? `?${qs}` : ''}`)
+  },
+  refreshCalendar: (lang = 'en-US') => api.post(`/calendar/refresh?lang=${lang}`),
+}
+
 export const aiApi = {
   bullishAnalysis: (lang = 'en-US') => api.post('/analysis/ai/bullish', { lang }),
   bearishAnalysis: (lang = 'en-US') => api.post('/analysis/ai/bearish', { lang }),

@@ -12,6 +12,7 @@ interface GoldStats {
   openPrice: number
   volume: number
   updatedAt: string
+  marketOpen?: boolean
 }
 
 interface KlineData {
@@ -69,6 +70,7 @@ export function GoldDataProvider({ children }: { children: ReactNode }) {
         openPrice: data.openPrice || 0,
         volume: data.volume24h || 0,
         updatedAt: data.timestamp ? new Date(data.timestamp).toISOString() : '',
+        marketOpen: data.marketOpen,
       })
       setError(null)
     } catch (err) {

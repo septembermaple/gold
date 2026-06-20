@@ -82,6 +82,7 @@ export const zhCN = {
     data_update: '数据更新',
     market_status: '市场状态',
     trading: '交易中',
+    market_closed: '已休市',
     ai_analysis: 'AI 智能分析',
     ai_analysis_desc: '让 AI 为您解读当前市场走势与交易机会',
     start_analysis: '开始分析',
